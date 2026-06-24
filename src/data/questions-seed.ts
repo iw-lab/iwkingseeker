@@ -30,6 +30,8 @@ import { seedGrade5V2Others } from './seed-grade5-v2-others';
 import { seedGrade5V3Korean } from './seed-grade5-v3-korean';
 import { seedGrade5V3Social } from './seed-grade5-v3-social';
 import { seedGrade5V3Science } from './seed-grade5-v3-science';
+// v4 — OX 제거 보완 + 5학년 4지선다 추가 팩
+import { seedGrade5V4Extra } from './seed-grade5-v4-extra';
 
 export interface QuestionSeed {
   grade: number;
@@ -394,6 +396,7 @@ export const questionsSeed: QuestionSeed[] = [
   ...seed2022Grade5Korean1sU12, ...seed2022Grade5Korean1sU34, ...seed2022Grade5Korean1sU56,
   ...seedGrade5V2Math, ...seedGrade5V2Science, ...seedGrade5V2English, ...seedGrade5V2Others,
   ...seedGrade5V3Korean, ...seedGrade5V3Social, ...seedGrade5V3Science,
+  ...seedGrade5V4Extra,
 ].filter((q) => {
   const key = `${q.grade}-${q.subject}-${q.question_text}`;
   if (seen.has(key)) return false;

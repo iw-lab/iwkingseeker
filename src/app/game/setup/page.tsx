@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useGameStore } from '@/stores/gameStore';
-import { GRADES, SUBJECTS, CURRICULUM_UNITS, TARGET_SCORES, TIMER_OPTIONS, TEAM_DEFAULTS, GRADE_BANDS, NATIONAL_SUBJECTS, type GradeBandKey } from '@/lib/constants';
-import { splitIntoTeams } from '@/lib/utils';
+import { SUBJECTS, CURRICULUM_UNITS, TARGET_SCORES, TIMER_OPTIONS, TEAM_DEFAULTS, GRADE_BANDS, NATIONAL_SUBJECTS, type GradeBandKey } from '@/lib/constants';
+import { splitIntoTeams, shuffleArray } from '@/lib/utils';
 import { playButtonClick, playPhaseTransition } from '@/lib/sounds';
 import { convertToMultipleChoice } from '@/lib/questionConverter';
 import { getCustomQuestionsFiltered, toRuntimeQuestion } from '@/lib/customQuestions';
@@ -65,8 +65,13 @@ export default function GameSetupPage() {
       setCustomCount(0);
       return;
     }
-    const g = isNational ? subGrade : band.grades[0];
-    setCustomCount(getCustomQuestionsFiltered(g, subject, unit).length);
+    // 비국정 과목은 학년군(예: 5·6학년) 전체에서 커스텀 문제를 센다
+    const gradesForCustom = isNational ? [subGrade] : [...band.grades];
+    const total = gradesForCustom.reduce(
+      (sum, g) => sum + getCustomQuestionsFiltered(g, subject, unit).length,
+      0
+    );
+    setCustomCount(total);
   }, [gradeBand, subGrade, subject, unit, isNational, band.grades]);
 
   const handleStepChange = (newStep: Step) => {
@@ -122,7 +127,7 @@ export default function GameSetupPage() {
       const sameSubject = questionsSeed.filter(
         (q) => gradesInBand.includes(q.grade) && q.subject === subject && q.unit !== unit
       );
-      const extra = sameSubject.sort(() => Math.random() - 0.5).slice(0, MIN_POOL - unitQuestions.length);
+      const extra = shuffleArray(sameSubject).slice(0, MIN_POOL - unitQuestions.length);
       filtered = [...unitQuestions, ...extra];
     }
     const rawPool = filtered.map((q) => ({
@@ -141,16 +146,16 @@ export default function GameSetupPage() {
       created_at: new Date().toISOString(),
     }));
 
-    // 내 문제(커스텀) 병합
-    const filterGrade = isNational ? subGrade : band.grades[0];
-    const customRuntime = getCustomQuestionsFiltered(filterGrade, subject, unit).map((c) => ({
-      ...toRuntimeQuestion(c),
-    }));
+    // 내 문제(커스텀) 병합 — 비국정 과목은 학년군 전체 학년에서 수집
+    const gradesForCustom = isNational ? [subGrade] : [...band.grades];
+    const customRuntime = gradesForCustom.flatMap((g) =>
+      getCustomQuestionsFiltered(g, subject, unit).map((c) => ({ ...toRuntimeQuestion(c) }))
+    );
 
-    // 주관식/빈칸 → 객관식 자동 변환 + 셔플 (커스텀 포함)
+    // 주관식/빈칸 → 객관식 자동 변환 (그럴듯한 오답을 못 만들면 제외) + 셔플
     const merged = [...customRuntime, ...rawPool] as typeof rawPool;
     const converted = convertToMultipleChoice(merged);
-    const pool = converted.sort(() => Math.random() - 0.5);
+    const pool = shuffleArray(converted);
 
     setQuestionPool(pool);
     initGame({

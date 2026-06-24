@@ -5,8 +5,11 @@ export function pickQuestion(
   pool: Question[],
   usedIds: string[]
 ): Question | null {
-  // 자동 출제는 주관식(short_answer) 제외 — 객관식/OX/빈칸으로 다양화
-  const typedPool = pool.filter((q) => q.question_type !== 'short_answer');
+  // 자동 출제는 주관식(short_answer)과 OX(둘 중 하나 고르기) 제외
+  // — 전자칠판 게임에서는 4지선다 계열로 다양화
+  const typedPool = pool.filter(
+    (q) => q.question_type !== 'short_answer' && q.question_type !== 'ox'
+  );
   const workingPool = typedPool.length > 0 ? typedPool : pool;
 
   const available = workingPool.filter((q) => !usedIds.includes(q.id));
@@ -25,12 +28,10 @@ export function pickQuestion(
 
   const difficultyMatched = leastUsed.filter((q) => q.difficulty === targetDifficulty);
 
-  // 유형 가중치 — 시드 데이터가 객관식에 편중돼 있어
-  // OX/빈칸이 충분히 나오도록 가중치로 보정 (mc 2 : ox 3 : fill_blank 3)
-  const typeWeights: Array<'multiple_choice' | 'ox' | 'fill_blank'> = [
-    'multiple_choice', 'multiple_choice',
-    'ox', 'ox', 'ox',
-    'fill_blank', 'fill_blank', 'fill_blank',
+  // 유형 가중치 — 객관식 위주 + 빈칸 보조 (OX 제거)
+  const typeWeights: Array<'multiple_choice' | 'fill_blank'> = [
+    'multiple_choice', 'multiple_choice', 'multiple_choice', 'multiple_choice',
+    'fill_blank', 'fill_blank',
   ];
 
   const tryPools: Question[][] = [];

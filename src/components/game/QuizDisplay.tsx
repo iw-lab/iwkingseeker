@@ -10,19 +10,34 @@ import { cn } from '@/lib/utils';
 import { Sparkles, Zap, HelpCircle, Volume2 } from 'lucide-react';
 import WhackAMole from './quiz-modes/WhackAMole';
 import MatchingPairs from './quiz-modes/MatchingPairs';
+import BalloonPop from './quiz-modes/BalloonPop';
+import TreasureBox from './quiz-modes/TreasureBox';
+import LadderClimb from './quiz-modes/LadderClimb';
 import SmartText from './SmartText';
 import TeamEmoji from './TeamEmoji';
 
 /**
  * 문제 표시 스타일:
- * 'grid'    — 2x2 격자 (클래식)
- * 'list'    — 세로 리스트 (순서대로 등장)
- * 'bigcard' — 큰 카드 (한 줄씩 크게)
- * 'speed'   — 스피드 퀴즈 (번호 대형)
- * 'whack'   — 두더지 잡기
- * 'cards'   — 카드 뒤집기
+ * 'grid'     — 2x2 격자 (클래식)
+ * 'list'     — 세로 리스트 (순서대로 등장)
+ * 'bigcard'  — 큰 카드 (한 줄씩 크게)
+ * 'speed'    — 스피드 퀴즈 (번호 대형)
+ * 'whack'    — 두더지 잡기
+ * 'cards'    — 카드 뒤집기 (타이밍)
+ * 'balloon'  — 풍선 터뜨리기
+ * 'treasure' — 보물 상자 열기
+ * 'ladder'   — 사다리 타기
  */
-type QuizStyle = 'grid' | 'list' | 'bigcard' | 'speed' | 'whack' | 'cards';
+type QuizStyle =
+  | 'grid'
+  | 'list'
+  | 'bigcard'
+  | 'speed'
+  | 'whack'
+  | 'cards'
+  | 'balloon'
+  | 'treasure'
+  | 'ladder';
 
 const STYLE_COLORS = [
   { bg: 'bg-red-600/80 hover:bg-red-500/90 border-red-400/40', glow: 'hover:shadow-red-500/20 hover:shadow-lg', label: 'A' },
@@ -117,7 +132,7 @@ export default function QuizDisplay() {
       currentQuestion?.question_type === 'multiple_choice' &&
       (currentQuestion?.options?.length ?? 0) === 4;
     const styles: QuizStyle[] = isFourChoice
-      ? ['grid', 'whack', 'list', 'bigcard', 'cards', 'speed']
+      ? ['grid', 'whack', 'balloon', 'list', 'treasure', 'bigcard', 'cards', 'ladder', 'speed']
       : ['grid', 'list', 'bigcard', 'speed'];
     return styles[totalQuestionsAsked % styles.length]!;
   }, [totalQuestionsAsked, currentQuestion]);
@@ -210,6 +225,12 @@ export default function QuizDisplay() {
     ? '스피드'
     : quizStyle === 'whack'
     ? '🔨 두더지'
+    : quizStyle === 'balloon'
+    ? '🎈 풍선'
+    : quizStyle === 'treasure'
+    ? '🗝️ 보물상자'
+    : quizStyle === 'ladder'
+    ? '🪜 사다리'
     : '🃏 뒤집기';
 
   return (
@@ -399,6 +420,33 @@ export default function QuizDisplay() {
         />
       ) : quizStyle === 'cards' ? (
         <MatchingPairs
+          options={options}
+          correctAnswer={q.correct_answer}
+          selectedAnswer={selectedAnswer}
+          showResult={showResult}
+          isCorrect={isCorrect}
+          onAnswer={handleAnswer}
+        />
+      ) : quizStyle === 'balloon' ? (
+        <BalloonPop
+          options={options}
+          correctAnswer={q.correct_answer}
+          selectedAnswer={selectedAnswer}
+          showResult={showResult}
+          isCorrect={isCorrect}
+          onAnswer={handleAnswer}
+        />
+      ) : quizStyle === 'treasure' ? (
+        <TreasureBox
+          options={options}
+          correctAnswer={q.correct_answer}
+          selectedAnswer={selectedAnswer}
+          showResult={showResult}
+          isCorrect={isCorrect}
+          onAnswer={handleAnswer}
+        />
+      ) : quizStyle === 'ladder' ? (
+        <LadderClimb
           options={options}
           correctAnswer={q.correct_answer}
           selectedAnswer={selectedAnswer}

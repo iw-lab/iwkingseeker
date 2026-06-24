@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface Props {
@@ -35,22 +35,40 @@ export default function MatchingPairs({
   isCorrect,
   onAnswer,
 }: Props) {
-  const [flipped, setFlipped] = useState<boolean[]>(() => options.map(() => false));
+  // 카드가 뒤집혀서 앞면(답)이 보이는지 — 두더지 잡기처럼 스스로 토글
+  const [flipped, setFlipped] = useState<boolean[]>(() =>
+    options.map((_, i) => i % 2 === 0)
+  );
 
   useEffect(() => {
-    setFlipped(options.map(() => false));
-  }, [options]);
+    if (showResult) {
+      setFlipped(options.map(() => true));
+      return;
+    }
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const scheduleToggle = (i: number, delay: number) => {
+      timers.push(
+        setTimeout(() => {
+          setFlipped((prev) => {
+            const next = [...prev];
+            next[i] = !next[i];
+            return next;
+          });
+          // 앞면일 때는 짧게(1.0~1.8초), 뒷면일 때는 좀 더 긴 대기(0.9~1.6초)
+          scheduleToggle(i, 900 + Math.random() * 900);
+        }, delay)
+      );
+    };
+    options.forEach((_, i) =>
+      scheduleToggle(i, 300 + i * 400 + Math.random() * 500)
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [options, showResult]);
 
   const handleClick = (option: string, i: number) => {
     if (showResult) return;
-    if (!flipped[i]) {
-      setFlipped((prev) => {
-        const next = [...prev];
-        next[i] = true;
-        return next;
-      });
-      return;
-    }
+    // 뒤집힌(앞면) 카드만 선택 가능 — 두더지 잡기처럼 타이밍 요소
+    if (!flipped[i]) return;
     onAnswer(option);
   };
 
@@ -65,13 +83,13 @@ export default function MatchingPairs({
           return (
             <div key={i} className="relative h-40" style={{ perspective: '1000px' }}>
               <motion.div
-                className="relative w-full h-full cursor-pointer"
+                className="relative w-full h-full cursor-pointer select-none"
                 style={{ transformStyle: 'preserve-3d' }}
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.6, type: 'spring', stiffness: 140 }}
+                transition={{ duration: 0.5, type: 'spring', stiffness: 160, damping: 16 }}
                 onClick={() => handleClick(option, i)}
-                whileHover={!showResult && !isFlipped ? { scale: 1.03, y: -4 } : {}}
-                whileTap={!showResult ? { scale: 0.97 } : {}}
+                whileHover={!showResult && isFlipped ? { scale: 1.04, y: -4 } : {}}
+                whileTap={!showResult && isFlipped ? { scale: 0.96 } : {}}
               >
                 {/* Back */}
                 <div
@@ -97,13 +115,26 @@ export default function MatchingPairs({
                 >
                   {option}
                 </div>
+                {/* 카드 앞면일 때 반짝이는 힌트 */}
+                <AnimatePresence>
+                  {!showResult && isFlipped && (
+                    <motion.div
+                      className="absolute -top-2 -right-2 z-10 w-8 h-8 rounded-full bg-yellow-300 border-2 border-yellow-500 flex items-center justify-center text-lg font-black text-yellow-900 shadow-lg"
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      exit={{ scale: 0 }}
+                    >
+                      !
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             </div>
           );
         })}
       </div>
       <div className="text-center text-base text-purple-300/90 font-bold">
-        🃏 카드를 뒤집어 답을 골라라! (한 번 더 누르면 선택)
+        🃏 카드가 뒤집힐 때 빠르게 눌러 정답을 골라라!
       </div>
     </div>
   );

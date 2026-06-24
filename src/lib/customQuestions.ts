@@ -83,34 +83,82 @@ export function exportCustomQuestionsJson(): string {
   return JSON.stringify(getCustomQuestions(), null, 2);
 }
 
-export function importCustomQuestionsJson(json: string): { added: number; error?: string } {
+export function importCustomQuestionsJson(json: string): { added: number; skipped: number; error?: string } {
   try {
     const parsed = JSON.parse(json);
-    if (!Array.isArray(parsed)) return { added: 0, error: '배열 형식이 아닙니다.' };
+    if (!Array.isArray(parsed)) return { added: 0, skipped: 0, error: '배열 형식이 아닙니다.' };
     const existing = getCustomQuestions();
-    const existingIds = new Set(existing.map((q) => q.id));
+    const usedIds = new Set(existing.map((q) => q.id));
+    let seq = 0;
+    const genId = (): string => {
+      let id: string;
+      do {
+        id = `custom-${Date.now().toString(36)}-${(seq++).toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+      } while (usedIds.has(id));
+      usedIds.add(id);
+      return id;
+    };
+
     const toAdd: StoredCustomQuestion[] = [];
+    let skipped = 0;
+
     for (const q of parsed) {
-      if (!q || typeof q !== 'object') continue;
-      if (typeof q.question_text !== 'string' || typeof q.correct_answer !== 'string') continue;
-      const safe: StoredCustomQuestion = {
-        id: existingIds.has(q.id) ? `custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}` : (q.id || `custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`),
-        grade: Number(q.grade) || 3,
+      if (!q || typeof q !== 'object') { skipped++; continue; }
+
+      const text = typeof q.question_text === 'string' ? q.question_text.trim() : '';
+      const answer = typeof q.correct_answer === 'string'
+        ? q.correct_answer.trim()
+        : q.correct_answer != null ? String(q.correct_answer).trim() : '';
+      // 문제/정답이 비면 무효
+      if (!text || !answer) { skipped++; continue; }
+
+      const grade = Number(q.grade);
+      if (![3, 4, 5, 6].includes(grade)) { skipped++; continue; }
+
+      const qtype: StoredCustomQuestion['question_type'] =
+        ['multiple_choice', 'ox', 'fill_blank', 'short_answer'].includes(q.question_type)
+          ? q.question_type
+          : 'multiple_choice';
+
+      let options: string[] | null = null;
+      let correct = answer;
+
+      if (qtype === 'multiple_choice') {
+        // 빈 보기 제거 + 중복 제거
+        const rawArr: string[] = Array.isArray(q.options)
+          ? (q.options as unknown[]).map((x) => String(x).trim())
+          : [];
+        const uniq = [...new Set(rawArr)].filter((s) => s.length > 0);
+        // 선택지 2개 미만이거나 정답이 보기에 없으면 무효(게임에서 정답 클릭 불가 방지)
+        if (uniq.length < 2 || !uniq.includes(correct)) { skipped++; continue; }
+        options = uniq;
+      } else if (qtype === 'ox') {
+        const up = answer.toUpperCase();
+        if (up !== 'O' && up !== 'X') { skipped++; continue; }
+        options = ['O', 'X'];
+        correct = up;
+      } else {
+        options = null; // fill_blank / short_answer
+      }
+
+      toAdd.push({
+        id: genId(),
+        grade,
         subject: String(q.subject || '기타'),
         unit: String(q.unit || '기타'),
-        question_type: ['multiple_choice', 'ox', 'fill_blank', 'short_answer'].includes(q.question_type) ? q.question_type : 'multiple_choice',
-        question_text: String(q.question_text),
-        options: Array.isArray(q.options) ? q.options.map(String) : null,
-        correct_answer: String(q.correct_answer),
-        explanation: q.explanation ? String(q.explanation) : null,
+        question_type: qtype,
+        question_text: text,
+        options,
+        correct_answer: correct,
+        explanation: q.explanation ? String(q.explanation).trim() : null,
         difficulty: [1, 2, 3].includes(Number(q.difficulty)) ? Number(q.difficulty) : 2,
         created_at: typeof q.created_at === 'string' ? q.created_at : new Date().toISOString(),
-      };
-      toAdd.push(safe);
+      });
     }
+
     saveCustomQuestions([...existing, ...toAdd]);
-    return { added: toAdd.length };
+    return { added: toAdd.length, skipped };
   } catch (e) {
-    return { added: 0, error: e instanceof Error ? e.message : '파싱 실패' };
+    return { added: 0, skipped: 0, error: e instanceof Error ? e.message : '파싱 실패' };
   }
 }

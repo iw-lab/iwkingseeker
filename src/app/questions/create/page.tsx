@@ -134,7 +134,8 @@ export default function CustomQuestionCreatorPage() {
       return;
     }
     if (form.question_type === 'multiple_choice') {
-      const filledOptions = form.options.filter((o) => o.trim());
+      // 저장 시 trim하므로 검증도 trim 기준으로 일관되게 비교
+      const filledOptions = form.options.map((o) => o.trim()).filter(Boolean);
       if (filledOptions.length < 2) {
         showToast('4지선다는 선택지를 2개 이상 입력해야 합니다.');
         return;
@@ -209,7 +210,11 @@ export default function CustomQuestionCreatorPage() {
         showToast(`가져오기 실패: ${result.error}`);
       } else {
         setList(getCustomQuestions());
-        showToast(`${result.added}개 문제를 가져왔습니다.`);
+        showToast(
+          result.skipped > 0
+            ? `${result.added}개 가져옴 · ${result.skipped}개 건너뜀(형식 오류)`
+            : `${result.added}개 문제를 가져왔습니다.`
+        );
       }
     };
     reader.readAsText(file);
