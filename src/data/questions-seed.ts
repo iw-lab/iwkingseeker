@@ -32,6 +32,23 @@ import { seedGrade5V3Social } from './seed-grade5-v3-social';
 import { seedGrade5V3Science } from './seed-grade5-v3-science';
 // v4 — OX 제거 보완 + 5학년 4지선다 추가 팩
 import { seedGrade5V4Extra } from './seed-grade5-v4-extra';
+// v5 — 5학년 도덕 4단원 보강 팩 (단원당 15문제 4지선다)
+import { seedGrade5V5Moral } from './seed-grade5-v5-moral';
+// v6 — 3·4·6학년 부족 단원 보강 팩 (단원당 6문제 4지선다)
+import { seedGrade3V6aFill } from './seed-grade3-v6a-fill';
+import { seedGrade3V6bFill } from './seed-grade3-v6b-fill';
+import { seedGrade4V6Fill } from './seed-grade4-v6-fill';
+import { seedGrade6V6Fill } from './seed-grade6-v6-fill';
+// v7 — 3학년 단원당 30개 증량 팩
+import { seedGrade3V7KoreanA } from './seed-grade3-v7-korean-a';
+import { seedGrade3V7KoreanB } from './seed-grade3-v7-korean-b';
+import { seedGrade3V7MathA } from './seed-grade3-v7-math-a';
+import { seedGrade3V7MathB } from './seed-grade3-v7-math-b';
+import { seedGrade3V7ScienceA } from './seed-grade3-v7-science-a';
+import { seedGrade3V7ScienceB } from './seed-grade3-v7-science-b';
+import { seedGrade3V7English } from './seed-grade3-v7-english';
+import { seedGrade3V7Social } from './seed-grade3-v7-social';
+import { seedGrade3V7Moral } from './seed-grade3-v7-moral';
 
 export interface QuestionSeed {
   grade: number;
@@ -235,9 +252,9 @@ const baseQuestions: QuestionSeed[] = [
   { grade: 5, subject: '과학', unit: '3. 태양계와 별', unit_code: '[6과07-01]', question_type: 'ox', question_text: '태양은 행성이다.', options: ['O', 'X'], correct_answer: 'X', explanation: '태양은 행성이 아니라 항성(스스로 빛을 내는 별)입니다.', difficulty: 1 },
   { grade: 5, subject: '과학', unit: '3. 태양계와 별', unit_code: '[6과07-01]', question_type: 'short_answer', question_text: '태양에서 세 번째로 가까운 행성은?', options: null, correct_answer: '지구', explanation: '태양에서 가까운 순서: 수성, 금성, 지구, 화성...', difficulty: 1 },
   { grade: 5, subject: '과학', unit: '4. 용해와 용액', unit_code: '[6과04-01]', question_type: 'multiple_choice', question_text: '소금이 물에 녹는 현상을 무엇이라 하나요?', options: ['용해', '증발', '응결', '융해'], correct_answer: '용해', explanation: '물질이 액체에 녹아 골고루 섞이는 현상을 용해라 합니다.', difficulty: 1 },
-  { grade: 5, subject: '과학', unit: '5. 다양한 생물과 우리 생활', unit_code: '[6과02-01]', question_type: 'multiple_choice', question_text: '곰팡이나 버섯은 어떤 생물에 해당하나요?', options: ['균류', '식물', '동물', '세균'], correct_answer: '균류', explanation: '곰팡이, 버섯 등은 균류에 속합니다.', difficulty: 2 },
-  { grade: 5, subject: '과학', unit: '6. 물체의 운동', unit_code: '[6과06-01]', question_type: 'multiple_choice', question_text: '물체의 빠르기를 나타내는 것은?', options: ['속력', '무게', '부피', '온도'], correct_answer: '속력', explanation: '속력은 단위 시간 동안 물체가 이동한 거리로, 물체의 빠르기를 나타냅니다.', difficulty: 1 },
-  { grade: 5, subject: '과학', unit: '6. 물체의 운동', unit_code: '[6과06-01]', question_type: 'ox', question_text: '같은 시간 동안 더 많이 이동한 물체가 더 빠르다.', options: ['O', 'X'], correct_answer: 'O', explanation: '같은 시간 동안 이동 거리가 길수록 속력이 빠른 것입니다.', difficulty: 1 },
+  { grade: 4, subject: '과학', unit: '4. 다양한 생물과 우리 생활', unit_code: '[6과02-01]', question_type: 'multiple_choice', question_text: '곰팡이나 버섯은 어떤 생물에 해당하나요?', options: ['균류', '식물', '동물', '세균'], correct_answer: '균류', explanation: '곰팡이, 버섯 등은 균류에 속합니다.', difficulty: 2 },
+  { grade: 6, subject: '과학', unit: '2. 물체의 운동', unit_code: '[6과06-01]', question_type: 'multiple_choice', question_text: '물체의 빠르기를 나타내는 것은?', options: ['속력', '무게', '부피', '온도'], correct_answer: '속력', explanation: '속력은 단위 시간 동안 물체가 이동한 거리로, 물체의 빠르기를 나타냅니다.', difficulty: 1 },
+  { grade: 6, subject: '과학', unit: '2. 물체의 운동', unit_code: '[6과06-01]', question_type: 'ox', question_text: '같은 시간 동안 더 많이 이동한 물체가 더 빠르다.', options: ['O', 'X'], correct_answer: 'O', explanation: '같은 시간 동안 이동 거리가 길수록 속력이 빠른 것입니다.', difficulty: 1 },
 
   // ============================================================
   // 5학년 영어
@@ -365,7 +382,7 @@ const baseQuestions: QuestionSeed[] = [
   { grade: 5, subject: '수학', unit: '6. 다각형의 둘레와 넓이', unit_code: '[6수02-01]', question_type: 'multiple_choice', question_text: '한 변이 6cm인 정사각형의 둘레는?', options: ['24cm', '36cm', '12cm', '18cm'], correct_answer: '24cm', explanation: '정사각형의 둘레 = 한 변 × 4 = 6 × 4 = 24cm', difficulty: 1 },
   { grade: 5, subject: '수학', unit: '10. 소수의 곱셈', unit_code: '[6수01-07]', question_type: 'short_answer', question_text: '1.5 × 4 의 결과는?', options: null, correct_answer: '6', explanation: '15 × 4 = 60, 소수점 한 자리이므로 6.0 = 6', difficulty: 1 },
   { grade: 5, subject: '과학', unit: '4. 용해와 용액', unit_code: '[6과04-01]', question_type: 'ox', question_text: '온도가 높을수록 물에 녹는 설탕의 양은 많아진다.', options: ['O', 'X'], correct_answer: 'O', explanation: '대부분의 고체 물질은 물의 온도가 높아질수록 더 많이 녹습니다.', difficulty: 2 },
-  { grade: 5, subject: '과학', unit: '5. 다양한 생물과 우리 생활', unit_code: '[6과02-01]', question_type: 'ox', question_text: '세균은 맨눈으로 볼 수 없다.', options: ['O', 'X'], correct_answer: 'O', explanation: '세균은 매우 작아서 현미경으로만 관찰할 수 있습니다.', difficulty: 1 },
+  { grade: 4, subject: '과학', unit: '4. 다양한 생물과 우리 생활', unit_code: '[6과02-01]', question_type: 'ox', question_text: '세균은 맨눈으로 볼 수 없다.', options: ['O', 'X'], correct_answer: 'O', explanation: '세균은 매우 작아서 현미경으로만 관찰할 수 있습니다.', difficulty: 1 },
   // 추가 보충 문제 — 6학년
   { grade: 6, subject: '수학', unit: '1. 분수의 나눗셈', unit_code: '[6수01-08]', question_type: 'multiple_choice', question_text: '2/5 ÷ 1/3 의 결과는?', options: ['6/5', '2/15', '1/5', '3/10'], correct_answer: '6/5', explanation: '2/5 × 3/1 = 6/5', difficulty: 2 },
   { grade: 6, subject: '수학', unit: '3. 소수의 나눗셈', unit_code: '[6수01-09]', question_type: 'short_answer', question_text: '4.8 ÷ 1.2 의 결과는?', options: null, correct_answer: '4', explanation: '48 ÷ 12 = 4', difficulty: 1 },
@@ -397,6 +414,10 @@ export const questionsSeed: QuestionSeed[] = [
   ...seedGrade5V2Math, ...seedGrade5V2Science, ...seedGrade5V2English, ...seedGrade5V2Others,
   ...seedGrade5V3Korean, ...seedGrade5V3Social, ...seedGrade5V3Science,
   ...seedGrade5V4Extra,
+  ...seedGrade5V5Moral,
+  ...seedGrade3V6aFill, ...seedGrade3V6bFill, ...seedGrade4V6Fill, ...seedGrade6V6Fill,
+  ...seedGrade3V7KoreanA, ...seedGrade3V7KoreanB, ...seedGrade3V7MathA, ...seedGrade3V7MathB,
+  ...seedGrade3V7ScienceA, ...seedGrade3V7ScienceB, ...seedGrade3V7English, ...seedGrade3V7Social, ...seedGrade3V7Moral,
 ].filter((q) => {
   const key = `${q.grade}-${q.subject}-${q.question_text}`;
   if (seen.has(key)) return false;
