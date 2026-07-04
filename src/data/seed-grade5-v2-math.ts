@@ -7,9 +7,24 @@ const push = (q: Omit<QuestionSeed, 'grade' | 'subject'>) =>
   out.push({ grade: 5, subject: '수학', ...q });
 
 const shuffle4 = (correct: string, distractors: string[]): string[] => {
-  const opts = [correct, ...distractors.slice(0, 3)];
+  // 오답 중복 제거(계산식 우연 충돌 방지) + 정답과 동일 오답 제거
+  const uniq: string[] = [];
+  for (const d of distractors) {
+    if (d !== correct && !uniq.includes(d)) uniq.push(d);
+    if (uniq.length === 3) break;
+  }
+  // 3개 미만이면 숫자 접두를 증분해 대체 오답 생성(단위 접미 유지)
+  const m = /^(-?\d+(?:\.\d+)?)(.*)$/.exec(correct);
+  let pad = 1;
+  while (uniq.length < 3) {
+    const cand = m ? `${Number(m[1]) + pad}${m[2]}` : `${correct}(오답${pad})`;
+    if (cand !== correct && !uniq.includes(cand)) uniq.push(cand);
+    pad++;
+    if (pad > 50) { uniq.push(`${correct}·${uniq.length}`); }
+  }
+  const opts = [correct, ...uniq];
   // deterministic rotation so correct 위치가 다양하게 분포
-  const idx = (correct.length + distractors[0]!.length) % 4;
+  const idx = (correct.length + (distractors[0]?.length ?? 1)) % 4;
   return [...opts.slice(idx), ...opts.slice(0, idx)];
 };
 

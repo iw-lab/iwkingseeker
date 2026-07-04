@@ -21,7 +21,7 @@ const RAW_G4V7_MATH: QuestionSeed[] = [
   // ============================================================
   // 1. 큰 수
   // ============================================================
-  { grade: G, subject: U, unit: '1. 큰 수', unit_code: null, question_type: 'multiple_choice', question_text: '12,336에서 숫자 3이 나타내는 값은 얼마인가요?', options: ['300', '30', '3,000', '3'], correct_answer: '300', explanation: '12,336에서 숫자 3은 백의 자리의 숫자이므로 300을 나타냅니다.', difficulty: 1 },
+  { grade: G, subject: U, unit: '1. 큰 수', unit_code: null, question_type: 'multiple_choice', question_text: '12,308에서 숫자 3이 나타내는 값은 얼마인가요?', options: ['300', '30', '3,000', '3'], correct_answer: '300', explanation: '12,308에서 숫자 3은 백의 자리의 숫자이므로 300을 나타냅니다.', difficulty: 1 },
   { grade: G, subject: U, unit: '1. 큰 수', unit_code: null, question_type: 'multiple_choice', question_text: '235,678에서 숫자 5가 나타내는 값은 얼마인가요?', options: ['5,000', '500', '50,000', '5'], correct_answer: '5,000', explanation: '235,678에서 숫자 5는 천의 자리의 숫자이므로 5,000을 나타냅니다.', difficulty: 1 },
   { grade: G, subject: U, unit: '1. 큰 수', unit_code: null, question_type: 'multiple_choice', question_text: '3,677,891에서 숫자 7이 나타내는 값은 얼마인가요?', options: ['70,000', '7,000', '700,000', '7'], correct_answer: '70,000', explanation: '3,677,891에서 숫자 7은 만의 자리의 숫자이므로 70,000을 나타냅니다.', difficulty: 1 },
   { grade: G, subject: U, unit: '1. 큰 수', unit_code: null, question_type: 'multiple_choice', question_text: '67,489,123에서 숫자 4가 나타내는 값은 얼마인가요?', options: ['400,000', '40,000', '4,000,000', '4'], correct_answer: '400,000', explanation: '67,489,123에서 숫자 4는 십만의 자리의 숫자이므로 400,000을 나타냅니다.', difficulty: 2 },

@@ -21,7 +21,7 @@ const RAW_G4V7_SO: QuestionSeed[] = [
   // ============================================================
   // 1. 지역의 위치와 특성
   // ============================================================
-  { grade: G, subject: U, unit: '1. 지역의 위치와 특성', unit_code: null, question_type: 'multiple_choice', question_text: '지도에서 방위표가 나타내는 기본 방위 네 가지로 알맞은 것은?', options: ['동, 서, 남, 북', '앞, 뒤, 좌, 우', '위, 아래, 왼쪽, 오른쪽', '봄, 여름, 가을, 겨울'], correct_answer: '동, 서, 남, 북', explanation: '방위표는 지도에서 동서남북 네 방향을 나타내 방향을 알 수 있게 해 줍니다.', difficulty: 1 },
+  { grade: G, subject: U, unit: '1. 지역의 위치와 특성', unit_code: null, question_type: 'multiple_choice', question_text: '지도에서 방위표가 나타내는 기본 방위 네 가지로 알맞은 것은?', options: ['동, 서, 남, 북', '앞, 뒤, 좌, 우', '위, 아래, 왼쪽, 오른쪽', '북동, 남동, 북서, 남서'], correct_answer: '동, 서, 남, 북', explanation: '방위표는 지도에서 동서남북 네 방향을 나타내 방향을 알 수 있게 해 줍니다.', difficulty: 1 },
   { grade: G, subject: U, unit: '1. 지역의 위치와 특성', unit_code: null, question_type: 'multiple_choice', question_text: '지도에 방위표가 없을 때 지도의 위쪽이 나타내는 방위는?', options: ['북쪽', '남쪽', '동쪽', '서쪽'], correct_answer: '북쪽', explanation: '방위표가 없는 지도는 일반적으로 위쪽을 북쪽으로 약속하여 나타냅니다.', difficulty: 1 },
   { grade: G, subject: U, unit: '1. 지역의 위치와 특성', unit_code: null, question_type: 'multiple_choice', question_text: '방위표에서 보통 위쪽에 표시되는 방위는?', options: ['북', '동', '서', '남'], correct_answer: '북', explanation: '방위표는 보통 위쪽에 북(N)을 표시해 방향을 알려 줍니다.', difficulty: 1 },
   { grade: G, subject: U, unit: '1. 지역의 위치와 특성', unit_code: null, question_type: 'multiple_choice', question_text: '해가 뜨는 방향을 나타내는 방위는?', options: ['동쪽', '서쪽', '남쪽', '북쪽'], correct_answer: '동쪽', explanation: '해는 동쪽에서 떠서 서쪽으로 집니다.', difficulty: 1 },

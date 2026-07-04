@@ -161,12 +161,16 @@ const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
     const g = gcd(Math.max(1, Math.abs(numerator)), d1);
     const ans =
       numerator === 0 ? '0' : `${numerator / g}/${d1 / g}`;
-    const wrongs = [
-      `${a + b}/${d1 + d2}`,
+    const wrongsRaw = [
+      `${a + b}/${d1 + d2}`,           // 분모까지 더하는 오류(op=+ 시 아래와 충돌 가능)
       `${numerator}/${d1 * 2}`,
       `${numerator + 1}/${d1}`,
       `${Math.max(1, numerator - 1)}/${d1}`,
-    ].filter((s) => s !== ans);
+      `${a}/${d1}`,                    // 한쪽 분수 그대로(충돌 시 대체 오답)
+      `${b}/${d2}`,
+    ];
+    const wrongs: string[] = [];
+    for (const w of wrongsRaw) if (w !== ans && !wrongs.includes(w)) wrongs.push(w);
     pushM({
       unit: '5. 분수의 덧셈과 뺄셈',
       unit_code: '[6수01-07]',
