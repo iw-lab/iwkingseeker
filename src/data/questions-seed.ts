@@ -65,6 +65,14 @@ import { seedGrade6V7Korean } from './seed-grade6-v7-korean';
 import { seedGrade6V7English } from './seed-grade6-v7-english';
 import { seedGrade6V7Moral } from './seed-grade6-v7-moral';
 
+// v8 재구성 — 3학년 전과목을 4·6학년과 균형화(성취기준 정합 단원 4지선다)
+import { seedGrade3V8Korean } from './seed-grade3-v8-korean';
+import { seedGrade3V8Math } from './seed-grade3-v8-math';
+import { seedGrade3V8Social } from './seed-grade3-v8-social';
+import { seedGrade3V8Science } from './seed-grade3-v8-science';
+import { seedGrade3V8English } from './seed-grade3-v8-english';
+import { seedGrade3V8Moral } from './seed-grade3-v8-moral';
+
 export interface QuestionSeed {
   grade: number;
   subject: string;
@@ -435,11 +443,13 @@ const legacyMerged: QuestionSeed[] = [
   ...seedGrade3V6aFill, ...seedGrade3V6bFill, ...seedGrade4V6Fill, ...seedGrade6V6Fill,
   ...seedGrade3V7KoreanA, ...seedGrade3V7KoreanB, ...seedGrade3V7MathA, ...seedGrade3V7MathB,
   ...seedGrade3V7ScienceA, ...seedGrade3V7ScienceB, ...seedGrade3V7English, ...seedGrade3V7Social, ...seedGrade3V7Moral,
-].filter((q) => q.grade !== 4 && q.grade !== 6);
+].filter((q) => q.grade !== 3 && q.grade !== 4 && q.grade !== 6);
 
-// 중복 제거 후 통합 (v7 4·6학년 6과목을 앞에 두어 우선 채택)
+// 중복 제거 후 통합 (v7/v8 3·4·6학년 6과목을 앞에 두어 우선 채택)
 const seen = new Set<string>();
 export const questionsSeed: QuestionSeed[] = [
+  ...seedGrade3V8Korean, ...seedGrade3V8Math, ...seedGrade3V8Social,
+  ...seedGrade3V8Science, ...seedGrade3V8English, ...seedGrade3V8Moral,
   ...seedGrade4V7Science, ...seedGrade4V7Math, ...seedGrade4V7Korean,
   ...seedGrade4V7English, ...seedGrade4V7Social, ...seedGrade4V7Moral,
   ...seedGrade6V7Math, ...seedGrade6V7Social, ...seedGrade6V7Science,
