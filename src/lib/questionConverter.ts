@@ -234,9 +234,16 @@ export function convertToMultipleChoice<T extends RawQuestion>(questions: T[]): 
 
   const result: T[] = [];
   for (const q of questions) {
-    // 이미 객관식이면 그대로 (seed 객관식은 품질이 보장됨)
+    // 이미 객관식이면 보기만 섞어서 그대로 사용.
+    // (seed 데이터는 정답이 대부분 첫 번째 보기에 놓여 있어 — 측정상 약 87% —
+    //  섞지 않으면 "무조건 1번" 찍기로 정답을 맞힐 수 있다. 정답 판정은 문자열
+    //  비교(answer === correct_answer)라 순서를 섞어도 안전하다.)
     if (q.question_type === 'multiple_choice') {
-      result.push(q);
+      if (Array.isArray(q.options) && q.options.length >= 2) {
+        result.push({ ...q, options: shuffleArray(q.options) });
+      } else {
+        result.push(q);
+      }
       continue;
     }
     // OX는 변환하지 않고 원형 유지 (pickQuestion에서 자동 출제 제외)

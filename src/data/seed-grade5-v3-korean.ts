@@ -231,18 +231,26 @@ const push = (q: Omit<QuestionSeed, 'grade' | 'subject'>) =>
     { ex: '방울, 종, 큰 종소리', method: '점층법' },
     { ex: '봄, 여름, 가을, 겨울이 찾아온다', method: '열거법' },
   ];
-  for (const e of examples) {
+  const allMethods = ['은유법', '직유법', '의인법', '과장법', '반복법', '대조법', '대구법', '도치법', '설의법', '점층법', '열거법'];
+  examples.forEach((e, idx) => {
+    // 정답을 반드시 포함하고, 나머지 표현법 3개를 오답으로 넣어 4지선다를 만든다.
+    // (기존에는 보기가 은유·직유·의인·과장법으로 고정돼 정답이 보기에 없는 문항이 있었다.)
+    // 정답이 항상 첫 보기에 오지 않도록 위치를 결정론적으로 분산한다(idx % 4).
+    const distractors = allMethods.filter((m) => m !== e.method).slice(0, 3);
+    const opts = [e.method, ...distractors];
+    const target = idx % 4;
+    [opts[0], opts[target]] = [opts[target], opts[0]];
     push({
       unit,
       unit_code: null,
       question_type: 'multiple_choice',
       question_text: `"${e.ex}"에 사용된 표현법은?`,
-      options: ['은유법', '직유법', '의인법', '과장법', '반복법', '대조법', '도치법', '설의법'].slice(0, 4),
+      options: opts,
       correct_answer: e.method,
       explanation: `${e.method}의 예시입니다.`,
       difficulty: 3,
     });
-  }
+  });
 }
 
 // ============================================================

@@ -49,6 +49,13 @@ import { seedGrade3V7ScienceB } from './seed-grade3-v7-science-b';
 import { seedGrade3V7English } from './seed-grade3-v7-english';
 import { seedGrade3V7Social } from './seed-grade3-v7-social';
 import { seedGrade3V7Moral } from './seed-grade3-v7-moral';
+// v7 재구성 — 4학년 전과목을 성취기준 정합 단원 4지선다로 전면 교체
+import { seedGrade4V7Science } from './seed-grade4-v7-science';
+import { seedGrade4V7Math } from './seed-grade4-v7-math';
+import { seedGrade4V7Korean } from './seed-grade4-v7-korean';
+import { seedGrade4V7English } from './seed-grade4-v7-english';
+import { seedGrade4V7Social } from './seed-grade4-v7-social';
+import { seedGrade4V7Moral } from './seed-grade4-v7-moral';
 
 export interface QuestionSeed {
   grade: number;
@@ -397,9 +404,11 @@ const baseQuestions: QuestionSeed[] = [
   { grade: 6, subject: '도덕', unit: '1. 내가 할 수 있는 것과 할 수 없는 것', unit_code: '[6도01-02]', question_type: 'ox', question_text: '노력하면 불가능한 것도 가능하게 될 수 있지만, 한계를 인정하는 것도 중요하다.', options: ['O', 'X'], correct_answer: 'O', explanation: '노력은 중요하지만, 현실적인 한계를 인정하고 지혜롭게 대처하는 것도 성장의 일부입니다.', difficulty: 2 },
 ];
 
-// 중복 제거 후 통합
-const seen = new Set<string>();
-export const questionsSeed: QuestionSeed[] = [
+// 4학년 전과목은 v7 파일을 유일 소스로 사용한다.
+// (기존에 seed-2022-grade4·seed-part1/2·v6-fill 등 여러 곳에 흩어져 있고
+//  2015 개정 잔재 단원이 섞여 있던 4학년 문항은 아래 filter에서 모두 제외하고,
+//  성취기준 정합 단원의 4지선다로 재구성한 v7 6과목으로 대체한다.)
+const legacyMerged: QuestionSeed[] = [
   ...baseQuestions, ...seedPart1, ...seedPart2,
   ...seed2022Grade3, ...seed2022Grade4, ...seed2022Grade5, ...seed2022Grade6,
   ...seed2022Grade5MathS1, ...seed2022Grade5MathS2,
@@ -418,6 +427,14 @@ export const questionsSeed: QuestionSeed[] = [
   ...seedGrade3V6aFill, ...seedGrade3V6bFill, ...seedGrade4V6Fill, ...seedGrade6V6Fill,
   ...seedGrade3V7KoreanA, ...seedGrade3V7KoreanB, ...seedGrade3V7MathA, ...seedGrade3V7MathB,
   ...seedGrade3V7ScienceA, ...seedGrade3V7ScienceB, ...seedGrade3V7English, ...seedGrade3V7Social, ...seedGrade3V7Moral,
+].filter((q) => q.grade !== 4);
+
+// 중복 제거 후 통합 (v7 4학년 6과목을 앞에 두어 우선 채택)
+const seen = new Set<string>();
+export const questionsSeed: QuestionSeed[] = [
+  ...seedGrade4V7Science, ...seedGrade4V7Math, ...seedGrade4V7Korean,
+  ...seedGrade4V7English, ...seedGrade4V7Social, ...seedGrade4V7Moral,
+  ...legacyMerged,
 ].filter((q) => {
   const key = `${q.grade}-${q.subject}-${q.question_text}`;
   if (seen.has(key)) return false;
