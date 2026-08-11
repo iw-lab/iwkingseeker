@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import StudentCard from './StudentCard';
@@ -22,20 +22,39 @@ export default function KingGuess() {
   const [isSuspense, setIsSuspense] = useState(false);
   const suspenseStartRef = useRef<number | null>(null);
 
-  // 백그라운드 탭 throttle 대응: visibility 복귀 시 진행 체크
+  /**
+   * 두근두근 연출이 끝나면 결과로 넘어간다 — 그런데 그 진행을 setTimeout에만
+   * 맡기면 안 된다. 크롬은 가려진 탭의 타이머를 최소 1초로, 5분 뒤에는 1분에
+   * 한 번까지 늦춘다. 교사가 학생 화면(프로젝터 창)을 앞으로 꺼내 교사 창이
+   * 가려지면 왕 지목이 그대로 멈춘다(실측: 12초가 지나도 진행 안 됨).
+   *
+   * 그래서 세 겹으로 막는다.
+   *  1) 원래의 setTimeout (정상 상황)
+   *  2) visibility 복귀 시 즉시 정산
+   *  3) 1초 간격 워치독 — 스로틀되더라도 결국 발화해 스스로 풀린다
+   * 여기에 더해 화면에는 "결과 보기" 버튼을 띄워 교사가 언제든 넘길 수 있게 한다.
+   */
+  const resolveGuess = useCallback(() => {
+    if (!selected) return;
+    if (useGameStore.getState().phase !== 'GUESS_KING') return;
+    guessKing(selected);
+  }, [selected, guessKing]);
+
   useEffect(() => {
     if (!isSuspense || !selected) return;
     const onVisible = () => {
-      if (document.visibilityState === 'visible' && suspenseStartRef.current) {
-        const elapsed = Date.now() - suspenseStartRef.current;
-        if (elapsed >= 2400 && useGameStore.getState().phase === 'GUESS_KING') {
-          guessKing(selected);
-        }
-      }
+      if (document.visibilityState === 'visible') resolveGuess();
     };
     document.addEventListener('visibilitychange', onVisible);
-    return () => document.removeEventListener('visibilitychange', onVisible);
-  }, [isSuspense, selected, guessKing]);
+    const watchdog = window.setInterval(() => {
+      const started = suspenseStartRef.current;
+      if (started && Date.now() - started >= 2400) resolveGuess();
+    }, 1000);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      window.clearInterval(watchdog);
+    };
+  }, [isSuspense, selected, resolveGuess]);
 
   const targetTeam = currentAttacker === 'team_a' ? 'team_b' : 'team_a';
   const targetTeamData = targetTeam === 'team_a' ? teamA : teamB;
@@ -200,6 +219,17 @@ export default function KingGuess() {
         <Target className="w-6 h-6" />
         {isSuspense ? '결과 공개 중...' : '이 학생이 왕이다!'}
       </motion.button>
+
+      {/* 연출이 멈춰도 수업이 멈추지 않도록 하는 수동 탈출구.
+          (WrongAnswer 의 "다음 문제 →" 와 같은 안전망) */}
+      {isSuspense && (
+        <button
+          onClick={resolveGuess}
+          className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 text-base font-bold transition-colors"
+        >
+          결과 바로 보기 →
+        </button>
+      )}
     </div>
   );
 }

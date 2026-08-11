@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR, Black_Han_Sans } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { MotionVisibilityGuard } from "@/components/MotionVisibilityGuard";
 import "./globals.css";
 
 const notoSansKr = Noto_Sans_KR({
@@ -46,6 +47,7 @@ export default function RootLayout({
       className={`${notoSansKr.variable} ${blackHanSans.variable} dark h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-foreground">
+        <MotionVisibilityGuard />
         {children}
         <Toaster />
       </body>

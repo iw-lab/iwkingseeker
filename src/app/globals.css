@@ -371,3 +371,22 @@
 .heartbeat-text {
   animation: heartbeat-text 0.8s ease-in-out infinite;
 }
+
+/*
+ * 점수 강조 — CSS 애니메이션이라 rAF 스로틀에 걸려도 최종 상태(불투명·기본 크기)가
+ * 기본값이다. 애니메이션이 아예 안 돌아도 숫자는 항상 보인다.
+ * (Framer Motion 의 initial={{opacity:0}} 은 반대로 "안 보이는 상태"가 기본이라
+ *  백그라운드 탭에서 점수가 사라지거나 옛 값이 남는 사고가 났다.)
+ */
+@keyframes score-pop {
+  0% { transform: scale(0.7); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+.score-pop {
+  display: inline-block;
+  animation: score-pop 0.45s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .score-pop { animation: none; }
+}

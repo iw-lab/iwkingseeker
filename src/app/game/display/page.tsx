@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Maximize, Minimize, Lock, Crosshair, ArrowRightLeft, Trophy, Crown, Swords, Zap, ShieldX, Target } from 'lucide-react';
 import { useFullscreen } from '@/hooks/useFullscreen';
 import { cn } from '@/lib/utils';
@@ -109,19 +109,20 @@ function DisplayTeamScore({ name, score, team, isActive, colorClass, glowClass, 
           ))}
         </div>
       </div>
+      {/* 점수는 애니메이션으로 감싸지 않는다.
+          AnimatePresence(mode="wait")로 감싸면 점수가 바뀔 때 이전 숫자의 exit
+          애니메이션이 끝나야 새 숫자가 마운트되는데, Framer Motion은 rAF 기반이라
+          탭이 백그라운드면 그 애니메이션이 끝나지 않는다.
+          실측: 스토어 점수는 1인데 전자칠판에는 0이 그대로 떠 있었다.
+          교실에서 점수가 틀리게 보이는 것보다 나쁜 것은 없으므로 즉시 반영한다. */}
       <div className="ml-auto relative z-10">
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={score}
-            initial={{ y: -20, opacity: 0, scale: 0.5 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 20, opacity: 0, scale: 0.5 }}
-            className={cn('text-5xl font-black score-badge', colorClass)}
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
-          >
-            {score}
-          </motion.span>
-        </AnimatePresence>
+        <span
+          key={score}
+          className={cn('text-5xl font-black score-badge score-pop', colorClass)}
+          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        >
+          {score}
+        </span>
       </div>
       {isActive && (
         <motion.div

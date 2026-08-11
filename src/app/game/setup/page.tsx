@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useGameStore } from '@/stores/gameStore';
@@ -10,7 +10,9 @@ import { splitIntoTeams, shuffleArray } from '@/lib/utils';
 import { playButtonClick, playPhaseTransition } from '@/lib/sounds';
 import { convertToMultipleChoice } from '@/lib/questionConverter';
 import { getCustomQuestionsFiltered, toRuntimeQuestion } from '@/lib/customQuestions';
-import { Crown, ChevronRight, Users, BookOpen, Settings, Play, Save, FolderOpen, Trash2, Check, Gamepad2 } from 'lucide-react';
+import { getSupplementaryUnits } from '@/lib/curriculumAliases';
+import { getQuestionSets, toRuntimeQuestions, type QuestionSet } from '@/lib/questionSets';
+import { Crown, ChevronRight, Users, BookOpen, Settings, Play, Save, FolderOpen, Trash2, Check, Gamepad2, Layers } from 'lucide-react';
 
 interface SavedClass {
   name: string;
@@ -55,10 +57,27 @@ export default function GameSetupPage() {
   const [savedClasses, setSavedClasses] = useState<SavedClass[]>([]);
   const [className, setClassName] = useState('');
   const [customCount, setCustomCount] = useState(0);
+  // 출제 방식 — 단원 전체(random) vs 교사가 직접 고른 문제 세트(set)
+  const [sourceMode, setSourceMode] = useState<'unit' | 'set'>('unit');
+  const [questionSets, setQuestionSets] = useState<QuestionSet[]>([]);
+  const [selectedSetId, setSelectedSetId] = useState<string | null>(null);
 
   useEffect(() => {
     setSavedClasses(getSavedClasses());
+    const sets = getQuestionSets();
+    setQuestionSets(sets);
+    // "이 세트로 게임" 링크로 들어온 경우 바로 그 세트를 고른 상태로 시작한다.
+    // (정적 export라 useSearchParams 대신 location을 직접 읽는다 — Suspense 경계 불필요)
+    const requested = new URLSearchParams(window.location.search).get('set');
+    if (requested && sets.some((s) => s.id === requested)) {
+      setSelectedSetId(requested);
+      setSourceMode('set');
+    }
   }, []);
+
+  const selectedSet = questionSets.find((s) => s.id === selectedSetId) ?? null;
+  /** 시작을 막은 이유 — 아무 반응 없이 멈추면 교사가 원인을 알 수 없다 */
+  const [startError, setStartError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!unit) {
@@ -104,15 +123,55 @@ export default function GameSetupPage() {
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
 
-  const units = isNational
-    ? (CURRICULUM_UNITS[String(subGrade)]?.[subject] ?? [])
-    : band.grades.flatMap((g) => CURRICULUM_UNITS[String(g)]?.[subject] ?? []);
+  // 교사가 고를 수 있는 단원 = 교과서 단원 + 보충·심화 묶음
+  // (보충은 교과서 단원이 아니지만 문항이 실제로 있는 어휘·속담·문장패턴 등이다.
+  //  전에는 목록에 없어 4,787문항이 어느 단원을 골라도 나오지 않았다.)
+  const gradesForUnits = isNational ? [subGrade] : [...band.grades];
+  const textbookUnits = [
+    ...new Set(gradesForUnits.flatMap((g) => CURRICULUM_UNITS[String(g)]?.[subject] ?? [])),
+  ];
+  const extraUnits = [...new Set(gradesForUnits.flatMap((g) => getSupplementaryUnits(g, subject)))];
+  const units = [...textbookUnits, ...extraUnits];
+
+  /** 게임을 시작할 수 있는 상태인지 — 버튼 비활성 조건과 시작 조건을 한 곳에서 판단 */
+  const canStart =
+    students.length >= 4 && (sourceMode === 'set' ? !!selectedSet && selectedSet.questions.length > 0 : !!unit);
 
   const handleStart = async () => {
-    if (students.length < 4 || !unit) return;
+    if (!canStart) return;
     playPhaseTransition();
 
     const [teamAStudents, teamBStudents] = splitIntoTeams(students);
+
+    // 교사가 고른 문제 세트로 시작하는 경로 — 그 문항만 낸다.
+    if (sourceMode === 'set' && selectedSet) {
+      // 오답 후보는 전체 문제 은행에서 끌어온다. 세트 안 문항만으로는 후보가
+      // 모자라 주관식이 통째로 탈락하고 빈 풀로 게임이 시작될 수 있다(실측).
+      const { questionsSeed: bank } = await import('@/data/questions-seed');
+      const pool = shuffleArray(convertToMultipleChoice(toRuntimeQuestions(selectedSet), bank));
+      if (pool.length === 0) {
+        setStartError(
+          `"${selectedSet.name}" 세트에는 게임에 낼 수 있는 문제가 없습니다. ` +
+            '문제 은행에서 4지선다 문항을 더 넣어 세트를 다시 만들어 주세요.'
+        );
+        return;
+      }
+      setStartError(null);
+      setQuestionPool(pool);
+      initGame({
+        grade: selectedSet.grade ?? grade,
+        subject: selectedSet.subject ?? subject,
+        unit: selectedSet.unit ?? selectedSet.name,
+        targetScore,
+        timerSeconds,
+        teamAName,
+        teamBName,
+        teamAStudents,
+        teamBStudents,
+      });
+      router.push('/game/play');
+      return;
+    }
 
     const { questionsSeed } = await import('@/data/questions-seed');
     const gradesInBand = isNational ? [subGrade] : [...band.grades];
@@ -120,16 +179,12 @@ export default function GameSetupPage() {
     const unitQuestions = questionsSeed.filter(
       (q) => gradesInBand.includes(q.grade) && q.subject === subject && q.unit === unit
     );
-    // 2순위: 같은 학년군+과목의 다른 단원 문제 (풀이 적을 때 보충)
-    const MIN_POOL = 50;
-    let filtered = unitQuestions;
-    if (unitQuestions.length < MIN_POOL) {
-      const sameSubject = questionsSeed.filter(
-        (q) => gradesInBand.includes(q.grade) && q.subject === subject && q.unit !== unit
-      );
-      const extra = shuffleArray(sameSubject).slice(0, MIN_POOL - unitQuestions.length);
-      filtered = [...unitQuestions, ...extra];
-    }
+    // 예전에는 문항이 50개 미만이면 같은 과목의 "다른 단원" 문제를 채워 넣었다.
+    // 그러면 교사가 고른 단원과 실제 출제 단원이 어긋난다(실측: 보충 단원 선택
+    // 시 최대 18문항이 타 단원에서 섞여 들어옴). 지금은 모든 교과서 단원이
+    // 60문항 이상이라 채워 넣을 이유가 없어졌고, 문항이 적은 단원은 타 단원을
+    // 섞는 대신 pickQuestion이 같은 단원 안에서 재출제하도록 둔다.
+    const filtered = unitQuestions;
     const rawPool = filtered.map((q) => ({
       id: `seed-${Math.random().toString(36).slice(2, 10)}`,
       grade: q.grade,
@@ -154,9 +209,14 @@ export default function GameSetupPage() {
 
     // 주관식/빈칸 → 객관식 자동 변환 (그럴듯한 오답을 못 만들면 제외) + 셔플
     const merged = [...customRuntime, ...rawPool] as typeof rawPool;
-    const converted = convertToMultipleChoice(merged);
+    const converted = convertToMultipleChoice(merged, questionsSeed);
     const pool = shuffleArray(converted);
 
+    if (pool.length === 0) {
+      setStartError(`"${unit}" 단원에서 낼 수 있는 문제를 찾지 못했습니다. 다른 단원을 골라 주세요.`);
+      return;
+    }
+    setStartError(null);
     setQuestionPool(pool);
     initGame({
       grade,
@@ -219,13 +279,14 @@ export default function GameSetupPage() {
       {/* Content - full width */}
       <div className="relative z-10 flex-1 flex items-start justify-center px-10 py-6">
         <div className="w-full">
-          <AnimatePresence mode="wait">
+          {/* 단계 전환에 AnimatePresence(mode="wait")를 쓰지 않는다.
+              Framer Motion은 rAF 기반이라 탭이 백그라운드로 가면 exit 애니메이션이
+              끝나지 않고, mode="wait"는 exit가 끝나야 다음 단계를 마운트한다
+              → 교사가 다른 창을 보다 돌아오면 "다음"이 먹지 않는 고착이 생긴다.
+              (게임 화면은 커밋 4c8739e에서 같은 이유로 이미 제거했다.) */}
             {step === 1 && (
-              <motion.div
+              <div
                 key="step1"
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -50, opacity: 0 }}
                 className="flex flex-col gap-5"
               >
                 <h2 className="text-3xl font-black text-white">학생 이름 입력</h2>
@@ -292,19 +353,96 @@ export default function GameSetupPage() {
                 >
                   다음
                 </motion.button>
-              </motion.div>
+              </div>
             )}
 
             {step === 2 && (
-              <motion.div
+              <div
                 key="step2"
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -50, opacity: 0 }}
                 className="flex flex-col gap-6"
               >
                 <h2 className="text-3xl font-black text-white">학년군 / 과목 / 단원</h2>
 
+                <div>
+                  <label className="text-lg text-gray-400 block mb-3 font-medium">출제 방식</label>
+                  <div className="flex gap-3">
+                    <motion.button
+                      onClick={() => { playButtonClick(); setSourceMode('unit'); }}
+                      aria-pressed={sourceMode === 'unit'}
+                      className={`flex-1 py-4 rounded-2xl font-black text-xl transition-all ${
+                        sourceMode === 'unit'
+                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
+                          : 'glass text-gray-400 hover:bg-white/5'
+                      }`}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      단원에서 자동 출제
+                    </motion.button>
+                    <motion.button
+                      onClick={() => { playButtonClick(); setSourceMode('set'); }}
+                      aria-pressed={sourceMode === 'set'}
+                      className={`flex-1 py-4 rounded-2xl font-black text-xl transition-all flex items-center justify-center gap-2 ${
+                        sourceMode === 'set'
+                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
+                          : 'glass text-gray-400 hover:bg-white/5'
+                      }`}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Layers className="w-5 h-5" /> 내가 고른 문제 세트
+                    </motion.button>
+                  </div>
+                </div>
+
+                {sourceMode === 'set' ? (
+                  <div>
+                    <label className="text-lg text-gray-400 block mb-3 font-medium">문제 세트 선택</label>
+                    {questionSets.length === 0 ? (
+                      <div className="glass rounded-2xl p-6 text-center">
+                        <p className="text-gray-400 text-lg mb-3">저장된 문제 세트가 없습니다.</p>
+                        <Link
+                          href="/questions"
+                          className="inline-block px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold"
+                        >
+                          문제 은행에서 문제 고르러 가기
+                        </Link>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-72 overflow-y-auto pr-2">
+                        {questionSets.map((qs) => (
+                          <motion.button
+                            key={qs.id}
+                            onClick={() => { playButtonClick(); setSelectedSetId(qs.id); }}
+                            aria-pressed={selectedSetId === qs.id}
+                            className={`text-left px-6 py-4 rounded-2xl transition-all ${
+                              selectedSetId === qs.id
+                                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
+                                : 'glass text-gray-400 hover:bg-white/5'
+                            }`}
+                            whileHover={{ x: 4 }}
+                          >
+                            <span className="block font-bold text-lg">
+                              {selectedSetId === qs.id && <Check className="w-5 h-5 inline-block mr-2" />}
+                              {qs.name}
+                            </span>
+                            <span className="block text-sm opacity-70 mt-1">
+                              {qs.questions.length}문항
+                              {qs.author ? ` · ${qs.author}` : ''}
+                            </span>
+                          </motion.button>
+                        ))}
+                      </div>
+                    )}
+                    <Link
+                      href="/questions/sets"
+                      className="mt-3 inline-flex items-center gap-2 text-sm text-purple-300 hover:text-purple-200 underline underline-offset-4"
+                    >
+                      문제 세트 관리 · 공유받기
+                    </Link>
+                  </div>
+                ) : (
+                <>
                 <div>
                   <label className="text-lg text-gray-400 block mb-3 font-medium">학년군</label>
                   <div className="flex gap-3">
@@ -406,24 +544,24 @@ export default function GameSetupPage() {
                   </Link>
                 </div>
 
+                </>
+                )}
+
                 <motion.button
                   onClick={() => handleStepChange(3)}
-                  disabled={!unit}
+                  disabled={sourceMode === 'set' ? !selectedSet : !unit}
                   className="w-full py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white font-black text-2xl rounded-2xl"
-                  whileHover={unit ? { scale: 1.01 } : {}}
-                  whileTap={unit ? { scale: 0.99 } : {}}
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.99 }}
                 >
                   다음
                 </motion.button>
-              </motion.div>
+              </div>
             )}
 
             {step === 3 && (
-              <motion.div
+              <div
                 key="step3"
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -50, opacity: 0 }}
                 className="flex flex-col gap-6"
               >
                 <h2 className="text-3xl font-black text-white">게임 설정</h2>
@@ -478,15 +616,12 @@ export default function GameSetupPage() {
                 >
                   다음
                 </motion.button>
-              </motion.div>
+              </div>
             )}
 
             {step === 4 && (
-              <motion.div
+              <div
                 key="step4"
-                initial={{ x: 50, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -50, opacity: 0 }}
                 className="flex flex-col gap-6"
               >
                 <h2 className="text-3xl font-black text-white">팀 이름 설정</h2>
@@ -515,10 +650,31 @@ export default function GameSetupPage() {
                   <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-xl">
                     <span className="text-gray-500">학생 수</span>
                     <span className="text-white font-bold">{students.length}명</span>
-                    <span className="text-gray-500">학년군/과목</span>
-                    <span className="text-white font-bold">{band.label} {subject}{isNational ? ` (${subGrade}학년)` : ''}</span>
-                    <span className="text-gray-500">단원</span>
-                    <span className="text-white font-bold text-base leading-relaxed">{unit}</span>
+                    {/* 세트 모드에서는 학년군·과목·단원 선택 UI가 뜨지 않으므로
+                        로컬 state가 아니라 실제 고른 세트의 값을 보여 준다. */}
+                    {sourceMode === 'set' ? (
+                      <>
+                        <span className="text-gray-500">문제 세트</span>
+                        <span className="text-white font-bold text-base leading-relaxed">
+                          {selectedSet ? `${selectedSet.name} (${selectedSet.questions.length}문항)` : '선택 안 됨'}
+                        </span>
+                        <span className="text-gray-500">범위</span>
+                        <span className="text-white font-bold text-base leading-relaxed">
+                          {selectedSet
+                            ? [selectedSet.grade ? `${selectedSet.grade}학년` : null, selectedSet.subject, selectedSet.unit]
+                                .filter(Boolean)
+                                .join(' · ') || '여러 학년·과목'
+                            : '-'}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-gray-500">학년군/과목</span>
+                        <span className="text-white font-bold">{band.label} {subject}{isNational ? ` (${subGrade}학년)` : ''}</span>
+                        <span className="text-gray-500">단원</span>
+                        <span className="text-white font-bold text-base leading-relaxed">{unit}</span>
+                      </>
+                    )}
                     <span className="text-gray-500">목표 점수</span>
                     <span className="text-white font-bold">{targetScore}점</span>
                     <span className="text-gray-500">제한 시간</span>
@@ -526,9 +682,16 @@ export default function GameSetupPage() {
                   </div>
                 </div>
 
+                {startError && (
+                  <p role="alert" className="rounded-2xl bg-red-500/10 border border-red-500/30 px-5 py-4 text-lg text-red-200">
+                    {startError}
+                  </p>
+                )}
+
                 <motion.button
                   onClick={handleStart}
-                  className="w-full py-6 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 hover:from-purple-500 hover:via-purple-400 hover:to-pink-500 text-white rounded-2xl font-black text-3xl transition-shadow hover:shadow-lg hover:shadow-purple-500/20 flex items-center justify-center gap-4"
+                  disabled={!canStart}
+                  className="w-full py-6 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 hover:from-purple-500 hover:via-purple-400 hover:to-pink-500 disabled:from-gray-700 disabled:via-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white rounded-2xl font-black text-3xl transition-shadow hover:shadow-lg hover:shadow-purple-500/20 flex items-center justify-center gap-4"
                   style={{ fontFamily: "var(--font-heading), sans-serif" }}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -536,9 +699,8 @@ export default function GameSetupPage() {
                   <Gamepad2 className="w-9 h-9" />
                   게임 시작!
                 </motion.button>
-              </motion.div>
+              </div>
             )}
-          </AnimatePresence>
         </div>
       </div>
     </div>

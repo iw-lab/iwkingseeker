@@ -208,7 +208,27 @@ export default function QuizDisplay() {
     if (!showResult) handleAnswer('__timeout__');
   }, [showResult, handleAnswer]);
 
-  if (!currentQuestion) return null;
+  // 문제를 못 불러온 상태에서 null 을 그대로 반환하면 전자칠판이 통째로
+  // 빈 화면이 되고, 교사는 수업 중 아무 조치도 할 수 없다(실측 재현).
+  // 원인을 알려 주고 빠져나갈 길을 남긴다.
+  if (!currentQuestion) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-6 py-24 text-center" role="alert">
+        <p className="text-3xl font-black text-white">낼 수 있는 문제를 찾지 못했습니다</p>
+        <p className="text-lg text-gray-400">
+          고른 단원이나 문제 세트에 4지선다로 출제할 수 있는 문항이 없습니다.
+          <br />
+          게임 설정으로 돌아가 다른 단원이나 세트를 골라 주세요.
+        </p>
+        <a
+          href="/game/setup"
+          className="px-8 py-4 rounded-2xl bg-purple-600 hover:bg-purple-500 text-white text-xl font-bold"
+        >
+          게임 설정으로 돌아가기
+        </a>
+      </div>
+    );
+  }
 
   const q = currentQuestion!;
   const isOX = q.question_type === 'ox';
