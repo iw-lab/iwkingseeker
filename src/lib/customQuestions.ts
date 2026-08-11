@@ -30,7 +30,16 @@ export function getCustomQuestions(): StoredCustomQuestion[] {
 
 export function saveCustomQuestions(list: StoredCustomQuestion[]) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {
+    // 조용히 실패하면 교사는 저장된 줄 알고 수업에 들어간다.
+    throw new Error(
+      e instanceof Error && e.name === 'QuotaExceededError'
+        ? '저장 공간이 가득 찼습니다. 쓰지 않는 내 문제나 문제 세트를 지운 뒤 다시 시도해 주세요.'
+        : '문제를 저장하지 못했습니다.'
+    );
+  }
 }
 
 export function addCustomQuestion(q: Omit<StoredCustomQuestion, 'id' | 'created_at'>): StoredCustomQuestion {
@@ -42,6 +51,27 @@ export function addCustomQuestion(q: Omit<StoredCustomQuestion, 'id' | 'created_
   };
   list.push(created);
   saveCustomQuestions(list);
+  return created;
+}
+
+/**
+ * 여러 문항을 한 번에 추가한다.
+ * 낱개로 addCustomQuestion을 반복하면 문항마다 localStorage 전체를
+ * 읽고 다시 쓰게 되어(read-modify-write), 수백 개를 복사할 때 화면이 멈춘다.
+ */
+export function addCustomQuestions(
+  items: Array<Omit<StoredCustomQuestion, 'id' | 'created_at'>>
+): StoredCustomQuestion[] {
+  if (items.length === 0) return [];
+  const list = getCustomQuestions();
+  const now = new Date().toISOString();
+  const stamp = Date.now().toString(36);
+  const created = items.map((q, i) => ({
+    ...q,
+    id: `custom-${stamp}-${i.toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
+    created_at: now,
+  }));
+  saveCustomQuestions([...list, ...created]);
   return created;
 }
 
