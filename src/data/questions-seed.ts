@@ -1,3 +1,5 @@
+import { sanitizeQuestions } from '@/lib/questionSanitizer';
+import { normalizeUnit } from '@/lib/curriculumAliases';
 import { seedPart1 } from './seed-part1';
 import { seedPart2 } from './seed-part2';
 import { seed2022Grade3 } from './seed-2022-grade3';
@@ -64,6 +66,17 @@ import { seedGrade6V7Science } from './seed-grade6-v7-science';
 import { seedGrade6V7Korean } from './seed-grade6-v7-korean';
 import { seedGrade6V7English } from './seed-grade6-v7-english';
 import { seedGrade6V7Moral } from './seed-grade6-v7-moral';
+
+// v9 증량 — 3·4·6학년을 단원당 60문항 이상으로 (수학은 전 문항 계산 검증)
+import { seedV9Math } from './seed-v9-math';
+import { seedV9Korean } from './seed-v9-korean';
+import { seedV9Science } from './seed-v9-science';
+import { seedV9English } from './seed-v9-english';
+import { seedV9Grade5 } from './seed-v9-grade5';
+import { seedV9Fill } from './seed-v9-fill';
+
+// v10 증량 — 보충 단원 11개를 단원당 60문항 이상으로 (OX는 게임에 안 나오므로 전부 4지선다)
+import { seedV10Supplement } from './seed-v10-supplement';
 
 // v8 재구성 — 3학년 전과목을 4·6학년과 균형화(성취기준 정합 단원 4지선다)
 import { seedGrade3V8Korean } from './seed-grade3-v8-korean';
@@ -447,7 +460,9 @@ const legacyMerged: QuestionSeed[] = [
 
 // 중복 제거 후 통합 (v7/v8 3·4·6학년 6과목을 앞에 두어 우선 채택)
 const seen = new Set<string>();
-export const questionsSeed: QuestionSeed[] = [
+const mergedSeed: QuestionSeed[] = [
+  ...seedV9Math, ...seedV9Korean, ...seedV9Science, ...seedV9English, ...seedV9Grade5, ...seedV9Fill,
+  ...seedV10Supplement,
   ...seedGrade3V8Korean, ...seedGrade3V8Math, ...seedGrade3V8Social,
   ...seedGrade3V8Science, ...seedGrade3V8English, ...seedGrade3V8Moral,
   ...seedGrade4V7Science, ...seedGrade4V7Math, ...seedGrade4V7Korean,
@@ -461,3 +476,29 @@ export const questionsSeed: QuestionSeed[] = [
   seen.add(key);
   return true;
 });
+
+/**
+ * 정합성 계층 통과본만 외부로 나간다.
+ * — 정답과 값이 같은 보기(복수 정답)를 제거하고, 보기를 4개로 맞추고,
+ *   구조적으로 출제 불가한 문항은 폐기한다. 상세는 lib/questionSanitizer.ts.
+ * 감사 스크립트(`npm run audit:questions`)가 잔여 CRIT을 0으로 강제한다.
+ */
+// 단원명·학년 정합화를 정합성 계층보다 먼저 돌린다.
+// (중복 판정 키가 학년+과목+발문이라, 학년이 옮겨진 뒤 다시 dedup해야
+//  같은 문항이 두 학년에 남지 않는다.)
+const normalizedSeen = new Set<string>();
+const normalizedSeed: QuestionSeed[] = mergedSeed
+  .map((q) => {
+    const n = normalizeUnit(q.grade, q.subject, q.unit);
+    return n.grade === q.grade && n.unit === q.unit ? q : { ...q, grade: n.grade, unit: n.unit };
+  })
+  .filter((q) => {
+    const key = `${q.grade}-${q.subject}-${q.question_text}`;
+    if (normalizedSeen.has(key)) return false;
+    normalizedSeen.add(key);
+    return true;
+  });
+
+const sanitized = sanitizeQuestions(normalizedSeed);
+export const questionSeedSanitizeSummary = sanitized.summary;
+export const questionsSeed: QuestionSeed[] = sanitized.questions;

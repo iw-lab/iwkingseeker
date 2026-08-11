@@ -12,15 +12,16 @@
  */
 
 import { shuffleArray } from './utils';
+import { sanitizeQuestion, valueKey } from './questionSanitizer';
 
 interface RawQuestion {
   question_type: string;
+  question_text: string;
   correct_answer: string;
   options: string[] | null;
   subject?: string;
   grade?: number;
   unit?: string;
-  [key: string]: unknown;
 }
 
 type AnswerShape =
@@ -187,31 +188,42 @@ function buildOptions(
   subjectPool: string[]
 ): string[] | null {
   const shape = classify(answer);
-  const opts = new Set<string>([answer]);
+  const opts: string[] = [answer];
+  // 문자열이 아니라 "값" 기준으로 중복을 막는다.
+  // 문자열만 비교하면 `1/2`와 `5/10`, `70cm²`와 `70 cm²`처럼 표기만 다른
+  // 같은 값이 함께 보기에 올라가 정답이 둘이 된다(실측 5건).
+  const takenValues = new Set<string>([valueKey(answer)]);
+  const addOption = (raw: string): boolean => {
+    const c = raw.trim();
+    const key = valueKey(c);
+    if (!c || takenValues.has(key)) return false;
+    takenValues.add(key);
+    opts.push(c);
+    return true;
+  };
 
   // 1순위: 같은 단원, 2순위: 같은 과목 — 같은 shape & 호환되는 실제 정답만
   for (const pool of [unitPool, subjectPool]) {
-    if (opts.size >= MAX_OPTIONS) break;
+    if (opts.length >= MAX_OPTIONS) break;
     for (const cand of shuffleArray(pool)) {
-      if (opts.size >= MAX_OPTIONS) break;
+      if (opts.length >= MAX_OPTIONS) break;
       const c = cand.trim();
-      if (opts.has(c)) continue;
       if (classify(c) !== shape) continue;
       if (!isCompatible(answer, c, shape)) continue;
-      opts.add(c);
+      addOption(c);
     }
   }
 
   // 보충: 숫자 계열은 같은 형식의 근접 오답을 생성
-  if (opts.size < MAX_OPTIONS) {
-    for (const v of syntheticVariants(answer, shape, MAX_OPTIONS - opts.size + 2)) {
-      if (opts.size >= MAX_OPTIONS) break;
-      if (!opts.has(v)) opts.add(v);
+  if (opts.length < MAX_OPTIONS) {
+    for (const v of syntheticVariants(answer, shape, MAX_OPTIONS - opts.length + 2)) {
+      if (opts.length >= MAX_OPTIONS) break;
+      addOption(v);
     }
   }
 
-  if (opts.size < MIN_OPTIONS) return null; // 더미 금지 → 변환 실패로 제외
-  return shuffleArray([...opts]);
+  if (opts.length < MIN_OPTIONS) return null; // 더미 금지 → 변환 실패로 제외
+  return shuffleArray(opts);
 }
 
 /**
@@ -219,18 +231,32 @@ function buildOptions(
  *  - 이미 객관식(multiple_choice)·OX는 그대로 둔다.
  *  - 주관식/빈칸은 객관식으로 변환하되, 그럴듯한 오답을 못 만들면 결과에서 제외한다.
  */
-export function convertToMultipleChoice<T extends RawQuestion>(questions: T[]): T[] {
+export function convertToMultipleChoice<T extends RawQuestion>(
+  questions: T[],
+  /**
+   * 오답 후보를 추가로 끌어올 문항들(결과에는 포함되지 않는다).
+   *
+   * 왜 필요한가: 오답은 "같은 학년·과목·단원의 실제 정답"에서만 뽑는데,
+   * 교사가 고른 문제 세트처럼 입력이 몇 문항뿐이면 후보가 없어 개념어형
+   * 주관식이 전부 변환 실패로 탈락한다. 실측: 개념어 정답 주관식 3문항만
+   * 담은 세트 → 변환 후 풀 0개 → 게임이 빈 화면으로 시작.
+   * 이때 전체 문제 은행을 후보로 넘겨 주면 정상 변환된다.
+   */
+  distractorSource: readonly RawQuestion[] = []
+): T[] {
   // 정답 인덱스: 단원 단위 / 과목 단위
   const byUnit: Record<string, string[]> = {};
   const bySubject: Record<string, string[]> = {};
-  for (const q of questions) {
+  const indexAnswer = (q: RawQuestion) => {
     const ans = q.correct_answer?.trim();
-    if (!ans) continue;
+    if (!ans) return;
     const uKey = `${q.grade ?? ''}|${q.subject ?? ''}|${q.unit ?? ''}`;
     const sKey = `${q.grade ?? ''}|${q.subject ?? ''}`;
     (byUnit[uKey] ??= []).push(ans);
     (bySubject[sKey] ??= []).push(ans);
-  }
+  };
+  for (const q of questions) indexAnswer(q);
+  for (const q of distractorSource) indexAnswer(q);
 
   const result: T[] = [];
   for (const q of questions) {
@@ -268,5 +294,13 @@ export function convertToMultipleChoice<T extends RawQuestion>(questions: T[]): 
       correct_answer: answer, // 보기와 정답 문자열을 일치시킴(앞뒤 공백 차이로 인한 오판정 방지)
     });
   }
-  return result;
+
+  // 변환은 게임 시작 시점에 일어나므로 seed 단계의 정합성 계층을 우회한다.
+  // 마지막으로 한 번 더 통과시켜 "정답이 둘인 문항"이 화면에 나가지 않게 한다.
+  const safe: T[] = [];
+  for (const q of result) {
+    const { question } = sanitizeQuestion(q);
+    if (question) safe.push(question as T);
+  }
+  return safe;
 }
