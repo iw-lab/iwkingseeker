@@ -1,8 +1,0 @@
-1:"$Sreact.fragment"
-2:I[2471,[],""]
-3:I[6347,[],""]
-4:I[4236,["145","static/chunks/145-43c6c04cd5079e22.js","177","static/chunks/app/layout-7cd2a3e1207dd71e.js"],"Toaster"]
-:HL["/_next/static/css/7c203f5b4e3042de.css","style"]
-:HL["/_next/static/css/e7479b12d471d08d.css","style"]
-:HL["/_next/static/css/84083aeadc472426.css","style"]
-0:{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/7c203f5b4e3042de.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/css/e7479b12d471d08d.css","precedence":"next"}],["$","link","2",{"rel":"stylesheet","href":"/_next/static/css/84083aeadc472426.css","precedence":"next"}]],["$","html",null,{"lang":"ko","className":"__variable_7c2fe5 __variable_be47f4 dark h-full antialiased","children":["$","body",null,{"className":"min-h-full flex flex-col font-sans bg-background text-foreground","children":[["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}],["$","$L4",null,{}]]}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"jF21bgtQ3AWTGL47YWkuz"}
