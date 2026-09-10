@@ -6,9 +6,9 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "대화할 때 상대방의 눈을 바라보며 말하는 것은 어떤 태도인가요?", options: ["바른 대화 태도", "무례한 태도", "장난치는 태도", "지루한 태도"], correct_answer: "바른 대화 태도", explanation: "대화할 때 상대방의 눈을 바라보는 것은 집중하고 있음을 나타내는 바른 태도입니다.", difficulty: 1 },
 
-  { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "아이가 선생님께 할 말로 가장 바른 것은?", options: ["선생님, 여쭤볼 것이 있어요.", "선생님, 물어볼 게 있어.", "선생님, 질문 있어요.", "선생님, 뭐 좀 알려줘요."], correct_answer: "선생님, 여쭤볼 것이 있어요.", explanation: "어른께 물어볼 때는 높임말로 여쭤보다를 사용합니다.", difficulty: 2 },
+  { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "아이가 선생님께 할 말로 가장 바른 것은?", options: ["선생님, 여쭤볼 것이 있어요.", "선생님, 궁금한 거 빨리 대답해 줘요.", "선생님, 내가 묻는 거 지금 알려 줘요.", "선생님, 모르는 거 있으니까 설명해 줘요."], correct_answer: "선생님, 여쭤볼 것이 있어요.", explanation: "어른께 물어볼 때는 높임말로 여쭤보다를 사용합니다.", difficulty: 2 },
 
-  { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "친구에게 부탁할 때 가장 바른 표현은?", options: ["~해 줄 수 있어?", "빨리 해.", "당장 해.", "해 줘야 해."], correct_answer: "~해 줄 수 있어?", explanation: "부탁할 때는 강요하지 않고 정중하게 물어보는 표현을 씁니다.", difficulty: 1 },
+  { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "친구에게 부탁할 때 가장 바른 표현은?", options: ["~해 줄 수 있어?", "지금 바로 해야 돼.", "당장 먼저 끝내야 돼.", "무조건 네가 해야 돼."], correct_answer: "~해 줄 수 있어?", explanation: "부탁할 때는 강요하지 않고 정중하게 물어보는 표현을 씁니다.", difficulty: 1 },
 
   { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "대화 도중 급하게 전화가 왔을 때 가장 예의 바른 행동은?", options: ["양해를 구하고 잠시 자리를 피한다", "전화를 바로 크게 받는다", "전화를 무시하고 계속 대화한다", "그냥 가 버린다"], correct_answer: "양해를 구하고 잠시 자리를 피한다", explanation: "대화 중에 전화가 오면 상대방에게 양해를 구하고 조용히 자리를 피하는 것이 예의 바른 행동입니다.", difficulty: 2 },
 
@@ -22,7 +22,7 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "자리에 없는 사람을 웃어른께 여쭤볼 때 바른 표현은?", options: ["할머니께서 어디 가셨나요?", "할머니 지금 어디 있어요?", "할머니 어디로 갔어요?", "할머니는 어디 갔대요?"], correct_answer: "할머니께서 어디 가셨나요?", explanation: "웃어른을 높여 말할 때는 주어에 께서를 붙이고 서술어에 높임 표현을 씁니다.", difficulty: 2 },
 
-  { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "대화에서 상대방의 말을 잘 듣고 있음을 나타내는 행동이 아닌 것은?", options: ["휴대 전화를 보며 딴짓한다", "고개를 끄덕인다", "눈을 마주친다", "말이 끝난 뒤 대답한다"], correct_answer: "휴대 전화를 보며 딴짓한다", explanation: "딴짓을 하며 듣는 것은 상대방을 무시하는 행동입니다.", difficulty: 1 },
+  { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "대화에서 상대방의 말을 잘 듣고 있음을 나타내는 행동이 아닌 것은?", options: ["휴대 전화를 보며 딴짓한다", "상대가 이야기하는 동안 창밖만 계속 바라본다", "다른 사람이 이야기하는 중간에 자꾸 끼어든다", "상대가 이야기해도 옆 친구와 계속 장난을 친다"], correct_answer: "휴대 전화를 보며 딴짓한다", explanation: "딴짓을 하며 듣는 것은 상대방을 무시하는 행동입니다.", difficulty: 1 },
 
   { grade: 3, subject: "국어", unit: "5. 바르게 대화해요", unit_code: null, question_type: "multiple_choice", question_text: "같은 반 친구에게 빌린 책을 돌려주며 할 알맞은 말은?", options: ["고마워, 덕분에 재미있게 읽었어.", "자, 여기 책. 이제 나는 다 봤으니까.", "뭐, 이제 돌려줄 테니 그냥 받아.", "여기, 책 놓고 갈게. 이만 끝."], correct_answer: "고마워, 덕분에 재미있게 읽었어.", explanation: "친구에게 도움을 받았을 때는 감사한 마음을 담아 구체적으로 말하는 것이 바릅니다.", difficulty: 1 },
 
@@ -38,7 +38,7 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "편지를 쓸 때 받는 사람을 부르는 말로 알맞은 것은?", options: ["사랑하는 할머니께", "이 편지를 받는 사람에게", "관계자 분들께", "모두에게"], correct_answer: "사랑하는 할머니께", explanation: "편지에서 받는 사람을 부를 때는 이름이나 호칭과 마음을 담은 표현을 함께 씁니다.", difficulty: 1 },
 
-  { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "편지 본문에 들어갈 내용으로 가장 적절한 것은?", options: ["전달하고 싶은 구체적인 이야기와 마음", "앞으로 며칠간의 날씨 예보 내용", "다음 달에 있을 학교 일정표", "서로 알지 못하는 사람에 대한 소개"], correct_answer: "전달하고 싶은 구체적인 이야기와 마음", explanation: "편지 본문에는 받는 사람에게 전하고 싶은 구체적인 이야기와 마음을 담습니다.", difficulty: 1 },
+  { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "편지 본문에 들어갈 내용으로 가장 적절한 것은?", options: ["전달하고 싶은 구체적인 이야기와 마음", "앞으로 일주일 동안 예상되는 기온과 날씨 정보", "다음 학기에 예정되어 있는 학교 행사 전체 일정", "서로 한 번도 만나지 않은 유명 인물에 관한 설명"], correct_answer: "전달하고 싶은 구체적인 이야기와 마음", explanation: "편지 본문에는 받는 사람에게 전하고 싶은 구체적인 이야기와 마음을 담습니다.", difficulty: 1 },
 
   { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "고마운 마음을 글로 쓸 때 더 감동을 주는 방법은?", options: ["언제, 어떤 일에 왜 고마운지 구체적으로 쓴다", "그저 고맙다는 말 한마디만 아주 짧게 적어 두고 만다", "다른 사람을 칭찬하는 이야기를 길게 쓴다", "앞으로 무엇을 할지 계획만 적어 둔다"], correct_answer: "언제, 어떤 일에 왜 고마운지 구체적으로 쓴다", explanation: "고마움을 구체적인 상황과 이유를 들어 쓰면 마음이 더 잘 전달됩니다.", difficulty: 2 },
 
@@ -52,7 +52,7 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "생일을 축하하는 글에 담기에 알맞지 않은 내용은?", options: ["상대방이 싫어하는 점 지적", "앞으로 건강하길 바라는 마음", "함께한 즐거운 기억", "행복한 생일이 되기를 바라는 마음"], correct_answer: "상대방이 싫어하는 점 지적", explanation: "축하 글에는 기쁜 마음과 좋은 바람을 담아야 하며, 단점 지적은 어울리지 않습니다.", difficulty: 2 },
 
-  { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "할머니께 감사 편지를 쓸 때 높임말을 써야 하는 이유는?", options: ["웃어른을 공경하는 마음을 표현하기 위해", "편지의 길이가 더 길어지기 때문에", "맞춤법을 검사하기 쉬워지기 때문에", "정해진 규칙이 따로 없기 때문에"], correct_answer: "웃어른을 공경하는 마음을 표현하기 위해", explanation: "웃어른께 편지를 쓸 때 높임말을 쓰는 것은 공경하는 마음을 나타내기 위해서입니다.", difficulty: 1 },
+  { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "할머니께 감사 편지를 쓸 때 높임말을 써야 하는 이유는?", options: ["웃어른을 공경하는 마음을 표현하기 위해", "문장의 분량을 더욱 길고 복잡하게 늘리기 위해", "글자의 표기 오류를 더욱 빠르게 찾아내기 위해", "아무런 예절이나 규범을 따르지 않고 작성하기 위해"], correct_answer: "웃어른을 공경하는 마음을 표현하기 위해", explanation: "웃어른께 편지를 쓸 때 높임말을 쓰는 것은 공경하는 마음을 나타내기 위해서입니다.", difficulty: 1 },
 
   { grade: 3, subject: "국어", unit: "6. 마음을 담아 글을 써요", unit_code: null, question_type: "multiple_choice", question_text: "편지와 문자 메시지의 공통점으로 알맞은 것은?", options: ["마음을 글로 전달하는 방법", "반드시 손으로 써야 한다", "우체통에 넣어야 한다", "받는 사람이 없어도 된다"], correct_answer: "마음을 글로 전달하는 방법", explanation: "편지와 문자 메시지 모두 마음을 글로 써서 전달하는 방법입니다.", difficulty: 2 },
 
@@ -62,7 +62,7 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   // ── 7. 글을 읽고 소개해요 (14문제) ──
 
-  { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "책을 소개할 때 제일 먼저 밝혀야 할 것은?", options: ["책 제목과 지은이", "결말 내용", "책의 두께", "출판사 가격"], correct_answer: "책 제목과 지은이", explanation: "책 소개는 책 제목과 지은이를 먼저 밝혀 듣는 사람이 어떤 책인지 알 수 있게 합니다.", difficulty: 1 },
+  { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "책을 소개할 때 제일 먼저 밝혀야 할 것은?", options: ["책 제목과 지은이", "마지막 장면의 자세한 결말", "전체 쪽수와 표지의 두께", "판매하는 서점과 정가 정보"], correct_answer: "책 제목과 지은이", explanation: "책 소개는 책 제목과 지은이를 먼저 밝혀 듣는 사람이 어떤 책인지 알 수 있게 합니다.", difficulty: 1 },
 
   { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "소개하는 글을 쓸 때 줄거리를 너무 자세히 쓰면 안 되는 이유는?", options: ["읽고 싶은 기대감이 사라지기 때문에", "소개글의 길이가 짧아지기 때문에", "내용을 이해하기 쉬워지기 때문에", "지은이가 싫어할 수 있기 때문에"], correct_answer: "읽고 싶은 기대감이 사라지기 때문에", explanation: "줄거리를 모두 공개하면 독자가 책을 읽고 싶어하는 기대감이 사라집니다.", difficulty: 2 },
 
@@ -70,7 +70,7 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "다음 중 책 소개글의 목적으로 가장 알맞은 것은?", options: ["다른 사람에게 이 책을 읽어 보도록 권하기 위해", "책에 실린 잘못된 내용을 남김없이 찾아내기 위해", "그 책을 사는 데 드는 값을 널리 알리기 위해", "그 책을 쓴 지은이를 여러 가지로 비판하기 위해"], correct_answer: "다른 사람에게 이 책을 읽어 보도록 권하기 위해", explanation: "소개글은 읽은 책이 좋았음을 나누고 다른 사람도 읽어 보도록 권하는 글입니다.", difficulty: 1 },
 
-  { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "책 소개글의 내용을 쓰는 순서로 알맞은 것은?", options: ["제목과 지은이 소개 → 간략한 줄거리 → 인상 깊은 부분 → 추천 이유", "추천 이유 → 제목과 지은이 소개 → 결말 → 간략한 줄거리", "결말 → 간략한 줄거리 → 제목과 지은이 소개 → 추천 이유", "인상 깊은 부분 → 제목과 지은이 소개 → 결말 → 간략한 줄거리"], correct_answer: "제목과 지은이 소개 → 간략한 줄거리 → 인상 깊은 부분 → 추천 이유", explanation: "소개글은 책 정보를 먼저 알리고 줄거리, 인상 깊은 부분, 추천 이유 순으로 쓰는 것이 자연스럽습니다.", difficulty: 2 },
+  { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "책 소개글의 내용을 쓰는 순서로 알맞은 것은?", options: ["제목과 지은이 소개 → 간략한 줄거리 → 인상 깊은 부분 → 추천 이유", "결말 전체 공개 → 추천 까닭 → 줄거리 세부 설명 → 표지 디자인 평가", "작가의 다른 작품 → 마지막 장면 공개 → 출판사 정보 → 판매 가격 안내", "판매 서점 안내 → 책의 두께 평가 → 마지막 장면 공개 → 표지 색상 설명"], correct_answer: "제목과 지은이 소개 → 간략한 줄거리 → 인상 깊은 부분 → 추천 이유", explanation: "소개글은 책 정보를 먼저 알리고 줄거리, 인상 깊은 부분, 추천 이유 순으로 쓰는 것이 자연스럽습니다.", difficulty: 2 },
 
   { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "소개글을 쓰기 전에 책을 읽으면서 해야 할 일은?", options: ["기억에 남는 부분과 느낌을 메모한다", "책에 쓰인 글자 수를 세어 놓는다", "지은이의 나이를 찾아서 조사한다", "책에 실린 그림의 개수를 센다"], correct_answer: "기억에 남는 부분과 느낌을 메모한다", explanation: "소개글을 잘 쓰려면 책을 읽을 때 인상 깊은 부분과 느낌을 메모해 두어야 합니다.", difficulty: 1 },
 
@@ -80,7 +80,7 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "소개글을 읽고 나서 그 책을 읽고 싶어졌다면 소개글에서 가장 중요한 역할을 한 것은?", options: ["흥미로운 부분을 적절히 알려 준 내용", "정확하게 밝혀 놓은 책의 전체 쪽수 정보", "지은이의 나이와 얼굴이 나온 사진", "책이 얼마나 두꺼운지 설명한 부분"], correct_answer: "흥미로운 부분을 적절히 알려 준 내용", explanation: "소개글의 핵심 역할은 흥미로운 내용을 적당히 알려 읽고 싶은 마음을 불러일으키는 것입니다.", difficulty: 2 },
 
-  { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "책 소개글과 독서 감상문의 차이점으로 알맞은 것은?", options: ["소개글은 다른 사람에게 책을 권하는 데 초점을 두고, 독서 감상문은 자신의 느낌과 생각을 중심으로 쓴다", "소개글은 자신의 느낌만 쓰는 글이고, 독서 감상문은 책의 내용 소개만 하는 글이어서 서로 반대이다", "소개글과 독서 감상문은 둘 다 이야기의 결말까지 빠짐없이 자세히 밝혀서 써야 하는 글이다", "소개글과 독서 감상문은 쓰는 형식과 목적이 완전히 똑같아서 굳이 구분할 필요가 없는 글이다"], correct_answer: "소개글은 다른 사람에게 책을 권하는 데 초점을 두고, 독서 감상문은 자신의 느낌과 생각을 중심으로 쓴다", explanation: "소개글과 독서 감상문은 목적이 달라 초점이 다릅니다.", difficulty: 3 },
+  { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "책 소개글과 독서 감상문의 차이점으로 알맞은 것은?", options: ["소개글은 다른 사람에게 책을 권하는 데 초점을 두고, 독서 감상문은 자신의 느낌과 생각을 중심으로 쓴다", "소개문은 개인적인 감정만 길게 적는 데 중점을 두며 감상문은 작품의 줄거리를 처음부터 마지막까지 빠짐없이 옮겨 적는 방식으로 작성한다", "소개문은 작품의 마지막 장면과 반전을 전부 공개하는 데 목적이 있으며 감상문은 출판사와 판매 가격 같은 서지 정보만 자세하게 나열하는 방식으로 작성한다", "소개문과 감상문은 작성 목적과 담아야 하는 정보가 완전히 동일하므로 어느 형식을 선택하더라도 내용이나 구성에서 아무런 차이가 생기지 않는다"], correct_answer: "소개글은 다른 사람에게 책을 권하는 데 초점을 두고, 독서 감상문은 자신의 느낌과 생각을 중심으로 쓴다", explanation: "소개글과 독서 감상문은 목적이 달라 초점이 다릅니다.", difficulty: 3 },
 
   { grade: 3, subject: "국어", unit: "7. 글을 읽고 소개해요", unit_code: null, question_type: "multiple_choice", question_text: "책 소개글을 들은 친구가 그 책을 읽지 않으려 한다. 소개글에서 아쉬운 점으로 가장 알맞은 것은?", options: ["책의 재미나 의미 있는 점이 충분히 전달되지 않았다", "소개글의 길이가 너무 길고 지루해서 듣기가 힘들었다", "책을 쓴 지은이의 이름을 그만 빠뜨리고 말았다", "소개글에 어울리는 그림이 하나도 들어 있지 않았다"], correct_answer: "책의 재미나 의미 있는 점이 충분히 전달되지 않았다", explanation: "소개글을 듣고도 읽고 싶지 않다면 책의 매력이 충분히 전달되지 않은 것입니다.", difficulty: 3 },
 
@@ -96,7 +96,7 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "열심히 공부했다. 「______」 시험 점수가 높지 않았다. 에 알맞은 이어 주는 말은?", options: ["그러나", "그래서", "그리고", "왜냐하면"], correct_answer: "그러나", explanation: "앞 내용과 기대와 다른 결과가 이어지므로 역접을 나타내는 그러나가 알맞습니다.", difficulty: 2 },
 
-  { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "이어 주는 말 그리고는 주로 어떤 관계를 나타내나요?", options: ["두 가지 내용을 나란히 더할 때", "원인과 결과를 나타낼 때", "앞뒤 내용이 반대일 때", "예시를 들어 줄 때"], correct_answer: "두 가지 내용을 나란히 더할 때", explanation: "그리고는 비슷한 내용이나 추가할 내용을 나란히 연결할 때 씁니다.", difficulty: 1 },
+  { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "이어 주는 말 그리고는 주로 어떤 관계를 나타내나요?", options: ["두 가지 내용을 나란히 더할 때", "앞에 나온 까닭에 따른 결과를 밝힐 때", "서로 맞서는 의견의 차이를 드러낼 때", "앞서 설명한 사항의 사례를 제시할 때"], correct_answer: "두 가지 내용을 나란히 더할 때", explanation: "그리고는 비슷한 내용이나 추가할 내용을 나란히 연결할 때 씁니다.", difficulty: 1 },
 
   { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "글의 흐름을 자연스럽게 만들기 위해 꼭 필요한 것은?", options: ["이어 주는 말과 적절한 문단 순서", "눈에 잘 띄는 크고 화려한 여러 그림", "뜻이 아주 어려운 한자어 낱말", "여러 가지 아주 많은 문장 부호"], correct_answer: "이어 주는 말과 적절한 문단 순서", explanation: "글이 자연스럽게 읽히려면 이어 주는 말과 논리적인 문단 순서가 필요합니다.", difficulty: 1 },
 
@@ -112,9 +112,9 @@ export const seedGrade3V7KoreanB: QuestionSeed[] = [
 
   { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "생각을 정리한 다음에 글을 쓸 때 어울리는 이어 주는 말은?", options: ["그런 다음", "그러나", "왜냐하면", "예를 들어"], correct_answer: "그런 다음", explanation: "그런 다음은 앞의 행동이나 사건 뒤에 이어지는 순서를 나타낼 때 씁니다.", difficulty: 1 },
 
-  { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "글의 처음 부분에서 주로 하는 역할은?", options: ["글의 주제나 화제를 소개한다", "자세한 예시를 나열한다", "결론과 마무리를 한다", "반대 의견을 제시한다"], correct_answer: "글의 주제나 화제를 소개한다", explanation: "글의 처음 부분은 독자에게 무엇에 대해 쓴 글인지 주제나 화제를 소개합니다.", difficulty: 1 },
+  { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "글의 처음 부분에서 주로 하는 역할은?", options: ["글의 주제나 화제를 소개한다", "구체적인 사례만 여러 가지 자세하게 나열한다", "마지막 결론을 내려 전체 내용을 완전히 마무리한다", "앞에서 나오지 않은 반대 견해를 길게 제시한다"], correct_answer: "글의 주제나 화제를 소개한다", explanation: "글의 처음 부분은 독자에게 무엇에 대해 쓴 글인지 주제나 화제를 소개합니다.", difficulty: 1 },
 
-  { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "글의 가운데 부분에서 주로 하는 역할은?", options: ["주제를 뒷받침하는 내용을 자세히 설명한다", "읽는 사람에게 인사를 건네고 소개한다", "앞과 관계없는 새 화제를 갑자기 꺼낸다", "글 전체를 정리하며 마무리를 짓는다"], correct_answer: "주제를 뒷받침하는 내용을 자세히 설명한다", explanation: "글의 가운데 부분은 처음에 소개한 주제를 구체적으로 풀어 설명합니다.", difficulty: 2 },
+  { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "글의 가운데 부분에서 주로 하는 역할은?", options: ["주제를 뒷받침하는 내용을 자세히 설명한다", "독자에게 첫인사를 건네며 자기 자신을 길게 소개한다", "앞부분과 아무 관련이 없는 새로운 이야기를 갑자기 꺼낸다", "전체 내용을 간단히 요약하면서 마지막 결론으로 끝맺는다"], correct_answer: "주제를 뒷받침하는 내용을 자세히 설명한다", explanation: "글의 가운데 부분은 처음에 소개한 주제를 구체적으로 풀어 설명합니다.", difficulty: 2 },
 
   { grade: 3, subject: "국어", unit: "8. 글의 흐름을 생각해요", unit_code: null, question_type: "multiple_choice", question_text: "글의 끝 부분에서 하는 역할로 알맞은 것은?", options: ["글 전체 내용을 정리하거나 마음을 전한다", "앞에 없던 새로운 내용을 덧붙인다", "처음에 했던 인사를 그대로 되풀이한다", "새로운 등장인물을 다시 소개한다"], correct_answer: "글 전체 내용을 정리하거나 마음을 전한다", explanation: "글의 끝 부분은 본문에서 다룬 내용을 정리하거나 글을 쓴 목적에 맞는 마무리를 합니다.", difficulty: 2 },
 

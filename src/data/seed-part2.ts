@@ -583,7 +583,7 @@ export const seedPart2: QuestionSeed[] = [
     unit_code: null,
     question_type: 'multiple_choice',
     question_text: '다음 중 곰팡이에 대한 설명으로 알맞지 않은 것은?',
-    options: ['광합성을 통해 스스로 영양분을 만든다', '따뜻하고 축축한 곳에서 잘 자란다', '아주 작은 홀씨로 번식해 퍼진다', '빵이나 과일 위에서도 자랄 수 있다'],
+    options: ['광합성을 통해 스스로 영양분을 만든다', '햇볕을 받아 잎에서 필요한 양분을 직접 만들어 낸다', '뿌리로 흙속의 무기질만 빨아들여 살아가는 식물이다', '잎의 엽록소를 이용하여 필요한 먹이를 직접 생산한다'],
     correct_answer: '광합성을 통해 스스로 영양분을 만든다',
     explanation: '곰팡이는 광합성을 하지 못하며 다른 생물이나 유기물에서 영양분을 얻습니다.',
     difficulty: 2,

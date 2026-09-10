@@ -52,7 +52,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "작품을 보고 느낌을 말할 때 자신의 경험을 떠올리면 좋은 이유는?",
-    options: ["느낌을 더 생생하고 구체적으로 말할 수 있기 때문에", "틀리지 않는 하나의 정답을 말할 수 있기 때문에", "친구와 똑같은 느낌을 가질 수 있기 때문에", "선생님께 더 많은 칭찬을 받을 수 있기 때문에"],
+    options: ["느낌을 더 생생하고 구체적으로 말할 수 있기 때문에", "누구나 인정하는 단 하나의 정답만 정확하게 제시할 수 있기 때문에", "다른 친구들이 표현한 감상과 완전히 동일하게 맞출 수 있기 때문에", "교사에게 좋은 평가와 많은 칭찬만 받을 수 있기 때문에"],
     correct_answer: "느낌을 더 생생하고 구체적으로 말할 수 있기 때문에",
     explanation: "자신의 경험과 연결 지으면 느낌을 더 생생하고 구체적으로 표현할 수 있습니다.",
     difficulty: 2
@@ -88,7 +88,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "같은 작품을 보고 친구마다 느낌이 다른 이유는?",
-    options: ["경험과 생각이 사람마다 다르기 때문에", "작품을 잘못 봤기 때문에", "한 명만 올바르게 감상했기 때문에", "작품이 여러 개이기 때문에"],
+    options: ["경험과 생각이 사람마다 다르기 때문에", "감상 방법을 제대로 배우지 못했기 때문에", "오직 한 사람만 작품을 정확하게 이해했기 때문에", "각자 서로 다른 작품을 보고 이야기했기 때문에"],
     correct_answer: "경험과 생각이 사람마다 다르기 때문에",
     explanation: "사람마다 살아온 경험과 생각이 달라서 같은 작품을 보고도 느낌이 다를 수 있습니다.",
     difficulty: 1
@@ -97,7 +97,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "작품을 감상하고 느낌을 글로 쓸 때 가장 중요한 것은?",
-    options: ["자신이 실제로 느낀 것을 솔직하게 쓴다", "친구가 쓴 글과 똑같이 옮겨 쓴다", "되도록 가장 긴 문장으로 길게 쓴다", "선생님이 좋아할 만한 내용만 쓴다"],
+    options: ["자신이 실제로 느낀 것을 솔직하게 쓴다", "다른 친구가 작성한 감상문을 그대로 베껴서 제출한다", "자신의 감정은 빼고 최대한 어려운 표현만 골라서 적는다", "교사가 좋아할 것 같은 의견만 골라 사실처럼 작성한다"],
     correct_answer: "자신이 실제로 느낀 것을 솔직하게 쓴다",
     explanation: "느낌을 쓸 때는 자신이 실제로 느낀 것을 솔직하게 쓰는 것이 가장 중요합니다.",
     difficulty: 2
@@ -127,7 +127,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "다음 중 문단의 뒷받침 문장이 하는 역할은?",
-    options: ["중심 문장의 내용을 구체적으로 설명한다", "앞 문단과 전혀 다른 주제를 소개한다", "글의 길이를 늘리는 역할만 담당한다", "중심 문장과 반대되는 내용을 담는다"],
+    options: ["중심 문장의 내용을 구체적으로 설명한다", "앞부분과 관계없는 새로운 화제를 갑자기 제시한다", "문단의 분량을 늘리려고 불필요한 내용을 계속 덧붙인다", "주요 문장의 뜻과 정반대인 주장을 자세하게 제시한다"],
     correct_answer: "중심 문장의 내용을 구체적으로 설명한다",
     explanation: "뒷받침 문장은 중심 문장의 내용을 예를 들거나 자세히 설명하여 뒷받침하는 역할을 합니다.",
     difficulty: 2
@@ -172,7 +172,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "중심 생각을 찾을 때 반복해서 나오는 낱말에 주목하는 이유는?",
-    options: ["반복되는 낱말이 글의 핵심 내용과 관련이 있기 때문에", "반복되는 낱말이 가장 어려운 말이기 때문에", "반복되는 낱말은 사전에 실려 있지 않기 때문에", "반복되는 낱말을 세면 글자 수를 알 수 있기 때문에"],
+    options: ["반복되는 낱말이 글의 핵심 내용과 관련이 있기 때문에", "자주 등장하는 표현일수록 가장 어려운 용어가 되기 때문에", "여러 번 등장하는 표현은 사전에서 찾을 수 없기 때문에", "같은 표현의 횟수를 세면 전체 글자 수를 정확히 알기 때문에"],
     correct_answer: "반복되는 낱말이 글의 핵심 내용과 관련이 있기 때문에",
     explanation: "글에서 자주 반복되는 낱말은 글쓴이가 강조하고 싶은 핵심 내용과 관련이 깊습니다.",
     difficulty: 3
@@ -226,7 +226,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "이어 주는 말 「예를 들어」 다음에 올 내용은?",
-    options: ["앞에서 말한 것의 구체적인 예", "앞 내용과 반대되는 내용", "글 전체의 결론", "새로운 주제"],
+    options: ["앞에서 말한 것의 구체적인 예", "앞서 제시한 주장과 반대되는 의견", "전체 내용을 한꺼번에 마치는 결론", "앞부분과 관계없이 새롭게 시작하는 화제"],
     correct_answer: "앞에서 말한 것의 구체적인 예",
     explanation: "「예를 들어」는 앞에서 말한 내용의 구체적인 예를 들 때 쓰는 이어 주는 말입니다.",
     difficulty: 2
@@ -235,7 +235,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "한 문단에 중심 문장이 두 개 이상 있으면 어떤 문제가 생기나요?",
-    options: ["읽는 사람이 무엇이 핵심인지 알기 어렵다", "문단의 내용이 훨씬 더 재미있어진다", "뒷받침 문장을 더 많이 쓸 수 있게 된다", "글 전체의 길이가 저절로 짧아진다"],
+    options: ["읽는 사람이 무엇이 핵심인지 알기 어렵다", "독자가 여러 주제를 한꺼번에 쉽게 파악할 수 있게 된다", "세부 내용을 아무렇게나 많이 덧붙여도 자연스럽게 된다", "전체 글의 분량이 자동으로 크게 줄어들어 읽기 쉬워진다"],
     correct_answer: "읽는 사람이 무엇이 핵심인지 알기 어렵다",
     explanation: "중심 문장이 두 개 이상이면 읽는 사람이 어느 것이 핵심인지 파악하기 어렵습니다.",
     difficulty: 3
@@ -274,7 +274,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 글로 쓰기 전에 메모를 하면 좋은 이유는?",
-    options: ["쓸 내용을 빠뜨리지 않을 수 있기 때문에", "글이 짧아지기 때문에", "어려운 낱말을 익힐 수 있기 때문에", "그림을 그리기 쉽기 때문에"],
+    options: ["쓸 내용을 빠뜨리지 않을 수 있기 때문에", "작성할 문장의 전체 분량이 저절로 짧아지기 때문에", "어려운 어휘의 뜻과 철자를 자동으로 익히게 되기 때문에", "삽화를 훨씬 빠르고 예쁘게 그릴 수 있게 되기 때문에"],
     correct_answer: "쓸 내용을 빠뜨리지 않을 수 있기 때문에",
     explanation: "미리 메모를 해두면 중요한 내용을 빠뜨리지 않고 글을 쓸 수 있습니다.",
     difficulty: 1
@@ -283,7 +283,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험 글쓰기에서 「처음」 부분에 어울리는 내용은?",
-    options: ["언제, 어디서, 누구와 있었는지 소개한다", "경험에서 느낀 점을 정리해 마무리한다", "가장 재미있었던 장면을 자세히 쓴다", "앞으로 어떻게 하겠다는 다짐을 쓴다"],
+    options: ["언제, 어디서, 누구와 있었는지 소개한다", "겪은 뒤 얻은 교훈과 감상을 길게 정리하여 마무리한다", "가장 기억에 남는 사건의 진행 모습을 세세하게 묘사한다", "앞으로 실천하고 싶은 계획과 새로운 다짐을 자세히 적는다"],
     correct_answer: "언제, 어디서, 누구와 있었는지 소개한다",
     explanation: "글의 처음 부분에는 언제, 어디서, 누구와 있었는지 상황을 소개하는 것이 자연스럽습니다.",
     difficulty: 2
@@ -292,7 +292,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험 글쓰기에서 「끝」 부분에 어울리는 내용은?",
-    options: ["경험을 통해 느낀 점이나 생각", "사건이 일어난 장소 소개", "등장인물 나이와 이름", "날씨와 시간"],
+    options: ["경험을 통해 느낀 점이나 생각", "사건이 벌어진 장소와 주변 모습을 자세하게 소개", "함께 등장하는 사람들의 이름과 나이에 대한 정보", "일이 시작되기 전의 날짜와 날씨에 관한 설명"],
     correct_answer: "경험을 통해 느낀 점이나 생각",
     explanation: "글의 끝 부분에는 경험에서 배운 점, 느낀 점, 앞으로의 다짐 등을 씁니다.",
     difficulty: 1
@@ -328,7 +328,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험 글쓰기에서 「가운데」 부분에 주로 들어갈 내용은?",
-    options: ["경험 중 가장 중요하고 자세한 사건", "경험을 시작하게 된 배경 소개", "느낀 점 정리", "다음에 하고 싶은 일"],
+    options: ["경험 중 가장 중요하고 자세한 사건", "일이 시작되기 전의 배경과 장소에 관한 안내", "모든 일이 끝난 뒤 떠오른 감정에 관한 정리", "이후 새롭게 실천하고 싶은 계획에 관한 다짐"],
     correct_answer: "경험 중 가장 중요하고 자세한 사건",
     explanation: "글의 가운데 부분에는 경험 중 가장 중요한 사건을 자세하게 씁니다.",
     difficulty: 2
@@ -355,7 +355,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "자신의 경험을 글로 쓸 때 독자(읽는 사람)를 생각해야 하는 이유는?",
-    options: ["독자가 이해하기 쉽게 쓰기 위해서", "글이 더 길어지기 때문에", "어려운 낱말을 쓰기 위해서", "나만의 기록을 남기기 위해서"],
+    options: ["독자가 이해하기 쉽게 쓰기 위해서", "전체 분량을 최대한 길고 복잡하게 늘리기 위해서", "어려운 어휘와 낯선 표현을 많이 사용하기 위해서", "자기 혼자만 알아볼 수 있는 개인 기록을 만들기 위해서"],
     correct_answer: "독자가 이해하기 쉽게 쓰기 위해서",
     explanation: "글을 쓸 때 독자를 생각하면 누가 읽어도 이해하기 쉽게 쓸 수 있습니다.",
     difficulty: 3
@@ -364,7 +364,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험 글에서 이어 주는 말 「그리고」를 쓰는 경우는?",
-    options: ["비슷하거나 이어지는 내용을 덧붙일 때", "앞의 내용과 반대되는 내용을 쓸 때", "이야기를 마무리하며 결론을 낼 때", "어떤 일이 일어난 원인을 설명할 때"],
+    options: ["비슷하거나 이어지는 내용을 덧붙일 때", "먼저 나온 주장과 정반대되는 의견으로 바꾸어 적을 때", "모든 이야기를 끝내면서 최종 결론으로 마무리할 때", "앞서 일어난 사건의 까닭과 원인을 자세히 설명할 때"],
     correct_answer: "비슷하거나 이어지는 내용을 덧붙일 때",
     explanation: "「그리고」는 앞 내용에 비슷하거나 이어지는 내용을 덧붙일 때 씁니다.",
     difficulty: 2

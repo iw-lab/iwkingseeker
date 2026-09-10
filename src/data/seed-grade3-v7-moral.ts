@@ -4,13 +4,13 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
   // =========================================================
   // 1. 나와 너, 우리 함께 (13문제)
   // =========================================================
-  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "친구가 슬퍼하고 있을 때 가장 알맞은 행동은?", options: ["옆에 앉아 따뜻하게 위로해 준다", "왜 우냐고 놀린다", "모른 척하고 자리를 피한다", "다른 친구에게 소문을 낸다"], correct_answer: "옆에 앉아 따뜻하게 위로해 준다", explanation: "친구가 슬플 때 곁에 있어 주고 위로해 주는 것이 진정한 배려입니다.", difficulty: 1 },
+  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "친구가 슬퍼하고 있을 때 가장 알맞은 행동은?", options: ["옆에 앉아 따뜻하게 위로해 준다", "속상해하는 까닭을 캐물으며 계속 놀려 댄다", "주변 아이들에게 우는 모습을 재미삼아 퍼뜨린다", "힘들어하는 모습을 보고도 관심 없이 피해 버린다"], correct_answer: "옆에 앉아 따뜻하게 위로해 준다", explanation: "친구가 슬플 때 곁에 있어 주고 위로해 주는 것이 진정한 배려입니다.", difficulty: 1 },
 
   { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "줄넘기를 혼자 하기 어려운 친구를 도와줄 때 올바른 마음은?", options: ["기꺼이 함께 연습해 준다", "잘 못한다고 비웃는다", "귀찮다고 외면한다", "내가 더 잘한다고 자랑한다"], correct_answer: "기꺼이 함께 연습해 준다", explanation: "어려움을 겪는 친구를 기꺼이 도와주는 것이 배려와 협력의 실천입니다.", difficulty: 1 },
 
-  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "모둠 청소를 할 때 내 구역이 끝나면 어떻게 해야 할까요?", options: ["아직 못 끝낸 친구를 도와준다", "바로 놀러 간다", "자리에 앉아 쉰다", "청소가 끝났다고 떠든다"], correct_answer: "아직 못 끝낸 친구를 도와준다", explanation: "함께하는 일에서 내 몫이 끝나면 다른 친구를 도와주는 것이 협력의 자세입니다.", difficulty: 1 },
+  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "모둠 청소를 할 때 내 구역이 끝나면 어떻게 해야 할까요?", options: ["아직 못 끝낸 친구를 도와준다", "자기 몫만 마치면 곧바로 운동장으로 놀러 간다", "남은 작업은 맡은 사람이 알아서 하도록 내버려 둔다", "주변에서 쉬면서 다른 아이들이 하는 모습을 구경한다"], correct_answer: "아직 못 끝낸 친구를 도와준다", explanation: "함께하는 일에서 내 몫이 끝나면 다른 친구를 도와주는 것이 협력의 자세입니다.", difficulty: 1 },
 
-  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "친구가 내가 싫어하는 별명으로 부를 때 가장 바람직한 행동은?", options: ["그 별명이 싫다고 차분히 말한다", "더 심한 별명으로 맞부른다", "울면서 도망간다", "선생님께 바로 고자질한다"], correct_answer: "그 별명이 싫다고 차분히 말한다", explanation: "불편한 점은 화내지 않고 차분하게 말하는 것이 갈등을 예방하는 방법입니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "친구가 내가 싫어하는 별명으로 부를 때 가장 바람직한 행동은?", options: ["그 별명이 싫다고 차분히 말한다", "상대가 더 속상하도록 심한 별명을 만들어 맞부른다", "아무런 의사 표현 없이 화를 내며 그 자리를 떠난다", "여러 아이 앞에서 상대를 큰 소리로 비웃으며 따진다"], correct_answer: "그 별명이 싫다고 차분히 말한다", explanation: "불편한 점은 화내지 않고 차분하게 말하는 것이 갈등을 예방하는 방법입니다.", difficulty: 2 },
 
   { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "반 친구 중 아직 친하지 않은 친구에게 어떻게 하면 좋을까요?", options: ["먼저 웃으며 인사한다", "계속 모른 척한다", "다른 친구들과 뒤에서 험담한다", "일부러 피해 다닌다"], correct_answer: "먼저 웃으며 인사한다", explanation: "먼저 인사를 건네는 것이 새로운 우정을 시작하는 좋은 방법입니다.", difficulty: 1 },
 
@@ -26,7 +26,7 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "친구에게 부탁할 때 지켜야 할 예절은?", options: ["정중하게 부탁하고 고마움을 표현한다", "당연히 해줄 거라 생각하고 강요한다", "해주지 않으면 화낸다고 위협한다", "아무 말 없이 물건을 가져간다"], correct_answer: "정중하게 부탁하고 고마움을 표현한다", explanation: "부탁할 때는 정중히 말하고, 도움을 받으면 감사를 표현하는 것이 예절입니다.", difficulty: 1 },
 
-  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "우리 반에 새로 전학 온 친구가 있을 때 어떻게 하는 것이 좋을까요?", options: ["먼저 이름을 물어보고 학교를 안내해 준다", "낯선 친구니까 피한다", "수업이 끝날 때까지 기다린다", "다른 친구들이 먼저 하기를 기다린다"], correct_answer: "먼저 이름을 물어보고 학교를 안내해 준다", explanation: "새 친구에게 먼저 다가가 이름을 묻고 도움을 주는 것이 배려와 어울림의 실천입니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "우리 반에 새로 전학 온 친구가 있을 때 어떻게 하는 것이 좋을까요?", options: ["먼저 이름을 물어보고 학교를 안내해 준다", "낯선 아이라며 가까이 가지 않고 계속 피해 다닌다", "누군가 다가갈 때까지 관심을 보이지 않고 기다린다", "적응하는 일은 혼자 해야 한다며 아무 도움도 주지 않는다"], correct_answer: "먼저 이름을 물어보고 학교를 안내해 준다", explanation: "새 친구에게 먼저 다가가 이름을 묻고 도움을 주는 것이 배려와 어울림의 실천입니다.", difficulty: 2 },
 
   { grade: 3, subject: "도덕", unit: "1. 나와 너, 우리 함께", unit_code: null, question_type: "multiple_choice", question_text: "모둠 발표를 준비할 때 의견이 달라 결정이 어려울 경우 가장 좋은 방법은?", options: ["모두가 한마디씩 이야기하고 다 함께 정한다", "목소리가 가장 큰 사람의 의견을 따른다", "가위바위보를 해서 빨리 결정하고 끝낸다", "모둠 이끔이가 혼자서 결정하고 알린다"], correct_answer: "모두가 한마디씩 이야기하고 다 함께 정한다", explanation: "모둠에서는 모두가 의견을 말하고 함께 결정하는 민주적 방법이 가장 바람직합니다.", difficulty: 3 },
 
@@ -45,9 +45,9 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "친구가 나보다 그림을 훨씬 잘 그릴 때 어떻게 생각하는 것이 좋을까요?", options: ["친구의 실력을 인정하고 나만의 잘하는 것을 찾는다", "그 친구가 미워지고 함께 놀기도 싫어지게 되고 만다", "다시는 그림을 그리지 않겠다고 다짐한다", "친구가 그린 그림을 몰래 망가뜨려 놓는다"], correct_answer: "친구의 실력을 인정하고 나만의 잘하는 것을 찾는다", explanation: "다른 사람의 장점을 인정하고 자신만의 장점을 찾는 것이 건강한 마음입니다.", difficulty: 2 },
 
-  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "나에게 소중한 사람을 고르는 기준으로 가장 알맞은 것은?", options: ["함께 기쁨과 슬픔을 나누는 사람", "선물을 많이 주는 사람", "공부를 가장 잘하는 사람", "항상 나 편을 들어주는 사람"], correct_answer: "함께 기쁨과 슬픔을 나누는 사람", explanation: "기쁨과 슬픔을 함께 나누는 관계가 진정으로 소중한 관계입니다.", difficulty: 1 },
+  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "나에게 소중한 사람을 고르는 기준으로 가장 알맞은 것은?", options: ["함께 기쁨과 슬픔을 나누는 사람", "비싼 선물을 자주 사 주어 내가 원하는 것을 주는 사람", "언제나 내 주장만 옳다며 무조건 내 편을 들어주는 사람", "시험 성적이 가장 높아서 숙제를 대신 해결해 주는 사람"], correct_answer: "함께 기쁨과 슬픔을 나누는 사람", explanation: "기쁨과 슬픔을 함께 나누는 관계가 진정으로 소중한 관계입니다.", difficulty: 1 },
 
-  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "누군가 나의 외모에 대해 나쁜 말을 했을 때 어떻게 행동하면 좋을까요?", options: ["기분이 나빴다고 말하거나 선생님께 알린다", "같은 방식으로 상대방 외모를 비난한다", "학교에 가지 않겠다고 한다", "말한 사람을 아무 말 없이 때린다"], correct_answer: "기분이 나빴다고 말하거나 선생님께 알린다", explanation: "사람의 가치는 외모로 정해지지 않습니다. 기분이 나빴다고 차분히 말하거나 선생님께 알리는 것이 바람직합니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "누군가 나의 외모에 대해 나쁜 말을 했을 때 어떻게 행동하면 좋을까요?", options: ["기분이 나빴다고 말하거나 선생님께 알린다", "똑같이 상대의 생김새를 심하게 흉보면서 되갚아 준다", "화가 난다는 이유로 상대를 밀치거나 주먹으로 때린다", "아무에게도 이야기하지 않고 계속 혼자 참고만 지낸다"], correct_answer: "기분이 나빴다고 말하거나 선생님께 알린다", explanation: "사람의 가치는 외모로 정해지지 않습니다. 기분이 나빴다고 차분히 말하거나 선생님께 알리는 것이 바람직합니다.", difficulty: 2 },
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "성별이 다른 친구를 대할 때 올바른 태도는?", options: ["성별에 상관없이 똑같이 친구로 존중한다", "남자와 여자는 같이 놀면 안 된다고 생각한다", "여자 친구에게만 특별히 잘 대해 준다", "남자 친구에게만 먼저 인사한다"], correct_answer: "성별에 상관없이 똑같이 친구로 존중한다", explanation: "성별에 관계없이 모든 친구는 소중한 존재이며 똑같이 존중해야 합니다.", difficulty: 1 },
 
@@ -55,11 +55,11 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "우리 모두가 소중한 존재임을 알 수 있는 행동이 아닌 것은?", options: ["키가 작은 친구를 놀린다", "친구의 잘하는 점을 찾아 칭찬한다", "실수한 친구를 격려한다", "아픈 친구에게 관심을 보인다"], correct_answer: "키가 작은 친구를 놀린다", explanation: "신체적 특징으로 친구를 놀리는 것은 상대방이 소중한 존재임을 부정하는 행동입니다.", difficulty: 1 },
 
-  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "내 소중한 물건을 친구가 허락 없이 가져갔을 때 바람직한 해결 방법은?", options: ["가져가기 전에 먼저 물어봐 달라고 차분히 말한다", "나도 똑같이 친구 물건을 허락 없이 가져온다", "크게 화를 내며 그 자리에서 싸우고 만다", "무조건 선생님께 달려가 이르기만 한다"], correct_answer: "가져가기 전에 먼저 물어봐 달라고 차분히 말한다", explanation: "자신의 물건도 소중하지만 친구에게 차분하게 말하는 것이 올바른 해결 방법입니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "내 소중한 물건을 친구가 허락 없이 가져갔을 때 바람직한 해결 방법은?", options: ["가져가기 전에 먼저 물어봐 달라고 차분히 말한다", "똑같이 상대의 소지품을 몰래 가져가서 되갚아 버린다", "크게 소리를 지르며 상대와 심하게 다투어서 해결한다", "아무 설명도 하지 않은 채 상대의 물건을 숨겨 버린다"], correct_answer: "가져가기 전에 먼저 물어봐 달라고 차분히 말한다", explanation: "자신의 물건도 소중하지만 친구에게 차분하게 말하는 것이 올바른 해결 방법입니다.", difficulty: 2 },
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "부모님이 나를 소중하게 여기신다는 것을 느낄 수 있는 때는?", options: ["아플 때 걱정해 주시고 돌봐 주실 때", "공부를 잘할 때만 칭찬해 주실 때", "선물을 사주실 때", "맛있는 음식을 주실 때"], correct_answer: "아플 때 걱정해 주시고 돌봐 주실 때", explanation: "아플 때 걱정해 주는 것은 조건 없이 소중히 여기는 진심 어린 사랑의 표현입니다.", difficulty: 2 },
 
-  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "학교에서 혼자 있는 것을 즐기는 친구를 어떻게 대하면 좋을까요?", options: ["그 친구의 방식을 존중하되 필요할 때 도움을 건넨다", "이상한 아이라며 다른 친구들에게 소문을 낸다", "싫다고 해도 억지로 무리 안에 끌어들인다", "혼자 있으면 안 된다고 계속 훈계를 한다"], correct_answer: "그 친구의 방식을 존중하되 필요할 때 도움을 건넨다", explanation: "사람마다 성격이 다르므로 그 친구의 방식을 존중하면서도 따뜻한 관심을 보이는 것이 좋습니다.", difficulty: 3 },
+  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "학교에서 혼자 있는 것을 즐기는 친구를 어떻게 대하면 좋을까요?", options: ["그 친구의 방식을 존중하되 필요할 때 도움을 건넨다", "혼자 지내는 모습이 이상하다며 여러 아이에게 흉을 본다", "본인이 원하지 않아도 억지로 모임에 참여하도록 강요한다", "혼자 보내는 시간은 잘못이라며 계속 따라다니며 간섭한다"], correct_answer: "그 친구의 방식을 존중하되 필요할 때 도움을 건넨다", explanation: "사람마다 성격이 다르므로 그 친구의 방식을 존중하면서도 따뜻한 관심을 보이는 것이 좋습니다.", difficulty: 3 },
 
   // =========================================================
   // 3. 함께 어울려 살아요 (11문제)
@@ -97,7 +97,7 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "친구가 개미를 발로 밟으려 할 때 어떻게 말하면 좋을까요?", options: ["개미도 생명이니 밟지 말자고 한다", "같이 밟자고 한다", "모른 척 지나간다", "더 많이 밟을 수 있는 곳을 알려 준다"], correct_answer: "개미도 생명이니 밟지 말자고 한다", explanation: "작은 생명도 소중히 여기며 친구에게 생명 존중을 알려 주는 것이 바람직합니다.", difficulty: 2 },
 
-  { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "강이나 바다를 오염시키면 안 되는 이유는?", options: ["물에 사는 생물들이 살 수 없게 되기 때문에", "물이 보기에 더러워 보이기 때문에", "물에서 수영하기 불편해지기 때문에", "물놀이를 할 수 없게 되기 때문에"], correct_answer: "물에 사는 생물들이 살 수 없게 되기 때문에", explanation: "물이 오염되면 물속에 사는 동식물의 생명이 위협받으므로 오염시키지 않아야 합니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "강이나 바다를 오염시키면 안 되는 이유는?", options: ["물에 사는 생물들이 살 수 없게 되기 때문에", "사람들이 물놀이할 장소가 줄어들어 재미가 없어지기 때문에", "관광객이 바라보는 풍경이 지저분하고 보기 싫어지기 때문에", "해변에서 사진을 찍을 때 배경이 예쁘게 나오지 않기 때문에"], correct_answer: "물에 사는 생물들이 살 수 없게 되기 때문에", explanation: "물이 오염되면 물속에 사는 동식물의 생명이 위협받으므로 오염시키지 않아야 합니다.", difficulty: 2 },
 
   { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "나무를 무분별하게 베면 어떤 문제가 생길까요?", options: ["나무 속에서 살던 새와 곤충들이 집을 잃는다", "주변의 공기가 예전보다 훨씬 더 맑아지게 된다", "그 지역의 날씨가 훨씬 더 좋아지게 된다", "남은 나무들이 전보다 더 잘 자라게 된다"], correct_answer: "나무 속에서 살던 새와 곤충들이 집을 잃는다", explanation: "나무는 많은 생물의 보금자리이므로 함부로 베면 생명들이 살 곳을 잃게 됩니다.", difficulty: 2 },
 
