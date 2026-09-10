@@ -16,7 +16,7 @@ import {
   Upload,
   Sparkles,
 } from 'lucide-react';
-import { GRADES, SUBJECTS, CURRICULUM_UNITS, QUESTION_TYPE_LABELS } from '@/lib/constants';
+import { GRADES, SUBJECTS, CURRICULUM_BY_SEMESTER, QUESTION_TYPE_LABELS } from '@/lib/constants';
 import {
   getCustomQuestions,
   addCustomQuestion,
@@ -54,6 +54,19 @@ const EMPTY_FORM: FormState = {
   difficulty: 2,
 };
 
+/** 작성 중인 내용이 있는지 — 빈 폼과 비교해 "버릴 게 있나"를 판단한다 */
+function isFormDirty(f: FormState): boolean {
+  return (
+    f.question_text.trim() !== '' ||
+    f.correct_answer.trim() !== '' ||
+    f.explanation.trim() !== '' ||
+    f.unit.trim() !== '' ||
+    f.options.some((o) => o.trim() !== '' && o.trim() !== 'O' && o.trim() !== 'X')
+  );
+}
+
+const DRAFT_KEY = 'kingseeker_question_draft_v1';
+
 export default function CustomQuestionCreatorPage() {
   const [list, setList] = useState<StoredCustomQuestion[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -62,17 +75,50 @@ export default function CustomQuestionCreatorPage() {
   const [filterGrade, setFilterGrade] = useState<number | 'all'>('all');
   const [filterSubject, setFilterSubject] = useState<string>('all');
   const [toast, setToast] = useState<string | null>(null);
+  /** 닫기를 눌렀는데 작성 중인 내용이 있을 때만 뜨는 확인 단계 */
+  const [confirmClose, setConfirmClose] = useState(false);
 
   useEffect(() => {
     setList(getCustomQuestions());
   }, []);
+
+  // 초안 자동저장 — 실수로 닫거나 새로고침해도 쓰던 문제가 남는다.
+  // (기존에는 오버레이를 한 번 잘못 누르면 입력 전체가 그 자리에서 사라졌다.)
+  useEffect(() => {
+    if (!showForm || editingId) return;
+    const t = setTimeout(() => {
+      try {
+        if (isFormDirty(form)) localStorage.setItem(DRAFT_KEY, JSON.stringify(form));
+        else localStorage.removeItem(DRAFT_KEY);
+      } catch {
+        /* 저장소가 막혀 있어도 작성은 계속돼야 한다 */
+      }
+    }, 600);
+    return () => clearTimeout(t);
+  }, [form, showForm, editingId]);
+
+  // ESC로 닫기 — 작성 중이면 확인 단계를 거친다
+  useEffect(() => {
+    if (!showForm) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      e.preventDefault();
+      if (isFormDirty(form)) setConfirmClose(true);
+      else discardForm();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showForm, form]);
 
   const showToast = (msg: string) => {
     setToast(msg);
     setTimeout(() => setToast(null), 2200);
   };
 
-  const units = CURRICULUM_UNITS[String(form.grade)]?.[form.subject] ?? [];
+  // 단원 고르개는 학기별로 묶어 보여 준다 — 교사가 지금 학기를 먼저 본다
+  const unitsBySemester = CURRICULUM_BY_SEMESTER[String(form.grade)]?.[form.subject] ?? { 1: [], 2: [] };
+  const units = [...unitsBySemester[1], ...unitsBySemester[2]];
 
   const filtered = useMemo(() => {
     return list.filter((q) => {
@@ -92,16 +138,51 @@ export default function CustomQuestionCreatorPage() {
     return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b, 'ko'));
   }, [filtered]);
 
+  /** 저장에 성공했을 때만 부르는 정리 — 초안도 함께 지운다 */
   const resetForm = () => {
     setForm(EMPTY_FORM);
     setEditingId(null);
     setShowForm(false);
+    setConfirmClose(false);
+    try {
+      localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* noop */
+    }
+  };
+
+  /** 작성 중인 내용을 버리고 닫는다(확인을 이미 거친 뒤) */
+  const discardForm = () => {
+    resetForm();
+  };
+
+  /** 닫기 요청 — 쓰던 내용이 있으면 바로 닫지 않고 물어본다 */
+  const requestClose = () => {
+    if (isFormDirty(form)) {
+      setConfirmClose(true);
+      return;
+    }
+    discardForm();
   };
 
   const startCreate = () => {
-    setForm(EMPTY_FORM);
+    let draft: FormState | null = null;
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<FormState>;
+        if (parsed && typeof parsed.question_text === 'string') {
+          draft = { ...EMPTY_FORM, ...parsed, options: Array.isArray(parsed.options) ? parsed.options : EMPTY_FORM.options };
+        }
+      }
+    } catch {
+      draft = null;
+    }
+    setForm(draft ?? EMPTY_FORM);
     setEditingId(null);
+    setConfirmClose(false);
     setShowForm(true);
+    if (draft) showToast('저장하지 않고 닫았던 문제를 이어서 씁니다.');
   };
 
   const startEdit = (q: StoredCustomQuestion) => {
@@ -117,6 +198,7 @@ export default function CustomQuestionCreatorPage() {
       difficulty: q.difficulty,
     });
     setEditingId(q.id);
+    setConfirmClose(false);
     setShowForm(true);
   };
 
@@ -127,10 +209,6 @@ export default function CustomQuestionCreatorPage() {
     }
     if (!form.correct_answer.trim()) {
       showToast('정답을 입력하세요.');
-      return;
-    }
-    if (!form.unit.trim()) {
-      showToast('단원을 선택하세요.');
       return;
     }
     if (form.question_type === 'multiple_choice') {
@@ -247,7 +325,7 @@ export default function CustomQuestionCreatorPage() {
           </button>
           <Link
             href="/game/setup"
-            className="flex items-center gap-1.5 px-3 py-2 glass-strong rounded-lg text-sm font-bold text-white hover:bg-white/15 transition-colors"
+            className="flex items-center gap-1.5 px-3 py-2 glass-strong rounded-lg text-sm font-semibold text-white hover:bg-white/15 transition-colors"
           >
             게임 시작
           </Link>
@@ -258,8 +336,7 @@ export default function CustomQuestionCreatorPage() {
         <div className="flex items-center gap-3 mt-4 mb-2">
           <BookOpen className="w-7 h-7 text-purple-400" />
           <h1
-            className="text-3xl md:text-4xl font-black text-gradient-gold"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-3xl md:text-4xl font-extrabold text-gradient-gold" data-display-font
           >
             내 문제 만들기
           </h1>
@@ -306,7 +383,7 @@ export default function CustomQuestionCreatorPage() {
             </span>
             <button
               onClick={startCreate}
-              className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-bold text-white shadow-lg hover:brightness-110 transition-all"
+              className="flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg font-semibold text-white shadow-lg hover:brightness-110 transition-all"
             >
               <Plus className="w-4 h-4" />새 문제
             </button>
@@ -319,14 +396,14 @@ export default function CustomQuestionCreatorPage() {
             <Sparkles className="w-10 h-10 mx-auto mb-3 text-purple-400/60" />
             <p className="text-lg font-bold text-gray-300 mb-2">아직 만든 문제가 없어요</p>
             <p className="text-sm">
-              "새 문제" 버튼을 눌러 우리 반만의 특별한 문제를 만들어 보세요.
+              &lsquo;새 문제&rsquo; 버튼을 눌러 우리 반만의 특별한 문제를 만들어 보세요.
             </p>
           </div>
         ) : (
           <div className="flex flex-col gap-6">
             {groupedBySubject.map(([group, items]) => (
               <div key={group}>
-                <h2 className="text-sm font-bold text-purple-300 mb-2">{group} · {items.length}문제</h2>
+                <h2 className="text-sm font-semibold text-purple-300 mb-2">{group} · {items.length}문제</h2>
                 <div className="flex flex-col gap-2">
                   {items.map((q) => (
                     <div
@@ -339,7 +416,7 @@ export default function CustomQuestionCreatorPage() {
                             {QUESTION_TYPE_LABELS[q.question_type]}
                           </span>
                           <span className="text-[10px] px-2 py-0.5 bg-white/5 text-gray-400 rounded">
-                            {q.unit}
+                            {q.unit || '단원 없음'}
                           </span>
                           <span className="text-[10px] px-2 py-0.5 bg-yellow-500/20 text-yellow-300 rounded">
                             난이도 {q.difficulty}
@@ -390,7 +467,7 @@ export default function CustomQuestionCreatorPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={resetForm}
+            onClick={requestClose}
           >
             <motion.div
               className="relative glass-strong rounded-2xl w-full max-w-2xl my-8 p-6 border border-white/10"
@@ -399,15 +476,42 @@ export default function CustomQuestionCreatorPage() {
               exit={{ y: 20, opacity: 0, scale: 0.96 }}
               onClick={(e) => e.stopPropagation()}
             >
+              {confirmClose && (
+                <div className="absolute inset-0 z-10 rounded-2xl bg-slate-950/90 backdrop-blur-sm flex flex-col items-center justify-center gap-4 p-6 text-center">
+                  <p className="text-lg font-semibold text-white">작성 중인 문제를 버릴까요?</p>
+                  <p className="text-sm text-gray-400">
+                    지금 닫아도 초안은 저장돼 있어, 다음에 &lsquo;새 문제&rsquo;를 열면 이어서 쓸 수 있어요.
+                  </p>
+                  <div className="flex gap-2 w-full max-w-xs">
+                    <button
+                      onClick={() => setConfirmClose(false)}
+                      className="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold"
+                    >
+                      계속 쓰기
+                    </button>
+                    <button
+                      onClick={() => {
+                        setConfirmClose(false);
+                        setForm(EMPTY_FORM);
+                        setEditingId(null);
+                        setShowForm(false);
+                      }}
+                      className="flex-1 py-3 rounded-xl glass border border-white/10 text-gray-300 hover:text-white font-semibold"
+                    >
+                      닫기
+                    </button>
+                  </div>
+                </div>
+              )}
               <button
-                onClick={resetForm}
+                onClick={requestClose}
+                aria-label="닫기"
                 className="absolute top-3 right-3 p-1.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/10"
               >
                 <X className="w-5 h-5" />
               </button>
               <h2
-                className="text-2xl font-black text-white mb-5"
-                style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+                className="text-2xl font-extrabold text-white mb-5" data-display-font
               >
                 {editingId ? '문제 수정' : '새 문제 만들기'}
               </h2>
@@ -452,21 +556,41 @@ export default function CustomQuestionCreatorPage() {
                 </Field>
               </div>
 
-              <Field label="단원">
+              <Field label="단원 (선택 사항 — 비워 두면 '단원 없음'으로 저장됩니다)">
                 <select
-                  value={form.unit}
-                  onChange={(e) => setForm((f) => ({ ...f, unit: e.target.value }))}
+                  value={units.includes(form.unit) || form.unit === '' ? form.unit : '__custom__'}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setForm((f) => ({ ...f, unit: v === '__custom__' ? (units.includes(f.unit) ? '' : f.unit) : v }));
+                  }}
                   className="input-field"
                 >
                   <option value="" className="bg-slate-900">
-                    -- 단원 선택 --
+                    단원 없음 (건너뛰기)
                   </option>
-                  {units.map((u) => (
-                    <option key={u} value={u} className="bg-slate-900">
-                      {u}
-                    </option>
-                  ))}
+                  {([1, 2] as const).map((sem) =>
+                    unitsBySemester[sem].length > 0 ? (
+                      <optgroup key={sem} label={`${sem}학기`}>
+                        {unitsBySemester[sem].map((u) => (
+                          <option key={u} value={u} className="bg-slate-900">
+                            {u}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null
+                  )}
+                  <option value="__custom__" className="bg-slate-900">
+                    직접 입력…
+                  </option>
                 </select>
+                {!units.includes(form.unit) && form.unit !== '' && (
+                  <input
+                    value={form.unit}
+                    onChange={(e) => setForm((f) => ({ ...f, unit: e.target.value }))}
+                    placeholder="단원 이름을 직접 입력"
+                    className="input-field mt-2"
+                  />
+                )}
               </Field>
 
               <Field label="문제 유형">
@@ -484,7 +608,7 @@ export default function CustomQuestionCreatorPage() {
                         }))
                       }
                       className={cn(
-                        'py-2 px-3 rounded-lg text-sm font-bold border transition-all',
+                        'py-2 px-3 rounded-lg text-sm font-semibold border transition-all',
                         form.question_type === t
                           ? 'bg-purple-600/30 border-purple-400 text-white'
                           : 'glass border-white/10 text-gray-400 hover:text-white'
@@ -535,7 +659,7 @@ export default function CustomQuestionCreatorPage() {
                         type="button"
                         onClick={() => setForm((f) => ({ ...f, correct_answer: v }))}
                         className={cn(
-                          'w-20 h-12 rounded-lg font-black text-2xl border transition-all',
+                          'w-20 h-12 rounded-lg font-extrabold text-2xl border transition-all',
                           form.correct_answer === v
                             ? v === 'O'
                               ? 'bg-blue-600/40 border-blue-400 text-white'
@@ -569,14 +693,14 @@ export default function CustomQuestionCreatorPage() {
 
               <div className="flex gap-2 mt-5">
                 <button
-                  onClick={resetForm}
-                  className="flex-1 py-3 rounded-xl glass border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 font-bold"
+                  onClick={requestClose}
+                  className="flex-1 py-3 rounded-xl glass border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 font-semibold"
                 >
                   취소
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold flex items-center justify-center gap-2 hover:brightness-110"
+                  className="flex-1 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold flex items-center justify-center gap-2 hover:brightness-110"
                 >
                   <Save className="w-4 h-4" />
                   {editingId ? '수정 완료' : '문제 저장'}
@@ -591,7 +715,7 @@ export default function CustomQuestionCreatorPage() {
       <AnimatePresence>
         {toast && (
           <motion.div
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-xl glass-strong text-white font-bold text-sm shadow-xl border border-white/10"
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] px-5 py-3 rounded-xl glass-strong text-white font-semibold text-sm shadow-xl border border-white/10"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
@@ -625,7 +749,7 @@ export default function CustomQuestionCreatorPage() {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="mb-3">
-      <label className="block text-xs text-gray-400 mb-1 font-bold">{label}</label>
+      <label className="block text-xs text-gray-400 mb-1 font-semibold">{label}</label>
       {children}
     </div>
   );

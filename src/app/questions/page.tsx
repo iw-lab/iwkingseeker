@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Crown, Search, Layers, CheckSquare, Square, FolderPlus, Shuffle, X, AlertCircle } from 'lucide-react';
-import { GRADES, SUBJECTS, CURRICULUM_UNITS, QUESTION_TYPE_LABELS } from '@/lib/constants';
+import { GRADES, SUBJECTS, CURRICULUM_UNITS, QUESTION_TYPE_LABELS, getUnitsFor, getUnitSemester, type Semester } from '@/lib/constants';
 import type { QuestionType } from '@/lib/constants';
 import { getSupplementaryUnits } from '@/lib/curriculumAliases';
 import { saveQuestionSet, type SetQuestion } from '@/lib/questionSets';
@@ -33,6 +33,8 @@ export default function QuestionsPage() {
   const [grade, setGrade] = useState<number>(5);
   const [subject, setSubject] = useState<string>('수학');
   const [unit, setUnit] = useState<string>('');
+  /** 학기 좁히기 — null 이면 전체 */
+  const [semester, setSemester] = useState<Semester | null>(null);
   const [search, setSearch] = useState('');
   const [visible, setVisible] = useState(PAGE_SIZE);
 
@@ -77,7 +79,11 @@ export default function QuestionsPage() {
     []
   );
 
-  const units = unitsForGrade(grade, subject);
+  // 학기를 고르면 그 학기 단원 + 보충(학기 없음)만 남긴다
+  const units = useMemo(
+    () => [...getUnitsFor(grade, subject, semester), ...getSupplementaryUnits(grade, subject)],
+    [grade, subject, semester]
+  );
   const supplementary = useMemo(() => new Set(getSupplementaryUnits(grade, subject)), [grade, subject]);
 
   const countsByUnit = useMemo(() => {
@@ -95,12 +101,22 @@ export default function QuestionsPage() {
       if (q.grade !== grade) return false;
       if (q.subject !== subject) return false;
       if (unit && q.unit !== unit) return false;
+      // 단원을 안 골랐어도 학기를 골랐으면 그 학기 문항만 (보충 단원은 남긴다)
+      if (!unit && semester !== null) {
+        const sem = getUnitSemester(grade, subject, q.unit);
+        if (sem !== null && sem !== semester) return false;
+      }
       if (needle && !q.question_text.includes(needle) && !q.correct_answer.includes(needle)) return false;
       return true;
     });
-  }, [questions, grade, subject, unit, search]);
+  }, [questions, grade, subject, unit, semester, search]);
 
-  useEffect(() => setVisible(PAGE_SIZE), [grade, subject, unit, search]);
+  useEffect(() => setVisible(PAGE_SIZE), [grade, subject, unit, semester, search]);
+
+  useEffect(() => {
+    if (unit && !units.includes(unit)) setUnit('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [semester, grade, subject]);
 
   const shown = filtered.slice(0, visible);
   const allShownSelected = shown.length > 0 && shown.every((q) => selected.has(keyOf(q)));
@@ -202,7 +218,7 @@ export default function QuestionsPage() {
       <header className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
         <Link href="/" className="flex items-center gap-2">
           <Crown className="w-7 h-7 text-yellow-400" />
-          <span className="text-xl font-black text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <span className="text-xl font-semibold text-white" data-display-font>
             킹시커
           </span>
         </Link>
@@ -221,12 +237,12 @@ export default function QuestionsPage() {
 
       <main className="max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-wrap items-baseline justify-between gap-3 mb-2">
-          <h1 className="text-3xl font-black text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <h1 className="text-3xl font-extrabold text-white" data-display-font>
             문제 은행
           </h1>
           <Link
             href="/questions/sets"
-            className="inline-flex items-center gap-2 text-sm text-purple-300 hover:text-purple-200 font-bold"
+            className="inline-flex items-center gap-2 text-sm text-purple-300 hover:text-purple-200 font-semibold"
           >
             <Layers className="w-4 h-4" /> 내 문제 세트 / 공유
           </Link>
@@ -262,7 +278,7 @@ export default function QuestionsPage() {
                     key={g}
                     onClick={() => { setGrade(g); setUnit(''); }}
                     aria-pressed={grade === g}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-bold ${
+                    className={`px-3 py-1.5 rounded-lg text-sm font-semibold ${
                       grade === g ? 'bg-purple-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                     }`}
                   >
@@ -277,7 +293,7 @@ export default function QuestionsPage() {
                     key={s}
                     onClick={() => { setSubject(s); setUnit(''); }}
                     aria-pressed={subject === s}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-bold ${
+                    className={`px-3 py-1.5 rounded-lg text-sm font-semibold ${
                       subject === s ? 'bg-purple-600 text-white' : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
                     }`}
                   >
@@ -296,6 +312,21 @@ export default function QuestionsPage() {
                   className="pl-9 pr-4 py-1.5 bg-gray-800 border border-gray-700 rounded-lg text-white text-sm outline-none focus:ring-1 focus:ring-purple-500"
                 />
               </div>
+            </div>
+
+            <div className="flex gap-1 mb-2">
+              {([null, 1, 2] as const).map((sem) => (
+                <button
+                  key={String(sem)}
+                  onClick={() => setSemester(sem)}
+                  aria-pressed={semester === sem}
+                  className={`px-3 py-1 rounded text-xs font-semibold ${
+                    semester === sem ? 'bg-purple-600 text-white' : 'bg-gray-800 text-gray-500 hover:bg-gray-700'
+                  }`}
+                >
+                  {sem === null ? '학기 전체' : `${sem}학기`}
+                </button>
+              ))}
             </div>
 
             {units.length > 0 && (
@@ -332,7 +363,7 @@ export default function QuestionsPage() {
               {shown.length > 0 && (
                 <button
                   onClick={toggleAllShown}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-purple-300 hover:text-purple-200"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-300 hover:text-purple-200"
                 >
                   {allShownSelected ? <CheckSquare className="w-4 h-4" /> : <Square className="w-4 h-4" />}
                   화면에 보이는 {shown.length}개 {allShownSelected ? '선택 해제' : '모두 선택'}
@@ -362,7 +393,7 @@ export default function QuestionsPage() {
                       />
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-2 mb-1">
-                          <span className="text-xs text-gray-500">{q.unit}</span>
+                          <span className="text-xs text-gray-500">{q.unit || '단원 없음'}</span>
                           <span className={`text-xs px-1.5 py-0.5 rounded ${difficultyColor(q.difficulty)}`}>
                             {difficultyLabel(q.difficulty)}
                           </span>
@@ -389,7 +420,7 @@ export default function QuestionsPage() {
                         )}
                         {q.explanation && <p className="text-xs text-gray-500 mt-2">💡 {q.explanation}</p>}
                       </div>
-                      <span className="text-xs text-green-400 font-bold whitespace-nowrap">정답: {q.correct_answer}</span>
+                      <span className="text-xs text-green-400 font-semibold whitespace-nowrap">정답: {q.correct_answer}</span>
                     </label>
                   </li>
                 );
@@ -400,7 +431,7 @@ export default function QuestionsPage() {
               <div className="flex justify-center py-6">
                 <button
                   onClick={() => setVisible((v) => v + PAGE_SIZE)}
-                  className="px-6 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-bold"
+                  className="px-6 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold"
                 >
                   {Math.min(PAGE_SIZE, filtered.length - visible)}개 더 보기 (남은 {(filtered.length - visible).toLocaleString()}개)
                 </button>
@@ -419,7 +450,7 @@ export default function QuestionsPage() {
         <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-purple-500/30 bg-[#160a26]/95 backdrop-blur px-6 py-4">
             <div className="max-w-6xl mx-auto">
               <div className="flex flex-wrap items-center gap-3">
-                <span className="text-white font-bold">{selected.size}문항 선택됨</span>
+                <span className="text-white font-semibold">{selected.size}문항 선택됨</span>
                 <button
                   onClick={() => setSelected(new Map())}
                   className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-white"
@@ -429,13 +460,13 @@ export default function QuestionsPage() {
                 <div className="flex-1" />
                 <button
                   onClick={() => setPanel(panel === 'move' ? 'none' : 'move')}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-700 hover:bg-gray-600 text-white text-sm font-bold"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold"
                 >
                   <Shuffle className="w-4 h-4" /> 다른 단원으로 복사
                 </button>
                 <button
                   onClick={() => setPanel(panel === 'set' ? 'none' : 'set')}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold"
                 >
                   <FolderPlus className="w-4 h-4" /> 문제 세트로 저장
                 </button>
@@ -444,7 +475,7 @@ export default function QuestionsPage() {
               {panel === 'set' && (
                 <div className="mt-4 flex flex-wrap items-end gap-3">
                   <label className="flex flex-col gap-1 flex-1 min-w-[220px]">
-                    <span className="text-xs text-gray-400 font-bold">세트 이름</span>
+                    <span className="text-xs text-gray-400 font-semibold">세트 이름</span>
                     <input
                       value={setName}
                       onChange={(e) => setSetName(e.target.value)}
@@ -453,7 +484,7 @@ export default function QuestionsPage() {
                     />
                   </label>
                   <label className="flex flex-col gap-1 w-44">
-                    <span className="text-xs text-gray-400 font-bold">만든이 (공유 시 표시)</span>
+                    <span className="text-xs text-gray-400 font-semibold">만든이 (공유 시 표시)</span>
                     <input
                       value={author}
                       onChange={(e) => setAuthor(e.target.value)}
@@ -463,7 +494,7 @@ export default function QuestionsPage() {
                   </label>
                   <button
                     onClick={handleSaveSet}
-                    className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold"
+                    className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold"
                   >
                     저장
                   </button>
@@ -473,7 +504,7 @@ export default function QuestionsPage() {
               {panel === 'move' && (
                 <div className="mt-4 flex flex-wrap items-end gap-3">
                   <label className="flex flex-col gap-1">
-                    <span className="text-xs text-gray-400 font-bold">학년</span>
+                    <span className="text-xs text-gray-400 font-semibold">학년</span>
                     <select
                       value={moveGrade}
                       onChange={(e) => { setMoveGrade(Number(e.target.value)); setMoveUnit(''); }}
@@ -485,7 +516,7 @@ export default function QuestionsPage() {
                     </select>
                   </label>
                   <label className="flex flex-col gap-1">
-                    <span className="text-xs text-gray-400 font-bold">과목</span>
+                    <span className="text-xs text-gray-400 font-semibold">과목</span>
                     <select
                       value={moveSubject}
                       onChange={(e) => { setMoveSubject(e.target.value); setMoveUnit(''); }}
@@ -497,7 +528,7 @@ export default function QuestionsPage() {
                     </select>
                   </label>
                   <label className="flex flex-col gap-1 flex-1 min-w-[240px]">
-                    <span className="text-xs text-gray-400 font-bold">옮길 단원</span>
+                    <span className="text-xs text-gray-400 font-semibold">옮길 단원</span>
                     <select
                       value={moveUnit}
                       onChange={(e) => setMoveUnit(e.target.value)}
@@ -512,7 +543,7 @@ export default function QuestionsPage() {
                   <button
                     onClick={handleMoveUnit}
                     disabled={!moveUnit}
-                    className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 disabled:text-gray-500 text-white text-sm font-bold"
+                    className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 disabled:text-gray-500 text-white text-sm font-semibold"
                   >
                     복사
                   </button>

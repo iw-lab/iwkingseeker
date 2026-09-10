@@ -90,6 +90,19 @@ export function getCustomQuestionsFiltered(grade: number, subject: string, unit:
   );
 }
 
+/**
+ * 게임 출제용 수집 — 고른 단원의 내 문제 + **단원을 비워 둔 내 문제**.
+ *
+ * 문제 만들기에서 단원을 선택 사항으로 바꿨기 때문에(교사가 단원을 고르느라
+ * 멈추는 걸 없애려고), 단원 없이 저장한 문제가 어느 단원을 골라도 나오지
+ * 않으면 그 문제는 만들자마자 죽은 문제가 된다. 같은 학년·과목이면 함께 낸다.
+ */
+export function getCustomQuestionsForPlay(grade: number, subject: string, unit: string): StoredCustomQuestion[] {
+  return getCustomQuestions().filter(
+    (q) => q.grade === grade && q.subject === subject && (q.unit === unit || q.unit.trim() === '')
+  );
+}
+
 /** Convert stored custom question to runtime Question shape used by the game. */
 export function toRuntimeQuestion(c: StoredCustomQuestion): Question {
   return {

@@ -5,11 +5,11 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useGameStore } from '@/stores/gameStore';
-import { SUBJECTS, CURRICULUM_UNITS, TARGET_SCORES, TIMER_OPTIONS, TEAM_DEFAULTS, GRADE_BANDS, NATIONAL_SUBJECTS, type GradeBandKey } from '@/lib/constants';
+import { SUBJECTS, TARGET_SCORES, TIMER_OPTIONS, TEAM_DEFAULTS, GRADE_BANDS, NATIONAL_SUBJECTS, getUnitsFor, getUnitSemester, type GradeBandKey, type Semester } from '@/lib/constants';
 import { splitIntoTeams, shuffleArray } from '@/lib/utils';
 import { playButtonClick, playPhaseTransition } from '@/lib/sounds';
 import { convertToMultipleChoice } from '@/lib/questionConverter';
-import { getCustomQuestionsFiltered, toRuntimeQuestion } from '@/lib/customQuestions';
+import { getCustomQuestionsForPlay, toRuntimeQuestion } from '@/lib/customQuestions';
 import { getSupplementaryUnits } from '@/lib/curriculumAliases';
 import { getQuestionSets, toRuntimeQuestions, type QuestionSet } from '@/lib/questionSets';
 import { Crown, ChevronRight, Users, BookOpen, Settings, Play, Save, FolderOpen, Trash2, Check, Gamepad2, Layers } from 'lucide-react';
@@ -46,6 +46,8 @@ export default function GameSetupPage() {
   const [subGrade, setSubGrade] = useState<number>(5);
   const [subject, setSubject] = useState<string>('수학');
   const [unit, setUnit] = useState<string>('');
+  /** 학기 좁히기 — null 이면 전체. 기본이 '전체'라 배정이 어긋나도 단원이 사라지지 않는다. */
+  const [semester, setSemester] = useState<Semester | null>(null);
 
   const band = GRADE_BANDS.find((b) => b.key === gradeBand)!;
   const isNational = NATIONAL_SUBJECTS.includes(subject);
@@ -87,7 +89,7 @@ export default function GameSetupPage() {
     // 비국정 과목은 학년군(예: 5·6학년) 전체에서 커스텀 문제를 센다
     const gradesForCustom = isNational ? [subGrade] : [...band.grades];
     const total = gradesForCustom.reduce(
-      (sum, g) => sum + getCustomQuestionsFiltered(g, subject, unit).length,
+      (sum, g) => sum + getCustomQuestionsForPlay(g, subject, unit).length,
       0
     );
     setCustomCount(total);
@@ -127,11 +129,27 @@ export default function GameSetupPage() {
   // (보충은 교과서 단원이 아니지만 문항이 실제로 있는 어휘·속담·문장패턴 등이다.
   //  전에는 목록에 없어 4,787문항이 어느 단원을 골라도 나오지 않았다.)
   const gradesForUnits = isNational ? [subGrade] : [...band.grades];
-  const textbookUnits = [
-    ...new Set(gradesForUnits.flatMap((g) => CURRICULUM_UNITS[String(g)]?.[subject] ?? [])),
-  ];
-  const extraUnits = [...new Set(gradesForUnits.flatMap((g) => getSupplementaryUnits(g, subject)))];
-  const units = [...textbookUnits, ...extraUnits];
+  // 학년군(5-6) 과목은 두 학년 단원을 함께 보여 주되, **고른 학년의 단원을 먼저**
+  // 놓는다. 전에는 순서 없이 섞여 5학년 담임이 6학년 단원 사이에서 찾아야 했다.
+  const orderedGrades = isNational
+    ? [subGrade]
+    : [subGrade, ...gradesForUnits.filter((g) => g !== subGrade)];
+  const unitGroups = orderedGrades.map((g) => ({
+    grade: g,
+    units: [
+      ...getUnitsFor(g, subject, semester),
+      // 보충·심화 묶음은 학기가 없다 — 학기를 좁혀도 계속 보인다
+      ...getSupplementaryUnits(g, subject),
+    ],
+  })).filter((grp) => grp.units.length > 0);
+  const units = [...new Set(unitGroups.flatMap((grp) => grp.units))];
+
+  // 학기를 좁혔는데 고른 단원이 그 학기에 없으면 선택을 푼다.
+  // (안 풀면 화면엔 아무것도 선택돼 있지 않은데 '다음'이 눌리는 유령 상태가 된다.)
+  useEffect(() => {
+    if (unit && !units.includes(unit)) setUnit('');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [semester, subject, subGrade, gradeBand]);
 
   /** 게임을 시작할 수 있는 상태인지 — 버튼 비활성 조건과 시작 조건을 한 곳에서 판단 */
   const canStart =
@@ -204,7 +222,7 @@ export default function GameSetupPage() {
     // 내 문제(커스텀) 병합 — 비국정 과목은 학년군 전체 학년에서 수집
     const gradesForCustom = isNational ? [subGrade] : [...band.grades];
     const customRuntime = gradesForCustom.flatMap((g) =>
-      getCustomQuestionsFiltered(g, subject, unit).map((c) => ({ ...toRuntimeQuestion(c) }))
+      getCustomQuestionsForPlay(g, subject, unit).map((c) => ({ ...toRuntimeQuestion(c) }))
     );
 
     // 주관식/빈칸 → 객관식 자동 변환 (그럴듯한 오답을 못 만들면 제외) + 셔플
@@ -245,8 +263,7 @@ export default function GameSetupPage() {
       <header className="relative z-10 flex items-center gap-4 px-8 py-5 border-b border-white/5">
         <Crown className="w-10 h-10 text-yellow-400" style={{ filter: 'drop-shadow(0 0 6px rgba(250,204,21,0.3))' }} />
         <h1
-          className="text-4xl font-black text-white"
-          style={{ fontFamily: "var(--font-heading), sans-serif" }}
+          className="text-4xl font-extrabold text-white" data-display-font
         >
           게임 설정
         </h1>
@@ -289,7 +306,7 @@ export default function GameSetupPage() {
                 key="step1"
                 className="flex flex-col gap-5"
               >
-                <h2 className="text-3xl font-black text-white">학생 이름 입력</h2>
+                <h2 className="text-3xl font-extrabold text-white">학생 이름 입력</h2>
 
                 {savedClasses.length > 0 && (
                   <div className="glass rounded-2xl p-4">
@@ -347,7 +364,7 @@ export default function GameSetupPage() {
                 <motion.button
                   onClick={() => handleStepChange(2)}
                   disabled={students.length < 4}
-                  className="w-full py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white font-black text-2xl rounded-2xl transition-all"
+                  className="w-full py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white font-extrabold text-2xl rounded-2xl transition-all"
                   whileHover={students.length >= 4 ? { scale: 1.01 } : {}}
                   whileTap={students.length >= 4 ? { scale: 0.99 } : {}}
                 >
@@ -361,7 +378,7 @@ export default function GameSetupPage() {
                 key="step2"
                 className="flex flex-col gap-6"
               >
-                <h2 className="text-3xl font-black text-white">학년군 / 과목 / 단원</h2>
+                <h2 className="text-3xl font-extrabold text-white">학년군 / 과목 / 단원</h2>
 
                 <div>
                   <label className="text-lg text-gray-400 block mb-3 font-medium">출제 방식</label>
@@ -369,7 +386,7 @@ export default function GameSetupPage() {
                     <motion.button
                       onClick={() => { playButtonClick(); setSourceMode('unit'); }}
                       aria-pressed={sourceMode === 'unit'}
-                      className={`flex-1 py-4 rounded-2xl font-black text-xl transition-all ${
+                      className={`flex-1 py-4 rounded-2xl font-semibold text-xl transition-all ${
                         sourceMode === 'unit'
                           ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
                           : 'glass text-gray-400 hover:bg-white/5'
@@ -382,7 +399,7 @@ export default function GameSetupPage() {
                     <motion.button
                       onClick={() => { playButtonClick(); setSourceMode('set'); }}
                       aria-pressed={sourceMode === 'set'}
-                      className={`flex-1 py-4 rounded-2xl font-black text-xl transition-all flex items-center justify-center gap-2 ${
+                      className={`flex-1 py-4 rounded-2xl font-semibold text-xl transition-all flex items-center justify-center gap-2 ${
                         sourceMode === 'set'
                           ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
                           : 'glass text-gray-400 hover:bg-white/5'
@@ -403,7 +420,7 @@ export default function GameSetupPage() {
                         <p className="text-gray-400 text-lg mb-3">저장된 문제 세트가 없습니다.</p>
                         <Link
                           href="/questions"
-                          className="inline-block px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold"
+                          className="inline-block px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-semibold"
                         >
                           문제 은행에서 문제 고르러 가기
                         </Link>
@@ -450,7 +467,7 @@ export default function GameSetupPage() {
                       <motion.button
                         key={b.key}
                         onClick={() => { playButtonClick(); setGradeBand(b.key as GradeBandKey); setSubGrade(b.grades[0]); setUnit(''); }}
-                        className={`flex-1 py-5 rounded-2xl font-black text-2xl transition-all ${
+                        className={`flex-1 py-5 rounded-2xl font-extrabold text-2xl transition-all ${
                           gradeBand === b.key
                             ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
                             : 'glass text-gray-400 hover:bg-white/5'
@@ -495,7 +512,7 @@ export default function GameSetupPage() {
                         <motion.button
                           key={g}
                           onClick={() => { playButtonClick(); setSubGrade(g); setUnit(''); }}
-                          className={`flex-1 py-4 rounded-2xl font-black text-xl transition-all ${
+                          className={`flex-1 py-4 rounded-2xl font-semibold text-xl transition-all ${
                             subGrade === g
                               ? 'bg-gradient-to-r from-yellow-600 to-amber-600 text-white glow-amber'
                               : 'glass text-gray-400 hover:bg-white/5'
@@ -514,26 +531,62 @@ export default function GameSetupPage() {
                   <div className="flex items-baseline justify-between mb-3">
                     <label className="text-lg text-gray-400 font-medium">단원</label>
                     {unit && customCount > 0 && (
-                      <span className="text-xs px-2 py-1 bg-purple-500/20 text-purple-300 rounded-lg font-bold">
+                      <span className="text-xs px-2 py-1 bg-purple-500/20 text-purple-300 rounded-lg font-semibold">
                         ✨ 내 문제 {customCount}개 포함
                       </span>
                     )}
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-72 overflow-y-auto pr-2">
-                    {units.map((u) => (
-                      <motion.button
-                        key={u}
-                        onClick={() => { playButtonClick(); setUnit(u); }}
-                        className={`text-left px-6 py-4 rounded-2xl font-medium text-lg transition-all ${
-                          unit === u
-                            ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
-                            : 'glass text-gray-400 hover:bg-white/5'
+
+                  {/* 학기 좁히기 — 기본은 전체 */}
+                  <div className="flex gap-2 mb-3">
+                    {([null, 1, 2] as const).map((sem) => (
+                      <button
+                        key={String(sem)}
+                        onClick={() => { playButtonClick(); setSemester(sem); }}
+                        aria-pressed={semester === sem}
+                        className={`px-4 py-2 rounded-xl text-base font-semibold transition-all ${
+                          semester === sem
+                            ? 'bg-purple-600 text-white'
+                            : 'glass text-gray-400 hover:text-white hover:bg-white/5'
                         }`}
-                        whileHover={{ x: 4 }}
                       >
-                        {unit === u && <Check className="w-5 h-5 inline-block mr-2" />}
-                        {u}
-                      </motion.button>
+                        {sem === null ? '전체' : `${sem}학기`}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="max-h-72 overflow-y-auto pr-2 flex flex-col gap-4">
+                    {unitGroups.map((grp) => (
+                      <div key={grp.grade}>
+                        {unitGroups.length > 1 && (
+                          <p className="text-sm text-gray-500 mb-2 font-semibold">
+                            {grp.grade}학년{grp.grade === subGrade ? ' · 우리 반' : ''}
+                          </p>
+                        )}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          {grp.units.map((u) => {
+                            const sem = getUnitSemester(grp.grade, subject, u);
+                            return (
+                              <motion.button
+                                key={`${grp.grade}-${u}`}
+                                onClick={() => { playButtonClick(); setUnit(u); }}
+                                className={`text-left px-6 py-4 rounded-2xl font-medium text-lg transition-all ${
+                                  unit === u
+                                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
+                                    : 'glass text-gray-400 hover:bg-white/5'
+                                }`}
+                                whileHover={{ x: 4 }}
+                              >
+                                {unit === u && <Check className="w-5 h-5 inline-block mr-2" />}
+                                {u}
+                                <span className="ml-2 text-sm opacity-60">
+                                  {sem ? `${sem}학기` : '보충'}
+                                </span>
+                              </motion.button>
+                            );
+                          })}
+                        </div>
+                      </div>
                     ))}
                   </div>
                   <Link
@@ -550,7 +603,7 @@ export default function GameSetupPage() {
                 <motion.button
                   onClick={() => handleStepChange(3)}
                   disabled={sourceMode === 'set' ? !selectedSet : !unit}
-                  className="w-full py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white font-black text-2xl rounded-2xl"
+                  className="w-full py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 disabled:from-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white font-extrabold text-2xl rounded-2xl"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
@@ -564,7 +617,7 @@ export default function GameSetupPage() {
                 key="step3"
                 className="flex flex-col gap-6"
               >
-                <h2 className="text-3xl font-black text-white">게임 설정</h2>
+                <h2 className="text-3xl font-extrabold text-white">게임 설정</h2>
 
                 <div>
                   <label className="text-lg text-gray-400 block mb-3 font-medium">목표 점수</label>
@@ -573,7 +626,7 @@ export default function GameSetupPage() {
                       <motion.button
                         key={s}
                         onClick={() => { playButtonClick(); setTargetScore(s); }}
-                        className={`flex-1 py-5 rounded-2xl font-black text-2xl transition-all ${
+                        className={`flex-1 py-5 rounded-2xl font-extrabold text-2xl transition-all ${
                           targetScore === s
                             ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
                             : 'glass text-gray-400 hover:bg-white/5'
@@ -594,7 +647,7 @@ export default function GameSetupPage() {
                       <motion.button
                         key={t}
                         onClick={() => { playButtonClick(); setTimerSeconds(t); }}
-                        className={`px-8 py-5 rounded-2xl font-black text-2xl transition-all ${
+                        className={`px-8 py-5 rounded-2xl font-extrabold text-2xl transition-all ${
                           timerSeconds === t
                             ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white glow-purple'
                             : 'glass text-gray-400 hover:bg-white/5'
@@ -610,7 +663,7 @@ export default function GameSetupPage() {
 
                 <motion.button
                   onClick={() => handleStepChange(4)}
-                  className="w-full py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-2xl rounded-2xl"
+                  className="w-full py-5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-extrabold text-2xl rounded-2xl"
                   whileHover={{ scale: 1.01 }}
                   whileTap={{ scale: 0.99 }}
                 >
@@ -624,7 +677,7 @@ export default function GameSetupPage() {
                 key="step4"
                 className="flex flex-col gap-6"
               >
-                <h2 className="text-3xl font-black text-white">팀 이름 설정</h2>
+                <h2 className="text-3xl font-extrabold text-white">팀 이름 설정</h2>
 
                 <div className="grid grid-cols-2 gap-6">
                   <div className="glass-blue rounded-2xl p-8">
@@ -632,7 +685,7 @@ export default function GameSetupPage() {
                     <input
                       value={teamAName}
                       onChange={(e) => setTeamAName(e.target.value)}
-                      className="mt-3 w-full bg-transparent text-3xl font-black text-blue-400 border-b-2 border-blue-600/50 outline-none focus:border-blue-400 transition-colors"
+                      className="mt-3 w-full bg-transparent text-3xl font-extrabold text-blue-400 border-b-2 border-blue-600/50 outline-none focus:border-blue-400 transition-colors"
                     />
                   </div>
                   <div className="glass-amber rounded-2xl p-8">
@@ -640,7 +693,7 @@ export default function GameSetupPage() {
                     <input
                       value={teamBName}
                       onChange={(e) => setTeamBName(e.target.value)}
-                      className="mt-3 w-full bg-transparent text-3xl font-black text-amber-400 border-b-2 border-amber-600/50 outline-none focus:border-amber-400 transition-colors"
+                      className="mt-3 w-full bg-transparent text-3xl font-extrabold text-amber-400 border-b-2 border-amber-600/50 outline-none focus:border-amber-400 transition-colors"
                     />
                   </div>
                 </div>
@@ -649,17 +702,17 @@ export default function GameSetupPage() {
                   <h3 className="text-lg text-gray-400 mb-4 uppercase tracking-wider font-bold">게임 요약</h3>
                   <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-xl">
                     <span className="text-gray-500">학생 수</span>
-                    <span className="text-white font-bold">{students.length}명</span>
+                    <span className="text-white font-semibold">{students.length}명</span>
                     {/* 세트 모드에서는 학년군·과목·단원 선택 UI가 뜨지 않으므로
                         로컬 state가 아니라 실제 고른 세트의 값을 보여 준다. */}
                     {sourceMode === 'set' ? (
                       <>
                         <span className="text-gray-500">문제 세트</span>
-                        <span className="text-white font-bold text-base leading-relaxed">
+                        <span className="text-white font-semibold text-base leading-relaxed">
                           {selectedSet ? `${selectedSet.name} (${selectedSet.questions.length}문항)` : '선택 안 됨'}
                         </span>
                         <span className="text-gray-500">범위</span>
-                        <span className="text-white font-bold text-base leading-relaxed">
+                        <span className="text-white font-semibold text-base leading-relaxed">
                           {selectedSet
                             ? [selectedSet.grade ? `${selectedSet.grade}학년` : null, selectedSet.subject, selectedSet.unit]
                                 .filter(Boolean)
@@ -670,15 +723,15 @@ export default function GameSetupPage() {
                     ) : (
                       <>
                         <span className="text-gray-500">학년군/과목</span>
-                        <span className="text-white font-bold">{band.label} {subject}{isNational ? ` (${subGrade}학년)` : ''}</span>
+                        <span className="text-white font-semibold">{band.label} {subject}{isNational ? ` (${subGrade}학년)` : ''}</span>
                         <span className="text-gray-500">단원</span>
-                        <span className="text-white font-bold text-base leading-relaxed">{unit}</span>
+                        <span className="text-white font-semibold text-base leading-relaxed">{unit}</span>
                       </>
                     )}
                     <span className="text-gray-500">목표 점수</span>
-                    <span className="text-white font-bold">{targetScore}점</span>
+                    <span className="text-white font-semibold">{targetScore}점</span>
                     <span className="text-gray-500">제한 시간</span>
-                    <span className="text-white font-bold">{timerSeconds}초</span>
+                    <span className="text-white font-semibold">{timerSeconds}초</span>
                   </div>
                 </div>
 
@@ -691,8 +744,7 @@ export default function GameSetupPage() {
                 <motion.button
                   onClick={handleStart}
                   disabled={!canStart}
-                  className="w-full py-6 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 hover:from-purple-500 hover:via-purple-400 hover:to-pink-500 disabled:from-gray-700 disabled:via-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white rounded-2xl font-black text-3xl transition-shadow hover:shadow-lg hover:shadow-purple-500/20 flex items-center justify-center gap-4"
-                  style={{ fontFamily: "var(--font-heading), sans-serif" }}
+                  className="w-full py-6 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 hover:from-purple-500 hover:via-purple-400 hover:to-pink-500 disabled:from-gray-700 disabled:via-gray-700 disabled:to-gray-700 disabled:text-gray-500 text-white rounded-2xl font-extrabold text-3xl transition-shadow hover:shadow-lg hover:shadow-purple-500/20 flex items-center justify-center gap-4" data-display-font
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
