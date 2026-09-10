@@ -1,4 +1,5 @@
-import { sanitizeQuestions } from '@/lib/questionSanitizer';
+import { sanitizeQuestions, normText } from '@/lib/questionSanitizer';
+import { resolveParticles } from '@/lib/koreanParticles';
 import { normalizeUnit } from '@/lib/curriculumAliases';
 import { seedPart1 } from './seed-part1';
 import { seedPart2 } from './seed-part2';
@@ -501,7 +502,10 @@ const normalizedSeed: QuestionSeed[] = mergedSeed
     return n.grade === q.grade && n.unit === q.unit ? q : { ...q, grade: n.grade, unit: n.unit };
   })
   .filter((q) => {
-    const key = `${q.grade}-${q.subject}-${q.question_text}`;
+    // 발문은 정합성 계층이 나중에 공백 정규화(TEXT_WS)와 조사 해소를 한다
+    // ("사과을(를)" → "사과를"). 원문 그대로 비교하면 그 뒤에야 같아지는 문항이
+    // 여기를 빠져나가 중복으로 남는다(실측 18건). 같은 정규화를 키에도 먼저 건다.
+    const key = `${q.grade}-${q.subject}-${resolveParticles(normText(q.question_text))}`;
     if (normalizedSeen.has(key)) return false;
     normalizedSeen.add(key);
     return true;

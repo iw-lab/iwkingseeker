@@ -41,9 +41,9 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "어떤 행동이 자신을 소중히 여기는 모습인가요?", options: ["실수해도 다시 도전하려 한다", "작은 실수에도 스스로를 탓한다", "어려운 일은 아예 시작하지 않는다", "남이 칭찬할 때만 열심히 한다"], correct_answer: "실수해도 다시 도전하려 한다", explanation: "실수를 두려워하지 않고 다시 도전하는 것이 자신을 소중히 여기는 모습입니다.", difficulty: 2 },
 
-  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "다른 나라 문화권에서 온 친구에게 올바른 태도는?", options: ["다른 문화에 대해 궁금한 점을 예의 바르게 묻는다", "생김새가 이상하다며 손가락질을 한다", "말이 잘 통하지 않는다고 무시해 버린다", "우리나라 방식만 따르라고 강요한다"], correct_answer: "다른 문화에 대해 궁금한 점을 예의 바르게 묻는다", explanation: "다른 문화에 대해 예의 바르게 관심을 갖고 존중하는 것이 올바른 태도입니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "다른 나라 문화권에서 온 친구에게 올바른 태도는?", options: ["다른 문화에 대해 궁금한 점을 예의 바르게 묻는다", "생김새가 이상하다며 대놓고 손가락질을 하며 놀린다", "말이 잘 통하지 않는다고 무시해 버린다", "우리나라 방식만 그대로 따르라고 강요한다"], correct_answer: "다른 문화에 대해 궁금한 점을 예의 바르게 묻는다", explanation: "다른 문화에 대해 예의 바르게 관심을 갖고 존중하는 것이 올바른 태도입니다.", difficulty: 2 },
 
-  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "친구가 나보다 그림을 훨씬 잘 그릴 때 어떻게 생각하는 것이 좋을까요?", options: ["친구의 실력을 인정하고 나만의 잘하는 것을 찾는다", "친구가 미워지고 함께 놀기 싫어진다", "다시는 그림을 그리지 않겠다고 다짐한다", "친구가 그린 그림을 망가뜨려 놓는다"], correct_answer: "친구의 실력을 인정하고 나만의 잘하는 것을 찾는다", explanation: "다른 사람의 장점을 인정하고 자신만의 장점을 찾는 것이 건강한 마음입니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "친구가 나보다 그림을 훨씬 잘 그릴 때 어떻게 생각하는 것이 좋을까요?", options: ["친구의 실력을 인정하고 나만의 잘하는 것을 찾는다", "그 친구가 미워지고 함께 놀기도 싫어지게 되고 만다", "다시는 그림을 그리지 않겠다고 다짐한다", "친구가 그린 그림을 몰래 망가뜨려 놓는다"], correct_answer: "친구의 실력을 인정하고 나만의 잘하는 것을 찾는다", explanation: "다른 사람의 장점을 인정하고 자신만의 장점을 찾는 것이 건강한 마음입니다.", difficulty: 2 },
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "나에게 소중한 사람을 고르는 기준으로 가장 알맞은 것은?", options: ["함께 기쁨과 슬픔을 나누는 사람", "선물을 많이 주는 사람", "공부를 가장 잘하는 사람", "항상 나 편을 들어주는 사람"], correct_answer: "함께 기쁨과 슬픔을 나누는 사람", explanation: "기쁨과 슬픔을 함께 나누는 관계가 진정으로 소중한 관계입니다.", difficulty: 1 },
 
@@ -51,7 +51,7 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "성별이 다른 친구를 대할 때 올바른 태도는?", options: ["성별에 상관없이 똑같이 친구로 존중한다", "남자와 여자는 같이 놀면 안 된다고 생각한다", "여자 친구에게만 특별히 잘 대해 준다", "남자 친구에게만 먼저 인사한다"], correct_answer: "성별에 상관없이 똑같이 친구로 존중한다", explanation: "성별에 관계없이 모든 친구는 소중한 존재이며 똑같이 존중해야 합니다.", difficulty: 1 },
 
-  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "내가 한 일을 칭찬받았을 때 올바른 반응은?", options: ["고맙다고 말하고 앞으로도 열심히 하겠다고 다짐한다", "운이 좋았을 뿐이라며 쑥스러워 도망간다", "당연히 받을 칭찬이라는 듯 으스댄다", "칭찬해 준 사람을 못 본 척 무시한다"], correct_answer: "고맙다고 말하고 앞으로도 열심히 하겠다고 다짐한다", explanation: "칭찬을 겸손하게 받아들이고 감사히 여기는 것이 올바른 태도입니다.", difficulty: 1 },
+  { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "내가 한 일을 칭찬받았을 때 올바른 반응은?", options: ["고맙다고 말하고 앞으로도 열심히 하겠다고 다짐한다", "운이 좋았을 뿐이라며 쑥스러워하다 슬그머니 도망간다", "당연히 받을 칭찬이라는 듯이 크게 으스댄다", "칭찬해 준 사람을 못 본 척하고 무시한다"], correct_answer: "고맙다고 말하고 앞으로도 열심히 하겠다고 다짐한다", explanation: "칭찬을 겸손하게 받아들이고 감사히 여기는 것이 올바른 태도입니다.", difficulty: 1 },
 
   { grade: 3, subject: "도덕", unit: "2. 우리 모두 소중해요", unit_code: null, question_type: "multiple_choice", question_text: "우리 모두가 소중한 존재임을 알 수 있는 행동이 아닌 것은?", options: ["키가 작은 친구를 놀린다", "친구의 잘하는 점을 찾아 칭찬한다", "실수한 친구를 격려한다", "아픈 친구에게 관심을 보인다"], correct_answer: "키가 작은 친구를 놀린다", explanation: "신체적 특징으로 친구를 놀리는 것은 상대방이 소중한 존재임을 부정하는 행동입니다.", difficulty: 1 },
 
@@ -99,7 +99,7 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "강이나 바다를 오염시키면 안 되는 이유는?", options: ["물에 사는 생물들이 살 수 없게 되기 때문에", "물이 보기에 더러워 보이기 때문에", "물에서 수영하기 불편해지기 때문에", "물놀이를 할 수 없게 되기 때문에"], correct_answer: "물에 사는 생물들이 살 수 없게 되기 때문에", explanation: "물이 오염되면 물속에 사는 동식물의 생명이 위협받으므로 오염시키지 않아야 합니다.", difficulty: 2 },
 
-  { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "나무를 무분별하게 베면 어떤 문제가 생길까요?", options: ["나무 속에서 살던 새와 곤충들이 집을 잃는다", "주변의 공기가 훨씬 더 맑아진다", "그 지역의 날씨가 더 좋아진다", "남은 나무들이 더 잘 자라게 된다"], correct_answer: "나무 속에서 살던 새와 곤충들이 집을 잃는다", explanation: "나무는 많은 생물의 보금자리이므로 함부로 베면 생명들이 살 곳을 잃게 됩니다.", difficulty: 2 },
+  { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "나무를 무분별하게 베면 어떤 문제가 생길까요?", options: ["나무 속에서 살던 새와 곤충들이 집을 잃는다", "주변의 공기가 예전보다 훨씬 더 맑아지게 된다", "그 지역의 날씨가 훨씬 더 좋아지게 된다", "남은 나무들이 전보다 더 잘 자라게 된다"], correct_answer: "나무 속에서 살던 새와 곤충들이 집을 잃는다", explanation: "나무는 많은 생물의 보금자리이므로 함부로 베면 생명들이 살 곳을 잃게 됩니다.", difficulty: 2 },
 
   { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "학교 화단에 있는 나무 가지를 꺾지 않아야 하는 이유는?", options: ["나무도 살아 있는 생명이기 때문에", "선생님이 야단치기 때문에", "나무가 아프다고 소리를 내기 때문에", "가지가 날카로워 위험하기 때문에"], correct_answer: "나무도 살아 있는 생명이기 때문에", explanation: "나무는 살아 있는 생명체이므로 가지를 꺾는 것은 생명을 해치는 행동입니다.", difficulty: 1 },
 
@@ -109,5 +109,5 @@ export const seedGrade3V7Moral: QuestionSeed[] = [
 
   { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "다음 중 생명을 존중하는 행동을 모두 바르게 묶은 것은?", options: ["나무 심기, 분리수거, 물 아껴 쓰기", "쓰레기 무단 투기, 나무 꺾기, 동물 학대", "먹이 남기기, 물 낭비하기, 전기 낭비하기", "꽃 꺾기, 동물 괴롭히기, 강 오염시키기"], correct_answer: "나무 심기, 분리수거, 물 아껴 쓰기", explanation: "나무 심기, 분리수거, 물 아껴 쓰기는 모두 생태계와 생명을 지키는 실천 행동입니다.", difficulty: 3 },
 
-  { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "생명을 존중하는 마음이 생기면 우리 주변에 어떤 변화가 생길까요?", options: ["동식물과 자연이 더 건강하게 살아갈 수 있다", "생물이 줄어들어 오히려 깨끗해진다", "사람들만 더 편리하게 살 수 있게 된다", "아무런 변화도 생기지 않는다"], correct_answer: "동식물과 자연이 더 건강하게 살아갈 수 있다", explanation: "우리가 모든 생명을 존중하면 동식물이 건강하게 살 수 있어 자연환경도 더 좋아집니다.", difficulty: 3 },
+  { grade: 3, subject: "도덕", unit: "4. 생명을 존중해요", unit_code: null, question_type: "multiple_choice", question_text: "생명을 존중하는 마음이 생기면 우리 주변에 어떤 변화가 생길까요?", options: ["동식물과 자연이 더 건강하게 살아갈 수 있다", "생물이 줄어들어 주변이 오히려 더 깨끗해진다", "사람들만 더 편리하게 살 수 있게 된다", "주변에 아무런 변화도 생기지 않는다"], correct_answer: "동식물과 자연이 더 건강하게 살아갈 수 있다", explanation: "우리가 모든 생명을 존중하면 동식물이 건강하게 살 수 있어 자연환경도 더 좋아집니다.", difficulty: 3 },
 ];

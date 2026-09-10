@@ -188,6 +188,13 @@ Object.entries(byCode)
   .sort((a, b) => b[1] - a[1])
   .forEach(([code, n]) => console.log(`  ${code}: ${n}`));
 
+if (process.env.DUMP_MED) {
+  console.log('\n— MED 상세 —');
+  findings.filter((f) => f.severity === 'MED').forEach((f) =>
+    console.log(`  [${f.code}] ${f.grade}학년 ${f.subject} | ${f.unit}\n     ${f.text}\n     ${f.detail ?? ''}`)
+  );
+}
+
 const crit = findings.filter((f) => f.severity === 'CRIT');
 if (crit.length) {
   console.log('\n❌ CRITICAL 상세 (최대 30건)');

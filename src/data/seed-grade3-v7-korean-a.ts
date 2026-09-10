@@ -70,7 +70,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "느낌을 나눌 때 알맞은 말은?",
-    options: ["나는 이 그림을 보니 시원한 느낌이 들었어", "이 그림은 누가 봐도 슬픈 그림이야", "그림은 언제나 밝은 색이어야만 해", "그림을 보고 느낌을 말하면 안 돼"],
+    options: ["나는 이 그림을 보니 시원한 느낌이 들었어", "이 그림은 누가 보아도 슬픈 그림일 수밖에 없어", "그림은 언제나 밝은 색으로만 그려야 해", "그림을 보고 느낌을 말하면 절대로 안 돼"],
     correct_answer: "나는 이 그림을 보니 시원한 느낌이 들었어",
     explanation: "느낌을 나눌 때는 자신의 느낌을 솔직하게 표현합니다. 느낌에는 정답이 없습니다.",
     difficulty: 1
@@ -106,7 +106,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "그림 속 인물의 표정을 보고 느낌을 말할 때 알맞은 것은?",
-    options: ["표정에서 어떤 감정이 느껴지는지 이야기한다", "인물이 쓴 모자가 얼마인지 이야기한다", "그림 속 날씨가 실제와 맞는지 확인한다", "그림의 가로와 세로 길이를 재어 본다"],
+    options: ["표정에서 어떤 감정이 느껴지는지 이야기한다", "인물이 쓰고 있는 모자가 얼마쯤인지 값을 이야기한다", "그림 속 날씨가 실제와 맞는지 확인한다", "그림의 가로와 세로 길이를 재어 본다"],
     correct_answer: "표정에서 어떤 감정이 느껴지는지 이야기한다",
     explanation: "인물의 표정을 살펴보면 그 감정을 느낄 수 있고, 이것을 이야기하는 것이 느낌 나누기입니다.",
     difficulty: 1
@@ -256,7 +256,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 글로 쓸 때 시간 순서에 맞게 써야 하는 이유는?",
-    options: ["읽는 사람이 내용을 쉽게 이해할 수 있기 때문에", "글에 쓰이는 글자 수가 늘어나기 때문에", "글이 더 화려하고 멋있어 보이기 때문에", "선생님이 그런 글을 좋아하시기 때문에"],
+    options: ["읽는 사람이 내용을 쉽게 이해할 수 있기 때문에", "글에 쓰이는 전체 글자 수가 저절로 늘어나기 때문에", "글이 더 화려하고 멋있어 보이기 때문에", "선생님이 그런 글을 좋아하시기 때문에"],
     correct_answer: "읽는 사람이 내용을 쉽게 이해할 수 있기 때문에",
     explanation: "시간 순서에 맞게 쓰면 읽는 사람이 사건의 흐름을 쉽게 이해할 수 있습니다.",
     difficulty: 1
@@ -265,7 +265,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 글로 쓸 때 일어난 장소를 써야 하는 이유는?",
-    options: ["읽는 사람이 상황을 더 잘 상상할 수 있기 때문에", "글의 길이가 훨씬 더 길어지기 때문에", "글쓰기 점수를 더 받을 수 있기 때문에", "모르는 낱말의 수가 줄어들기 때문에"],
+    options: ["읽는 사람이 상황을 더 잘 상상할 수 있기 때문에", "글의 전체 길이가 예전보다 훨씬 더 길어지기 때문이다", "글쓰기 점수를 더 받을 수 있기 때문이다", "모르는 낱말의 수가 줄어들기 때문이다"],
     correct_answer: "읽는 사람이 상황을 더 잘 상상할 수 있기 때문에",
     explanation: "언제, 어디서, 무슨 일이 있었는지 쓰면 읽는 사람이 상황을 더 잘 상상할 수 있습니다.",
     difficulty: 2
@@ -403,7 +403,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시에서 같은 말을 여러 번 반복하면 어떤 효과가 있나요?",
-    options: ["리듬감이 생기고 내용이 강조된다", "쓰는 글자 수만 늘어나게 된다", "말하려는 뜻이 반대로 바뀐다", "읽기가 어려워지고 헷갈린다"],
+    options: ["리듬감이 생기고 내용이 강조된다", "쓰는 글자 수만 공연히 늘어나게 된다", "말하려는 뜻이 반대로 바뀐다", "읽기가 어려워지고 헷갈린다"],
     correct_answer: "리듬감이 생기고 내용이 강조된다",
     explanation: "같은 말을 반복하면 시에 리듬감이 생기고 그 내용이 더 강하게 강조됩니다.",
     difficulty: 2
@@ -439,7 +439,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시를 쓸 때 반복 표현을 쓰는 목적으로 알맞은 것은?",
-    options: ["읽는 재미와 리듬감을 더하기 위해", "정해진 글자 수를 채우기 위해서", "어려운 낱말을 피해 가기 위해서", "내용을 자세히 설명하기 위해서"],
+    options: ["읽는 재미와 리듬감을 더하기 위해", "정해진 글자 수를 빠짐없이 채우기 위해서", "어려운 낱말을 피해 가기 위해서", "내용을 자세히 설명하기 위해서"],
     correct_answer: "읽는 재미와 리듬감을 더하기 위해",
     explanation: "반복 표현은 시에 리듬감을 주고 읽는 재미를 더하기 위해 사용합니다.",
     difficulty: 1
@@ -448,7 +448,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시를 읽고 감동받은 표현을 친구에게 소개할 때 해야 할 일은?",
-    options: ["그 표현이 왜 마음에 들었는지 이유도 함께 말한다", "고른 표현만 소리 내어 읽고 그대로 끝낸다", "친구가 소개하는 표현은 듣지 않고 넘긴다", "뜻이 가장 어려운 표현을 골라서 소개한다"],
+    options: ["그 표현이 왜 마음에 들었는지 이유도 함께 말한다", "고른 표현만 소리 내어 한 번 읽고 그대로 끝내 버린다", "친구가 소개하는 표현은 듣지 않고 그냥 넘긴다", "뜻이 가장 어려운 표현을 골라서 소개한다"],
     correct_answer: "그 표현이 왜 마음에 들었는지 이유도 함께 말한다",
     explanation: "표현을 소개할 때 왜 마음에 들었는지 이유를 함께 말하면 친구와 감동을 더 잘 나눌 수 있습니다.",
     difficulty: 2
@@ -457,7 +457,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "흉내 내는 말을 넣어 쓴 문장이 그렇지 않은 문장보다 더 좋은 점은?",
-    options: ["장면이나 느낌이 훨씬 생생하게 전달된다", "글의 뜻이 훨씬 더 어렵게 느껴진다", "문장의 길이가 짧아져 쓰기 편하다", "소리 내어 읽기가 몹시 불편해진다"],
+    options: ["장면이나 느낌이 훨씬 생생하게 전달된다", "글의 뜻이 오히려 훨씬 더 어렵게 느껴지게 된다", "문장의 길이가 짧아져 쓰기가 편해진다", "소리 내어 읽기가 몹시 불편해진다"],
     correct_answer: "장면이나 느낌이 훨씬 생생하게 전달된다",
     explanation: "흉내 내는 말을 쓰면 독자가 장면이나 느낌을 더 생생하게 상상할 수 있습니다.",
     difficulty: 1
@@ -475,7 +475,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시에서 감각적 표현이 독자에게 미치는 영향으로 알맞은 것은?",
-    options: ["장면을 눈앞에 보이듯 상상하게 한다", "글자를 읽는 것을 어렵게 만든다", "이야기의 줄거리를 복잡하게 한다", "낱말의 뜻을 알기 어렵게 만든다"],
+    options: ["장면을 눈앞에 보이듯 상상하게 한다", "글자를 읽는 것을 어렵게 만든다", "이야기의 줄거리를 더욱 복잡하게 한다", "낱말의 뜻을 알기 어렵게 만든다"],
     correct_answer: "장면을 눈앞에 보이듯 상상하게 한다",
     explanation: "감각적 표현은 독자가 장면을 생생하게 상상하도록 도와줍니다.",
     difficulty: 2
@@ -484,7 +484,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시를 쓸 때 감동을 나타내기 위해 쓸 수 있는 방법이 아닌 것은?",
-    options: ["수학 계산식을 넣는다", "감각적 표현을 쓴다", "흉내 내는 말을 쓴다", "반복 표현을 쓴다"],
+    options: ["수학 계산식을 넣는다", "감각적인 표현을 골라 쓴다", "흉내 내는 말을 쓴다", "반복 표현을 쓴다"],
     correct_answer: "수학 계산식을 넣는다",
     explanation: "시에서 감동을 나타내려면 감각적 표현, 흉내 내는 말, 반복 표현 등을 씁니다. 수학 계산식은 해당되지 않습니다.",
     difficulty: 1
@@ -493,7 +493,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "「눈이 펄펄 내린다」에서 「펄펄」은 어떤 표현인가요?",
-    options: ["눈이 내리는 모양을 흉내 낸 의태어", "눈 내리는 소리를 흉내 낸 의성어", "높임 표현", "이어 주는 말"],
+    options: ["눈이 내리는 모양을 흉내 낸 의태어", "눈 내리는 소리를 흉내 낸 의성어 표현", "높이는 뜻을 담은 높임 표현", "앞뒤를 잇는 이어 주는 말"],
     correct_answer: "눈이 내리는 모양을 흉내 낸 의태어",
     explanation: "「펄펄」은 눈이 많이 내리는 모양을 흉내 낸 의태어입니다.",
     difficulty: 3
@@ -502,7 +502,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "감동적인 시를 쓰기 위해 주제를 고를 때 알맞은 기준은?",
-    options: ["자신이 직접 보거나 느낀 것 중 인상 깊은 것", "가장 어려운 낱말이 많이 들어가는 것", "가장 긴 시", "남이 이미 쓴 시와 똑같은 것"],
+    options: ["자신이 직접 보거나 느낀 것 중 인상 깊은 것", "가장 어려운 낱말이 가장 많이 들어가 있는 것", "글자 수가 가장 많은 긴 시", "남이 이미 쓴 시와 똑같은 것"],
     correct_answer: "자신이 직접 보거나 느낀 것 중 인상 깊은 것",
     explanation: "자신이 직접 경험하고 깊이 느낀 것을 주제로 삼을 때 감동적인 시를 쓸 수 있습니다.",
     difficulty: 3

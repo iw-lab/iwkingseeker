@@ -432,7 +432,7 @@ export const seedGrade3V7MathB: QuestionSeed[] = [
     unit_code: null,
     question_type: "multiple_choice",
     question_text: "원의 지름에 대한 설명으로 바른 것은?",
-    options: ["원의 중심을 지나며 원 위의 두 점을 이은 선분이다", "원 위의 두 점을 이은 모든 선분이다", "원의 바깥쪽에 놓여 있는 선분이다", "반지름 길이의 절반이 되는 선분이다"],
+    options: ["원의 중심을 지나며 원 위의 두 점을 이은 선분이다", "원 위에 있는 두 점을 이은 모든 선분을 가리키는 말이다", "원의 바깥쪽에 놓여 있는 곧은 선분을 말한다", "반지름 길이의 절반이 되는 짧은 선분이다"],
     correct_answer: "원의 중심을 지나며 원 위의 두 점을 이은 선분이다",
     explanation: "지름은 원의 중심을 지나면서 원 위의 두 점을 이은 선분입니다.",
     difficulty: 2,
