@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTimedAdvance } from '@/hooks/useTimedAdvance';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import CrownAnimation from './CrownAnimation';
@@ -44,13 +45,13 @@ export default function RoundResult() {
     setPhase('QUIZ');
   };
 
-  // 왕 지목 오답 시 3.5초 후 자동 진행
-  useEffect(() => {
-    if (lastGuessResult === 'not_found' && phase === 'ROUND_RESULT') {
-      const timer = setTimeout(() => handleNext(), 3500);
-      return () => clearTimeout(timer);
-    }
-  }, [lastGuessResult, phase]);
+  // 왕 지목 오답 시 3.5초 후 자동 진행.
+  // 가려진 탭에서 setTimeout 이 늦어도 반드시 넘어가도록 훅이 세 겹으로 막는다.
+  useTimedAdvance(
+    lastGuessResult === 'not_found' && phase === 'ROUND_RESULT',
+    3500,
+    handleNext
+  );
 
   if (lastGuessResult === 'found' && phase !== 'GAME_OVER') {
     return (

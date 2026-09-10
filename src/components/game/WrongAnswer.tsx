@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useCallback } from 'react';
+import { useTimedAdvance } from '@/hooks/useTimedAdvance';
 import { motion } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import { ArrowRightLeft, ShieldX } from 'lucide-react';
@@ -8,7 +9,6 @@ import TeamEmoji from './TeamEmoji';
 
 export default function WrongAnswer() {
   const { currentAttacker, teamA, teamB, setPhase, lastGuessResult, lastGuessedStudent } = useGameStore();
-  const startTsRef = useRef(Date.now());
 
   const attackerName = currentAttacker === 'team_a' ? teamA.name : teamB.name;
   const attackerColor = currentAttacker === 'team_a' ? 'text-blue-400' : 'text-amber-400';
@@ -16,29 +16,10 @@ export default function WrongAnswer() {
   const isWrongKing = lastGuessResult === 'not_found';
   const autoDelay = isWrongKing ? 3500 : 2000;
 
-  useEffect(() => {
-    startTsRef.current = Date.now();
-    const timer = setTimeout(() => {
-      setPhase('QUIZ');
-    }, autoDelay);
-
-    // 백그라운드 탭에서 setTimeout throttle 대응:
-    // 탭이 다시 보이면 경과 시간 체크 후 즉시 advance
-    const onVisible = () => {
-      if (document.visibilityState === 'visible') {
-        const elapsed = Date.now() - startTsRef.current;
-        if (elapsed >= autoDelay) {
-          setPhase('QUIZ');
-        }
-      }
-    };
-    document.addEventListener('visibilitychange', onVisible);
-
-    return () => {
-      clearTimeout(timer);
-      document.removeEventListener('visibilitychange', onVisible);
-    };
-  }, [setPhase, autoDelay]);
+  // 전에는 setTimeout + visibility 두 겹이었다. 탭이 **계속 가려진 채**면
+  // 복귀 이벤트가 오지 않아 그대로 멈춘다 — 훅이 워치독 한 겹을 더 얹는다.
+  const advance = useCallback(() => setPhase('QUIZ'), [setPhase]);
+  useTimedAdvance(true, autoDelay, advance);
 
   return (
     <div className="flex flex-col items-center justify-center gap-6">

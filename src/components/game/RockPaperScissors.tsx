@@ -4,23 +4,31 @@ import { motion } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import { playRPSReveal, playRPSBeat } from '@/lib/sounds';
 import { Crown, Zap } from 'lucide-react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { useTimedAdvance } from '@/hooks/useTimedAdvance';
 import TeamEmoji from './TeamEmoji';
 
 export default function RockPaperScissors() {
   const { teamA, teamB, setRPSResult } = useGameStore();
   const [selecting, setSelecting] = useState(false);
 
+  const [pendingWinner, setPendingWinner] = useState<'team_a' | 'team_b' | null>(null);
+
   const handleSelectWinner = (winner: 'team_a' | 'team_b') => {
     if (selecting) return;
     setSelecting(true);
+    setPendingWinner(winner);
     playRPSBeat();
-
-    setTimeout(() => {
-      playRPSReveal();
-      setRPSResult(winner);
-    }, 400);
   };
+
+  // 전에는 여기서 setTimeout 하나로 넘겼다. 그 사이에 예외가 나거나 탭이 가려지면
+  // selecting 이 true 로 굳은 채 다음이 오지 않아 화면이 영영 멈췄다(실측).
+  const reveal = useCallback(() => {
+    if (!pendingWinner) return;
+    playRPSReveal();
+    setRPSResult(pendingWinner);
+  }, [pendingWinner, setRPSResult]);
+  useTimedAdvance(pendingWinner !== null, 400, reveal);
 
   return (
     <div className="flex flex-col items-center gap-10 w-full">

@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import StudentCard from './StudentCard';
 import { playKingSelectSuspense, playTeamSelect } from '@/lib/sounds';
-import { EyeOff, Crown, Check, Lock, User } from 'lucide-react';
+import { EyeOff, Crown, Check, Lock, User, ArrowRight } from 'lucide-react';
+import { useTimedAdvance } from '@/hooks/useTimedAdvance';
 
 interface KingSelectorProps {
   selectingTeam: 'team_a' | 'team_b';
@@ -44,15 +45,14 @@ export default function KingSelector({ selectingTeam }: KingSelectorProps) {
     if (!selectedKing || !selectorName) return;
     selectKing(selectingTeam, selectedKing, selectorName);
     setStep('confirmed');
-
-    setTimeout(() => {
-      if (selectingTeam === 'team_a') {
-        setPhase('KING_SELECT_B');
-      } else {
-        setPhase('RPS');
-      }
-    }, 2000);
   };
+
+  // "왕이 선택되었습니다!"를 2초 보여 준 뒤 다음 단계로.
+  // setTimeout 하나에만 맡기면 가려진 탭에서 여기서 멈춘다(실측) — 훅이 세 겹으로 막는다.
+  const advance = useCallback(() => {
+    setPhase(selectingTeam === 'team_a' ? 'KING_SELECT_B' : 'RPS');
+  }, [selectingTeam, setPhase]);
+  const advanceNow = useTimedAdvance(step === 'confirmed', 2000, advance);
 
   // 확인 완료 화면
   if (step === 'confirmed') {
@@ -82,6 +82,14 @@ export default function KingSelector({ selectingTeam }: KingSelectorProps) {
           <Lock className="w-4 h-4" />
           <p>다른 학생들은 누가 왕인지 모릅니다</p>
         </div>
+        {/* 자동 전환이 늦어도 교사가 직접 넘길 수 있어야 한다 */}
+        <button
+          onClick={advanceNow}
+          className="flex items-center gap-2 px-6 py-3 rounded-xl glass border border-white/10 text-gray-300 hover:text-white hover:bg-white/10 font-semibold"
+        >
+          바로 넘어가기
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </motion.div>
     );
   }
