@@ -125,10 +125,8 @@ export default function GameOver() {
         </motion.div>
         <h1
           className={`text-6xl md:text-7xl font-black bg-gradient-to-r ${winnerGradient} bg-clip-text text-transparent`}
-          style={{
-            fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif",
-            WebkitTextFillColor: 'transparent',
-          }}
+          data-display-font
+          style={{ WebkitTextFillColor: 'transparent' }}
         >
           {winnerData.name} 승리!
         </h1>
@@ -146,7 +144,7 @@ export default function GameOver() {
           <div className="text-center">
             <p className="text-sm text-gray-400">{teamA.name}</p>
             <motion.p
-              className="text-4xl font-black text-blue-400 score-badge"
+              className="text-4xl font-extrabold text-blue-400 score-badge"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 1.0, type: 'spring' }}
@@ -161,7 +159,7 @@ export default function GameOver() {
           <div className="text-center">
             <p className="text-sm text-gray-400">{teamB.name}</p>
             <motion.p
-              className="text-4xl font-black text-amber-400 score-badge"
+              className="text-4xl font-extrabold text-amber-400 score-badge"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 1.1, type: 'spring' }}
@@ -189,7 +187,7 @@ export default function GameOver() {
               transition={{ delay: 1.2 + i * 0.1 }}
             >
               <p className="text-[11px] text-gray-500 uppercase tracking-wider">{stat.label}</p>
-              <p className={`text-xl font-black ${stat.color}`}>{stat.value}</p>
+              <p className={`text-xl font-semibold ${stat.color}`}>{stat.value}</p>
             </motion.div>
           ))}
         </div>
@@ -203,7 +201,7 @@ export default function GameOver() {
         transition={{ delay: 1.5 }}
       >
         <motion.button
-          className="flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl font-bold transition-shadow hover:shadow-lg hover:shadow-purple-500/20"
+          className="flex items-center gap-2 px-7 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl font-semibold transition-shadow hover:shadow-lg hover:shadow-purple-500/20"
           onClick={resetGame}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -213,7 +211,7 @@ export default function GameOver() {
         </motion.button>
         <Link href="/dashboard">
           <motion.div
-            className="flex items-center gap-2 px-7 py-3.5 glass hover:bg-white/10 text-white rounded-xl font-bold cursor-pointer transition-colors"
+            className="flex items-center gap-2 px-7 py-3.5 glass hover:bg-white/10 text-white rounded-xl font-semibold cursor-pointer transition-colors"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

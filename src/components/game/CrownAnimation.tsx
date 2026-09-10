@@ -104,8 +104,7 @@ export default function CrownAnimation({ studentName, onComplete }: CrownAnimati
 
         {/* Title */}
         <motion.h2
-          className="text-5xl font-black text-gradient-gold"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-5xl font-black text-gradient-gold" data-display-font
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.6 }}
@@ -128,8 +127,7 @@ export default function CrownAnimation({ studentName, onComplete }: CrownAnimati
 
         {/* Continue button */}
         <motion.button
-          className="mt-6 px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-black rounded-xl text-lg transition-shadow hover:shadow-lg hover:shadow-yellow-500/30"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="mt-6 px-8 py-3 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-black font-semibold rounded-xl text-lg transition-shadow hover:shadow-lg hover:shadow-yellow-500/30" data-display-font
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 1.5 }}

@@ -132,8 +132,7 @@ function TeamScore({
       <div className="ml-auto relative z-10">
         <span
           key={score}
-          className={cn('text-5xl font-black score-badge score-pop', colorClass)}
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className={cn('text-5xl font-black score-badge score-pop', colorClass)} data-display-font
         >
           {score}
         </span>
@@ -145,7 +144,7 @@ function TeamScore({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <span className="text-[10px] bg-gradient-to-r from-yellow-500 to-amber-500 text-black px-2 py-0.5 rounded-full font-black tracking-wider">
+          <span className="text-[10px] bg-gradient-to-r from-yellow-500 to-amber-500 text-black px-2 py-0.5 rounded-full font-semibold tracking-wider">
             ATTACK
           </span>
         </motion.div>

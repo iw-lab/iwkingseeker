@@ -79,7 +79,7 @@ export default function StudentCard({
       onClick={onClick}
       disabled={isDisabled || isRevealed}
       className={cn(
-        'relative flex items-center rounded-xl border font-bold transition-all cursor-pointer',
+        'relative flex items-center rounded-xl border font-semibold transition-all cursor-pointer',
         sizeClasses[size],
         isRevealed
           ? colors.revealed
@@ -95,7 +95,7 @@ export default function StudentCard({
       {/* Avatar */}
       <div
         className={cn(
-          'rounded-full flex items-center justify-center font-black text-white shrink-0',
+          'rounded-full flex items-center justify-center font-semibold text-white shrink-0',
           avatarSizes[size],
           isRevealed ? 'opacity-30' : '',
           `bg-gradient-to-br ${avatarGradient}`

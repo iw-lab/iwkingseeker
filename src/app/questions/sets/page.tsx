@@ -131,7 +131,7 @@ export default function QuestionSetsPage() {
       <header className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
         <Link href="/" className="flex items-center gap-2">
           <Crown className="w-7 h-7 text-yellow-400" />
-          <span className="text-xl font-black text-white" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <span className="text-xl font-semibold text-white" data-display-font>
             킹시커
           </span>
         </Link>
@@ -154,19 +154,19 @@ export default function QuestionSetsPage() {
         </Link>
 
         <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
-          <h1 className="text-3xl font-black text-white flex items-center gap-3" style={{ fontFamily: 'var(--font-heading), sans-serif' }}>
+          <h1 className="text-3xl font-extrabold text-white flex items-center gap-3" data-display-font>
             <Layers className="w-8 h-8 text-purple-400" /> 문제 세트
           </h1>
           <div className="flex gap-2">
             <button
               onClick={() => setImportOpen((v) => !v)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-bold transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold transition-colors"
             >
               <ClipboardPaste className="w-4 h-4" /> 공유받은 문제 가져오기
             </button>
             <button
               onClick={() => fileRef.current?.click()}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-bold transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm font-semibold transition-colors"
             >
               <Upload className="w-4 h-4" /> 파일에서
             </button>
@@ -196,7 +196,7 @@ export default function QuestionSetsPage() {
         {importOpen && (
           <div className="mb-6">
             <div className="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-5">
-                <label htmlFor="share-code-input" className="block text-sm font-bold text-gray-300 mb-2">
+                <label htmlFor="share-code-input" className="block text-sm font-semibold text-gray-300 mb-2">
                   받은 공유 코드를 붙여넣으세요 (KS1. 으로 시작합니다)
                 </label>
                 <textarea
@@ -210,14 +210,14 @@ export default function QuestionSetsPage() {
                 <div className="flex justify-end gap-2 mt-3">
                   <button
                     onClick={() => { setImportOpen(false); setImportText(''); }}
-                    className="px-4 py-2 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm font-bold"
+                    className="px-4 py-2 rounded-xl bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm font-semibold"
                   >
                     취소
                   </button>
                   <button
                     onClick={handleImportCode}
                     disabled={!importText.trim()}
-                    className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 disabled:text-gray-500 text-white text-sm font-bold"
+                    className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 disabled:text-gray-500 text-white text-sm font-semibold"
                   >
                     가져오기
                   </button>
@@ -255,25 +255,25 @@ export default function QuestionSetsPage() {
                   <div className="flex flex-wrap gap-2">
                     <button
                       onClick={() => handleShare(set)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600/80 hover:bg-purple-500 text-white text-xs font-bold"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600/80 hover:bg-purple-500 text-white text-xs font-semibold"
                     >
                       <Share2 className="w-3.5 h-3.5" /> 공유 코드
                     </button>
                     <button
                       onClick={() => handleDownload(set)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs font-bold"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 text-xs font-semibold"
                     >
                       <Download className="w-3.5 h-3.5" /> 파일
                     </button>
                     <Link
                       href={`/game/setup?set=${encodeURIComponent(set.id)}`}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-600/80 hover:bg-green-500 text-white text-xs font-bold"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-600/80 hover:bg-green-500 text-white text-xs font-semibold"
                     >
                       이 세트로 게임
                     </Link>
                     <button
                       onClick={() => setPendingDelete(set.id)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-red-600/70 text-gray-300 hover:text-white text-xs font-bold"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-red-600/70 text-gray-300 hover:text-white text-xs font-semibold"
                       aria-label={`${set.name} 삭제`}
                     >
                       <Trash2 className="w-3.5 h-3.5" />
@@ -286,10 +286,10 @@ export default function QuestionSetsPage() {
                     <span className="text-sm text-red-200 flex-1">
                       “{set.name}” 세트를 삭제할까요? 되돌릴 수 없습니다.
                     </span>
-                    <button onClick={() => setPendingDelete(null)} className="px-3 py-1.5 rounded-lg bg-gray-700 text-gray-200 text-xs font-bold">
+                    <button onClick={() => setPendingDelete(null)} className="px-3 py-1.5 rounded-lg bg-gray-700 text-gray-200 text-xs font-semibold">
                       취소
                     </button>
-                    <button onClick={() => handleDelete(set.id)} className="px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-bold">
+                    <button onClick={() => handleDelete(set.id)} className="px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs font-semibold">
                       삭제
                     </button>
                   </div>
@@ -298,12 +298,12 @@ export default function QuestionSetsPage() {
                 {shareCode?.setId === set.id && (
                   <div className="mt-4 rounded-xl bg-gray-900/70 border border-purple-500/30 p-4">
                     <div className="flex items-center justify-between gap-3 mb-2">
-                      <p className="text-xs text-purple-300 font-bold">
+                      <p className="text-xs text-purple-300 font-semibold">
                         이 코드를 메신저로 보내면 상대 선생님이 “공유받은 문제 가져오기”에 붙여넣어 바로 씁니다.
                       </p>
                       <button
                         onClick={handleCopy}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold shrink-0"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shrink-0"
                       >
                         {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                         {copied ? '복사됨' : '복사'}

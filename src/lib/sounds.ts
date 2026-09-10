@@ -162,7 +162,7 @@ function playChord(notes: ToneOptions[]) {
 
 // ========== EXPORTED SOUND EFFECTS ==========
 
-export function playCorrectSound() {
+function playCorrectSoundUnsafe() {
   // Bright, triumphant two-note chime with harmonics and reverb
   playChord([
     { frequency: 523.25, duration: 0.2, type: 'sine', volume: 0.25, reverb: true, reverbDuration: 0.8, harmonics: [2, 3], attack: 0.005 },
@@ -174,7 +174,7 @@ export function playCorrectSound() {
   ]);
 }
 
-export function playWrongSound() {
+function playWrongSoundUnsafe() {
   // Dark, dissonant buzz with low rumble
   playChord([
     { frequency: 200, duration: 0.15, type: 'sawtooth', volume: 0.12, filterFreq: 800, attack: 0.005 },
@@ -184,7 +184,7 @@ export function playWrongSound() {
   ]);
 }
 
-export function playKingFoundSound() {
+function playKingFoundSoundUnsafe() {
   // Majestic royal fanfare with chord progression
   const baseDelay = 0;
   playChord([
@@ -208,7 +208,7 @@ export function playKingFoundSound() {
   ]);
 }
 
-export function playCountdownTick() {
+function playCountdownTickUnsafe() {
   const ctx = getAudioContext();
   const now = ctx.currentTime;
 
@@ -247,7 +247,7 @@ export function playCountdownTick() {
   sub.stop(now + 0.06);
 }
 
-export function playTimerWarning() {
+function playTimerWarningUnsafe() {
   // Urgent triple beep with rising pitch
   [0, 0.15, 0.3].forEach((delay, i) => {
     playRichTone({
@@ -271,7 +271,7 @@ export function playTimerWarning() {
   });
 }
 
-export function playVictoryFanfare() {
+function playVictoryFanfareUnsafe() {
   // Grand orchestral victory with layered chords
   const melody: ToneOptions[] = [
     // Opening: C-E (third)
@@ -302,7 +302,7 @@ export function playVictoryFanfare() {
   playChord(melody);
 }
 
-export function playRPSBeat() {
+function playRPSBeatUnsafe() {
   // Deep, punchy drum-like beat
   const ctx = getAudioContext();
   const now = ctx.currentTime;
@@ -340,7 +340,7 @@ export function playRPSBeat() {
   noise.start(now);
 }
 
-export function playRPSReveal() {
+function playRPSRevealUnsafe() {
   // Dramatic reveal with rising sweep
   playChord([
     { frequency: 400, duration: 0.08, type: 'square', volume: 0.1, filterFreq: 2000, attack: 0.005 },
@@ -350,7 +350,7 @@ export function playRPSReveal() {
   ]);
 }
 
-export function playButtonClick() {
+function playButtonClickUnsafe() {
   // Subtle, satisfying click with depth
   const ctx = getAudioContext();
   const now = ctx.currentTime;
@@ -368,7 +368,7 @@ export function playButtonClick() {
   osc.stop(now + 0.08);
 }
 
-export function playPhaseTransition() {
+function playPhaseTransitionUnsafe() {
   // Whoosh + chime for phase changes
   const ctx = getAudioContext();
   const now = ctx.currentTime;
@@ -409,7 +409,7 @@ export function playPhaseTransition() {
   });
 }
 
-export function playTeamSelect() {
+function playTeamSelectUnsafe() {
   // Satisfying selection confirmation
   playChord([
     { frequency: 440, duration: 0.12, type: 'sine', volume: 0.12, attack: 0.005 },
@@ -418,7 +418,7 @@ export function playTeamSelect() {
   ]);
 }
 
-export function playKingSelectSuspense() {
+function playKingSelectSuspenseUnsafe() {
   // Mysterious, suspenseful tone for king selection
   playChord([
     { frequency: 220, duration: 0.8, type: 'sine', volume: 0.1, reverb: true, reverbDuration: 2, harmonics: [2, 3], release: 0.4 },
@@ -429,7 +429,7 @@ export function playKingSelectSuspense() {
   ]);
 }
 
-export function playShuffleSound() {
+function playShuffleSoundUnsafe() {
   // Quick shuffle/whoosh effect
   const delays = [0, 0.04, 0.08, 0.12, 0.16];
   delays.forEach((delay, i) => {
@@ -445,7 +445,7 @@ export function playShuffleSound() {
   });
 }
 
-export function playScoreUp() {
+function playScoreUpUnsafe() {
   // Celebratory score increase
   playChord([
     { frequency: 523.25, duration: 0.1, type: 'sine', volume: 0.15, attack: 0.005 },
@@ -455,7 +455,7 @@ export function playScoreUp() {
   ]);
 }
 
-export function playHoverSound() {
+function playHoverSoundUnsafe() {
   playRichTone({
     frequency: 700,
     duration: 0.03,
@@ -465,3 +465,43 @@ export function playHoverSound() {
     release: 0.02,
   });
 }
+
+/**
+ * 🔴 소리가 실패해도 **게임 진행은 절대 멈추지 않는다.**
+ *
+ * 예전에는 각 소리 함수가 그대로 던졌다. 그런데 이 함수들은 게임 상태를 바꾸는
+ * 핸들러 한가운데에서 불린다 — 예를 들어 가위바위보 승자 선택은
+ * `setSelecting(true) → playRPSBeat() → setTimeout(setRPSResult)` 순서라,
+ * 가운데 소리에서 예외가 나면 `selecting` 이 true 로 굳은 채 다음 단계가
+ * 예약되지 않아 **화면이 그 자리에서 영영 멈춘다**(2026-09-10 브라우저 실측으로 재현).
+ *
+ * AudioContext 는 자동재생 정책·기기·브라우저에 따라 언제든 실패할 수 있는 자원이다.
+ * 그래서 "소리는 있으면 좋은 것"으로 취급하고 여기서 전부 삼킨다.
+ */
+function safeSound<T extends (...args: never[]) => void>(fn: T, label: string): T {
+  return ((...args: Parameters<T>) => {
+    try {
+      fn(...args);
+    } catch (err) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn(`[sound] ${label} 실패 — 게임은 계속됩니다`, err);
+      }
+    }
+  }) as T;
+}
+
+export const playCorrectSound = safeSound(playCorrectSoundUnsafe, 'playCorrectSound');
+export const playWrongSound = safeSound(playWrongSoundUnsafe, 'playWrongSound');
+export const playKingFoundSound = safeSound(playKingFoundSoundUnsafe, 'playKingFoundSound');
+export const playCountdownTick = safeSound(playCountdownTickUnsafe, 'playCountdownTick');
+export const playTimerWarning = safeSound(playTimerWarningUnsafe, 'playTimerWarning');
+export const playVictoryFanfare = safeSound(playVictoryFanfareUnsafe, 'playVictoryFanfare');
+export const playRPSBeat = safeSound(playRPSBeatUnsafe, 'playRPSBeat');
+export const playRPSReveal = safeSound(playRPSRevealUnsafe, 'playRPSReveal');
+export const playButtonClick = safeSound(playButtonClickUnsafe, 'playButtonClick');
+export const playPhaseTransition = safeSound(playPhaseTransitionUnsafe, 'playPhaseTransition');
+export const playTeamSelect = safeSound(playTeamSelectUnsafe, 'playTeamSelect');
+export const playKingSelectSuspense = safeSound(playKingSelectSuspenseUnsafe, 'playKingSelectSuspense');
+export const playShuffleSound = safeSound(playShuffleSoundUnsafe, 'playShuffleSound');
+export const playScoreUp = safeSound(playScoreUpUnsafe, 'playScoreUp');
+export const playHoverSound = safeSound(playHoverSoundUnsafe, 'playHoverSound');

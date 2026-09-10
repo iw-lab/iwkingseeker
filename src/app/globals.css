@@ -8,8 +8,10 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
+  /* shadcn 컴포넌트가 쓰는 font-heading 유틸리티 — 별도 서체를 두지 않고
+     본문 가족을 그대로 쓴다(서체 통일 이유는 layout.tsx 주석 참고). */
+  --font-heading: var(--font-sans);
   --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-heading);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -127,6 +129,43 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ====== 타이포그래피 ======
+ *
+ * 전자칠판은 교실 뒤에서 3~7m 떨어져 본다. 그래서 두 가지를 규칙으로 못 박는다.
+ *
+ * 1) **서체 역할 분리** — 제목은 디스플레이 서체(`data-display-font`), 본문·문제·보기는
+ *    Noto Sans KR. 전에는 문제 본문까지 디스플레이 서체로 찍었는데, 그 서체에는
+ *    수학·과학 문항에 흔한 글리프(½ ¾ × ÷ ㉠ ㉡ ℃ ㎠ ㎡ …)가 없어 브라우저가
+ *    글자마다 다른 서체를 끌어다 썼다 — 화면에서 "글씨가 깨져" 보이던 원인이다.
+ *    디스플레이 서체를 쓰는 자리에도 폴백 체인 맨 앞에 Noto 를 두지 않고 **뒤에** 두어,
+ *    없는 글리프만 Noto 가 받도록 한다.
+ *
+ * 2) **굵기 위계** — 전에는 화면 전체가 900(font-black)이라 위계가 없고 글자끼리
+ *    엉겨 붙었다. 지금은 제목 800 / 강조 700 / 본문 500 / 보조 400 네 단으로 쓴다.
+ */
+/**
+ * 제목 표식 — 서체를 바꾸지 않고 **자간과 균형**만 제목답게 잡는다.
+ * (서체를 하나로 통일한 이유는 layout.tsx 주석 참고.)
+ */
+[data-display-font] {
+  letter-spacing: -0.02em;
+  font-feature-settings: 'ss01', 'tnum';
+}
+
+/** 문제·보기처럼 멀리서 읽는 본문 — 굵기는 500, 자간은 살짝 넓게, 줄간은 넉넉히 */
+.reading-text {
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.5;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+/** 한글은 단어 중간에서 끊기면 읽기가 급격히 나빠진다 — 전역 기본값으로 둔다 */
+body {
+  word-break: keep-all;
 }
 
 /* ====== Premium UI Utilities ====== */

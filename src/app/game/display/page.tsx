@@ -118,8 +118,7 @@ function DisplayTeamScore({ name, score, team, isActive, colorClass, glowClass, 
       <div className="ml-auto relative z-10">
         <span
           key={score}
-          className={cn('text-5xl font-black score-badge score-pop', colorClass)}
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className={cn('text-5xl font-black score-badge score-pop', colorClass)} data-display-font
         >
           {score}
         </span>
@@ -130,7 +129,7 @@ function DisplayTeamScore({ name, score, team, isActive, colorClass, glowClass, 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <span className="text-[10px] bg-gradient-to-r from-yellow-500 to-amber-500 text-black px-2 py-0.5 rounded-full font-black tracking-wider">
+          <span className="text-[10px] bg-gradient-to-r from-yellow-500 to-amber-500 text-black px-2 py-0.5 rounded-full font-semibold tracking-wider">
             ATTACK
           </span>
         </motion.div>
@@ -198,7 +197,7 @@ function DisplayTimer({ seconds, isActive, size = 70 }: {
         />
       </svg>
       <motion.span
-        className="absolute font-black text-white"
+        className="absolute font-semibold text-white"
         style={{ fontSize: size * 0.3, textShadow: isWarning ? `0 0 10px ${glowColor}` : undefined }}
         animate={isCritical ? { scale: [1, 1.3, 1] } : isWarning ? { scale: [1, 1.15, 1] } : {}}
         transition={{ duration: isCritical ? 0.3 : 0.5 }}
@@ -246,8 +245,7 @@ function WaitingScreen() {
         <Crown className="w-20 h-20 text-purple-400" style={{ filter: 'drop-shadow(0 0 12px rgba(147,51,234,0.5))' }} />
       </motion.div>
       <h2
-        className="text-4xl font-black text-white"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-4xl font-extrabold text-white" data-display-font
       >
         게임 화면에 연결하는 중...
       </h2>
@@ -277,8 +275,7 @@ function SetupWaiting() {
         <Swords className="w-16 h-16 text-purple-400" />
       </motion.div>
       <h2
-        className="text-5xl font-black text-white"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-5xl font-black text-white" data-display-font
       >
         게임 준비 중...
       </h2>
@@ -304,8 +301,7 @@ function KingSelectWaiting({ teamName }: { teamName: string }) {
         />
       </motion.div>
       <h2
-        className="text-5xl font-black text-gradient-gold text-center"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-5xl font-black text-gradient-gold text-center" data-display-font
       >
         왕을 선택하는 중입니다...
       </h2>
@@ -352,8 +348,7 @@ function DisplayRPS({ teamAName, teamBName, channelRef }: {
       >
         <Zap className="w-8 h-8 text-yellow-400" />
         <h2
-          className="text-5xl font-black text-white"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-5xl font-black text-white" data-display-font
         >
           가위바위보!
         </h2>
@@ -387,20 +382,18 @@ function DisplayRPS({ teamAName, teamBName, channelRef }: {
             <TeamEmoji team="team_a" size={110} />
           </motion.div>
           <span
-            className="text-3xl font-black text-blue-400"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-3xl font-extrabold text-blue-400" data-display-font
           >
             {teamAName}
           </span>
           <div className="flex items-center gap-2 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity">
             <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 0 4px rgba(250,204,21,0.5))' }} />
-            <span className="font-bold">승리!</span>
+            <span className="font-semibold">승리!</span>
           </div>
         </motion.button>
 
         <motion.span
-          className="text-4xl font-black text-gradient-fire"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-4xl font-extrabold text-gradient-fire" data-display-font
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ repeat: Infinity, duration: 2 }}
         >
@@ -424,14 +417,13 @@ function DisplayRPS({ teamAName, teamBName, channelRef }: {
             <TeamEmoji team="team_b" size={110} />
           </motion.div>
           <span
-            className="text-3xl font-black text-amber-400"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-3xl font-extrabold text-amber-400" data-display-font
           >
             {teamBName}
           </span>
           <div className="flex items-center gap-2 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity">
             <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 0 4px rgba(250,204,21,0.5))' }} />
-            <span className="font-bold">승리!</span>
+            <span className="font-semibold">승리!</span>
           </div>
         </motion.button>
       </div>
@@ -506,9 +498,10 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <p className="text-sm text-purple-400/80 mb-2 font-medium">
-              {q.subject} &middot; {q.unit}
+              {q.subject}
+              {q.unit ? <> &middot; {q.unit}</> : null}
             </p>
-            <h3 className="text-4xl md:text-5xl font-bold text-white leading-relaxed">
+            <h3 className="reading-text text-4xl md:text-5xl text-white leading-relaxed">
               <SmartText text={q.question_text} />
             </h3>
           </div>
@@ -519,7 +512,7 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
               transition={{ repeat: Infinity, duration: 0.8 }}
             >
               <Zap className="w-8 h-8" />
-              <span className="text-xl font-black">SPEED</span>
+              <span className="text-xl font-semibold">SPEED</span>
             </motion.div>
           )}
         </div>
@@ -554,7 +547,7 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 key={i}
                 onClick={() => sendAnswer(option)}
                 className={cn(
-                  'relative p-6 rounded-xl border text-left text-2xl md:text-3xl font-bold text-white cursor-pointer',
+                  'relative p-6 rounded-xl border reading-text text-left text-2xl md:text-3xl text-white cursor-pointer',
                   style.bg, style.glow,
                 )}
                 initial={{ x: i % 2 === 0 ? -30 : 30, opacity: 0 }}
@@ -563,8 +556,8 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <span className="mr-4 text-4xl font-black opacity-40">{style.label}</span>
-                <SmartText text={option} />
+                <span className="mr-4 text-4xl font-extrabold opacity-40">{style.label}</span>
+                <span className="reading-text"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -578,7 +571,7 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 key={i}
                 onClick={() => sendAnswer(option)}
                 className={cn(
-                  'flex items-center gap-4 px-8 py-5 rounded-2xl border text-left text-2xl md:text-3xl font-bold text-white cursor-pointer',
+                  'flex items-center gap-4 px-8 py-5 rounded-2xl border reading-text text-left text-2xl md:text-3xl text-white cursor-pointer',
                   style.bg, style.glow,
                 )}
                 initial={{ x: -60, opacity: 0 }}
@@ -588,7 +581,7 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 whileTap={{ scale: 0.98 }}
               >
                 <span className="text-4xl">{STYLE_EMOJIS[i]}</span>
-                <span className="flex-1"><SmartText text={option} /></span>
+                <span className="reading-text flex-1"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -620,7 +613,7 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 key={i}
                 onClick={() => sendAnswer(option)}
                 className={cn(
-                  'relative flex flex-col items-center justify-center rounded-2xl border-2 text-center text-2xl md:text-3xl font-black text-white cursor-pointer',
+                  'relative flex flex-col items-center justify-center rounded-2xl border-2 reading-text text-center text-2xl md:text-3xl text-white cursor-pointer',
                   style.bg, style.glow,
                 )}
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -630,7 +623,7 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 whileTap={{ scale: 0.97 }}
               >
                 <span className="text-5xl mb-2 opacity-30">{style.label}</span>
-                <span className="px-4 leading-snug"><SmartText text={option} /></span>
+                <span className="reading-text px-4 leading-snug"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -644,7 +637,7 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 key={i}
                 onClick={() => sendAnswer(option)}
                 className={cn(
-                  'relative flex items-center gap-4 px-6 py-5 rounded-xl border text-left text-2xl md:text-3xl font-bold text-white cursor-pointer',
+                  'relative flex items-center gap-4 px-6 py-5 rounded-xl border reading-text text-left text-2xl md:text-3xl text-white cursor-pointer',
                   style.bg, style.glow,
                 )}
                 initial={{ y: 20, opacity: 0 }}
@@ -653,8 +646,8 @@ function DisplayQuiz({ state, channelRef }: { state: DisplayState; channelRef: R
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <span className="text-4xl font-black opacity-50 shrink-0 w-12 text-center">{i + 1}</span>
-                <span className="flex-1"><SmartText text={option} /></span>
+                <span className="text-4xl font-extrabold opacity-50 shrink-0 w-12 text-center">{i + 1}</span>
+                <span className="reading-text flex-1"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -698,8 +691,7 @@ function DisplayQuizResult({
             isCorrect
               ? 'bg-gradient-to-br from-green-500 to-emerald-600 text-white glow-green'
               : 'bg-gradient-to-br from-red-500 to-rose-600 text-white glow-red'
-          )}
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          )} data-display-font
         >
           {isCorrect ? '정답!' : '오답!'}
         </div>
@@ -714,9 +706,9 @@ function DisplayQuizResult({
       >
         {!isCorrect && (
           <p className="text-base mb-2 flex items-center gap-2 flex-wrap">
-            <span className="text-red-300 font-bold">오답!</span>
+            <span className="text-red-300 font-semibold">오답!</span>
             <span className="text-gray-300">정답은</span>
-            <span className="px-2 py-0.5 bg-green-600/80 rounded-md text-white font-bold">
+            <span className="px-2 py-0.5 bg-green-600/80 rounded-md text-white font-semibold">
               <SmartText text={correctAnswer} />
             </span>
             <span className="text-gray-300">입니다.</span>
@@ -749,8 +741,7 @@ function DisplayWrongAnswer({ state }: { state: DisplayState }) {
         </div>
       </motion.div>
       <motion.h2
-        className="text-5xl font-black text-white"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-5xl font-black text-white" data-display-font
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -765,7 +756,7 @@ function DisplayWrongAnswer({ state }: { state: DisplayState }) {
           transition={{ delay: 0.35 }}
         >
           <p className="text-xl text-gray-300">
-            <span className="text-white font-bold">{state.lastGuessedStudent}</span>
+            <span className="text-white font-semibold">{state.lastGuessedStudent}</span>
             <span className="text-gray-400"> 학생은 왕이 아닙니다.</span>
           </p>
         </motion.div>
@@ -779,7 +770,7 @@ function DisplayWrongAnswer({ state }: { state: DisplayState }) {
         <TeamEmoji team={state.currentAttacker} size={56} />
         <div>
           <p className="text-gray-400 text-lg">다음 공격</p>
-          <p className={`text-3xl font-black ${attackerColor}`}>{attackerName}</p>
+          <p className={`text-3xl font-extrabold ${attackerColor}`}>{attackerName}</p>
         </div>
       </motion.div>
       <motion.div
@@ -837,8 +828,7 @@ function DisplayKingGuess({ state, channelRef }: {
           <Crosshair className="w-8 h-8 text-yellow-400" />
         </motion.div>
         <h2
-          className="text-4xl font-black text-white"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-4xl font-extrabold text-white" data-display-font
         >
           정답! 상대팀의 왕을 지목하세요!
         </h2>
@@ -899,8 +889,7 @@ function DisplayKingGuess({ state, channelRef }: {
       </div>
 
       <motion.button
-        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-2xl font-black text-xl disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-shadow hover:shadow-lg hover:shadow-red-500/20"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-2xl font-semibold text-xl disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-shadow hover:shadow-lg hover:shadow-red-500/20" data-display-font
         onClick={handleConfirm}
         disabled={!selected || confirmed}
         whileHover={{ scale: 1.05 }}
@@ -936,8 +925,7 @@ function DisplayRoundResult({ state, channelRef }: {
           </span>
         </motion.div>
         <h2
-          className="text-5xl font-black text-gradient-gold"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-5xl font-black text-gradient-gold" data-display-font
         >
           왕을 찾았다!
         </h2>
@@ -951,8 +939,7 @@ function DisplayRoundResult({ state, channelRef }: {
         </div>
         <motion.button
           onClick={handleContinue}
-          className="mt-2 px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-2xl font-black text-2xl cursor-pointer transition-shadow hover:shadow-lg hover:shadow-purple-500/30"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="mt-2 px-10 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-2xl font-extrabold text-2xl cursor-pointer transition-shadow hover:shadow-lg hover:shadow-purple-500/30" data-display-font
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           animate={{ boxShadow: ['0 0 0px rgba(168,85,247,0)', '0 0 25px rgba(168,85,247,0.5)', '0 0 0px rgba(168,85,247,0)'] }}
@@ -982,8 +969,7 @@ function DisplayRoundResult({ state, channelRef }: {
         />
       </motion.div>
       <h2
-        className="text-3xl font-black text-gray-300"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-3xl font-extrabold text-gray-300" data-display-font
       >
         왕이 아닙니다!
       </h2>
@@ -994,7 +980,7 @@ function DisplayRoundResult({ state, channelRef }: {
         transition={{ delay: 0.3 }}
       >
         <p className="text-lg text-gray-400">
-          <span className="text-white font-bold">{state.lastGuessedStudent}</span> 학생은 왕이 아닙니다.
+          <span className="text-white font-semibold">{state.lastGuessedStudent}</span> 학생은 왕이 아닙니다.
         </p>
       </motion.div>
     </div>
@@ -1084,7 +1070,8 @@ function DisplayGameOver({ state }: { state: DisplayState }) {
         </motion.div>
         <h1
           className={`text-6xl md:text-7xl font-black bg-gradient-to-r ${winnerGradient} bg-clip-text text-transparent`}
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif", WebkitTextFillColor: 'transparent' }}
+          data-display-font
+          style={{ WebkitTextFillColor: 'transparent' }}
         >
           {winnerData.name} 승리!
         </h1>
@@ -1101,7 +1088,7 @@ function DisplayGameOver({ state }: { state: DisplayState }) {
           <div className="text-center">
             <p className="text-sm text-gray-400">{state.teamA.name}</p>
             <motion.p
-              className="text-4xl font-black text-blue-400 score-badge"
+              className="text-4xl font-extrabold text-blue-400 score-badge"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 1.0, type: 'spring' }}
@@ -1116,7 +1103,7 @@ function DisplayGameOver({ state }: { state: DisplayState }) {
           <div className="text-center">
             <p className="text-sm text-gray-400">{state.teamB.name}</p>
             <motion.p
-              className="text-4xl font-black text-amber-400 score-badge"
+              className="text-4xl font-extrabold text-amber-400 score-badge"
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 1.1, type: 'spring' }}
@@ -1140,7 +1127,7 @@ function DisplayGameOver({ state }: { state: DisplayState }) {
               transition={{ delay: 1.2 + i * 0.1 }}
             >
               <p className="text-[11px] text-gray-500 uppercase tracking-wider">{stat.label}</p>
-              <p className={`text-xl font-black ${stat.color}`}>{stat.value}</p>
+              <p className={`text-xl font-semibold ${stat.color}`}>{stat.value}</p>
             </motion.div>
           ))}
         </div>

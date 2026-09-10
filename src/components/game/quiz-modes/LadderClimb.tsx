@@ -72,7 +72,7 @@ export default function LadderClimb({
               {/* 상단 — 깃발 (도착지) */}
               <div className="relative flex flex-col items-center">
                 <span className="text-4xl md:text-5xl drop-shadow-lg">🏁</span>
-                <span className="mt-1 text-2xl font-black">{HEADERS[i]}</span>
+                <span className="mt-1 text-2xl font-extrabold">{HEADERS[i]}</span>
               </div>
 
               {/* 사다리 — 세로선 + 가로선 */}
@@ -107,7 +107,7 @@ export default function LadderClimb({
 
               {/* 하단 — 보기 답 */}
               <div className="relative w-full px-2 text-center">
-                <div className="text-xl md:text-2xl font-black text-white leading-tight drop-shadow-md px-1">
+                <div className="text-xl md:text-2xl font-extrabold text-white leading-tight drop-shadow-md px-1">
                   {option}
                 </div>
               </div>
@@ -115,7 +115,7 @@ export default function LadderClimb({
           );
         })}
       </div>
-      <div className="text-center text-base text-indigo-300/90 font-bold mt-2">
+      <div className="text-center text-base text-indigo-300/90 font-semibold mt-2">
         🪜 사다리를 올라가 정답 칸을 골라라!
       </div>
     </div>

@@ -97,8 +97,7 @@ export default function KingGuess() {
           <Crosshair className="w-8 h-8 text-yellow-400" />
         </motion.div>
         <h2
-          className="text-4xl font-black text-white"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-4xl font-extrabold text-white" data-display-font
         >
           정답! 상대팀의 왕을 지목하세요!
         </h2>
@@ -192,8 +191,7 @@ export default function KingGuess() {
         >
           <Heart className="w-7 h-7 text-red-400 fill-red-400 heartbeat-pulse" />
           <span
-            className="text-2xl font-black text-red-200 heartbeat-text"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-2xl font-extrabold text-red-200 heartbeat-text" data-display-font
           >
             두근... 두근...
           </span>
@@ -206,8 +204,7 @@ export default function KingGuess() {
 
       {/* Confirm button */}
       <motion.button
-        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-2xl font-black text-xl disabled:opacity-40 disabled:cursor-not-allowed transition-shadow hover:shadow-lg hover:shadow-red-500/20"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-500 hover:to-orange-500 text-white rounded-2xl font-semibold text-xl disabled:opacity-40 disabled:cursor-not-allowed transition-shadow hover:shadow-lg hover:shadow-red-500/20" data-display-font
         onClick={handleConfirm}
         disabled={!selected || isSuspense}
         whileHover={!isSuspense ? { scale: 1.05 } : {}}
@@ -225,7 +222,7 @@ export default function KingGuess() {
       {isSuspense && (
         <button
           onClick={resolveGuess}
-          className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 text-base font-bold transition-colors"
+          className="px-6 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-200 text-base font-semibold transition-colors"
         >
           결과 바로 보기 →
         </button>

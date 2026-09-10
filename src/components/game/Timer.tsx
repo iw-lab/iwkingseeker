@@ -96,7 +96,7 @@ export default function Timer({ seconds, isActive, onTimeUp, size = 80 }: TimerP
         />
       </svg>
       <motion.span
-        className="absolute font-black text-white"
+        className="absolute font-semibold text-white"
         style={{ fontSize: size * 0.3, textShadow: isWarning ? `0 0 10px ${glowColor}` : undefined }}
         animate={isCritical ? { scale: [1, 1.3, 1] } : isWarning ? { scale: [1, 1.15, 1] } : {}}
         transition={{ duration: isCritical ? 0.3 : 0.5 }}

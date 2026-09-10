@@ -92,8 +92,7 @@ function ResultOverlay({ isCorrect }: { isCorrect: boolean }) {
           isCorrect
             ? 'bg-gradient-to-br from-green-500 to-emerald-600 text-white glow-green'
             : 'bg-gradient-to-br from-red-500 to-rose-600 text-white glow-red'
-        )}
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        )} data-display-font
         initial={{ scale: 0, rotate: -10 }}
         animate={{ scale: 1, rotate: 0 }}
         exit={{ scale: 0, rotate: 10 }}
@@ -214,7 +213,7 @@ export default function QuizDisplay() {
   if (!currentQuestion) {
     return (
       <div className="flex flex-col items-center justify-center gap-6 py-24 text-center" role="alert">
-        <p className="text-3xl font-black text-white">낼 수 있는 문제를 찾지 못했습니다</p>
+        <p className="text-3xl font-extrabold text-white">낼 수 있는 문제를 찾지 못했습니다</p>
         <p className="text-lg text-gray-400">
           고른 단원이나 문제 세트에 4지선다로 출제할 수 있는 문항이 없습니다.
           <br />
@@ -314,9 +313,10 @@ export default function QuizDisplay() {
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             <p className="text-sm text-purple-400/80 mb-2 font-medium">
-              {q.subject} &middot; {q.unit}
+              {q.subject}
+              {q.unit ? <> &middot; {q.unit}</> : null}
             </p>
-            <h3 className="text-4xl md:text-5xl font-bold text-white leading-relaxed">
+            <h3 className="reading-text text-4xl md:text-5xl text-white leading-relaxed">
               <SmartText text={q.question_text} />
             </h3>
           </div>
@@ -327,7 +327,7 @@ export default function QuizDisplay() {
               transition={{ repeat: Infinity, duration: 0.8 }}
             >
               <Zap className="w-8 h-8" />
-              <span className="text-xl font-black">SPEED</span>
+              <span className="text-xl font-semibold">SPEED</span>
             </motion.div>
           )}
         </div>
@@ -393,8 +393,8 @@ export default function QuizDisplay() {
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: i * 0.08 }}
               >
-                <span className="mr-4 text-4xl font-black opacity-40">{style.label}</span>
-                <SmartText text={option} />
+                <span className="mr-4 text-4xl font-extrabold opacity-40">{style.label}</span>
+                <span className="reading-text"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -424,7 +424,7 @@ export default function QuizDisplay() {
                 transition={{ delay: i * 0.12, type: 'spring', stiffness: 200 }}
               >
                 <span className="text-4xl">{STYLE_EMOJIS[i]}</span>
-                <span className="flex-1"><SmartText text={option} /></span>
+                <span className="reading-text flex-1"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -485,7 +485,7 @@ export default function QuizDisplay() {
               <motion.button
                 key={i}
                 className={cn(
-                  'relative flex flex-col items-center justify-center rounded-2xl border-2 text-center text-2xl md:text-3xl font-black text-white transition-all',
+                  'relative flex flex-col items-center justify-center rounded-2xl border-2 text-center text-2xl md:text-3xl font-extrabold text-white transition-all',
                   showResult && isThisCorrect ? 'bg-green-600 border-green-400 ring-4 ring-green-400/30 glow-green'
                     : showResult && isThisSelected && !isCorrect ? 'bg-red-600/80 border-red-400 glow-red'
                     : `${style.bg} ${style.glow}`,
@@ -499,7 +499,7 @@ export default function QuizDisplay() {
                 transition={{ delay: i * 0.1, type: 'spring' }}
               >
                 <span className="text-5xl mb-2 opacity-30">{style.label}</span>
-                <span className="px-4 leading-snug"><SmartText text={option} /></span>
+                <span className="reading-text px-4 leading-snug"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -528,8 +528,8 @@ export default function QuizDisplay() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: i * 0.05 }}
               >
-                <span className="text-4xl font-black opacity-50 shrink-0 w-12 text-center">{i + 1}</span>
-                <span className="flex-1"><SmartText text={option} /></span>
+                <span className="text-4xl font-extrabold opacity-50 shrink-0 w-12 text-center">{i + 1}</span>
+                <span className="reading-text flex-1"><SmartText text={option} /></span>
               </motion.button>
             );
           })}
@@ -552,9 +552,9 @@ export default function QuizDisplay() {
         >
           {!isCorrect && (
             <p className="text-base mb-2 flex items-center gap-2">
-              <span className="text-red-300 font-bold">오답!</span>
+              <span className="text-red-300 font-semibold">오답!</span>
               <span className="text-gray-400">정답은</span>
-              <span className="px-2 py-0.5 bg-green-600/80 rounded-md text-white font-bold">
+              <span className="px-2 py-0.5 bg-green-600/80 rounded-md text-white font-semibold">
                 <SmartText text={q.correct_answer} />
               </span>
               <span className="text-gray-400">입니다.</span>

@@ -83,7 +83,7 @@ export default function WhackAMole({
                     onClick={() => !showResult && onAnswer(option)}
                     disabled={showResult}
                     className={cn(
-                      'absolute bottom-4 w-36 h-32 rounded-[48%_48%_42%_42%] border-4 bg-gradient-to-b text-white font-black shadow-2xl flex flex-col items-center justify-center text-xl px-3 text-center leading-tight cursor-pointer',
+                      'absolute bottom-4 w-36 h-32 rounded-[48%_48%_42%_42%] border-4 bg-gradient-to-b text-white font-semibold shadow-2xl flex flex-col items-center justify-center text-xl px-3 text-center leading-tight cursor-pointer',
                       colorClass,
                       showResult && 'pointer-events-none'
                     )}
@@ -106,7 +106,7 @@ export default function WhackAMole({
           );
         })}
       </div>
-      <div className="text-center text-base text-green-300/90 font-bold">
+      <div className="text-center text-base text-green-300/90 font-semibold">
         🔨 정답 두더지를 때려라!
       </div>
     </div>

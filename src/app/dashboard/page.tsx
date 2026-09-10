@@ -11,8 +11,7 @@ export default function DashboardPage() {
         <Link href="/" className="flex items-center gap-2">
           <Crown className="w-7 h-7 text-yellow-400" style={{ filter: 'drop-shadow(0 0 6px rgba(250,204,21,0.3))' }} />
           <span
-            className="text-xl font-black text-white"
-            style={{ fontFamily: "var(--font-heading), sans-serif" }}
+            className="text-xl font-semibold text-white" data-display-font
           >
             킹시커
           </span>
@@ -29,8 +28,7 @@ export default function DashboardPage() {
 
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-8">
         <motion.h1
-          className="text-3xl font-black text-white mb-8"
-          style={{ fontFamily: "var(--font-heading), sans-serif" }}
+          className="text-3xl font-extrabold text-white mb-8" data-display-font
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
         >
@@ -49,8 +47,7 @@ export default function DashboardPage() {
             <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <Gamepad2 className="w-10 h-10 text-purple-400 relative z-10" />
             <span
-              className="text-2xl font-black text-white relative z-10"
-              style={{ fontFamily: "var(--font-heading), sans-serif" }}
+              className="text-2xl font-extrabold text-white relative z-10" data-display-font
             >
               새 게임 시작
             </span>
@@ -96,9 +93,9 @@ export default function DashboardPage() {
             >
               <div className="flex items-center gap-3 mb-4">
                 {stat.icon}
-                <h3 className="text-base font-bold text-white">{stat.title}</h3>
+                <h3 className="text-base font-semibold text-white">{stat.title}</h3>
               </div>
-              <p className={`text-4xl font-black ${stat.color} score-badge`}>{stat.value}</p>
+              <p className={`text-4xl font-extrabold ${stat.color} score-badge`}>{stat.value}</p>
               <p className="text-sm text-gray-500 mt-1.5">{stat.desc}</p>
             </motion.div>
           ))}

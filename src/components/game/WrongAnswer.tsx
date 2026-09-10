@@ -59,8 +59,7 @@ export default function WrongAnswer() {
       </motion.div>
 
       <h2
-        className="text-5xl font-black text-white"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-5xl font-black text-white" data-display-font
       >
         {isWrongKing ? '왕이 아닙니다!' : '공수 교대!'}
       </h2>
@@ -68,7 +67,7 @@ export default function WrongAnswer() {
       {isWrongKing && lastGuessedStudent && (
         <div className="glass rounded-xl px-6 py-3">
           <p className="text-xl text-gray-300">
-            <span className="text-white font-bold">{lastGuessedStudent}</span>
+            <span className="text-white font-semibold">{lastGuessedStudent}</span>
             <span className="text-gray-400"> 학생은 왕이 아닙니다.</span>
           </p>
         </div>
@@ -78,7 +77,7 @@ export default function WrongAnswer() {
         <TeamEmoji team={currentAttacker} size={56} />
         <div>
           <p className="text-gray-400 text-lg">다음 공격</p>
-          <p className={`text-3xl font-black ${attackerColor}`}>{attackerName}</p>
+          <p className={`text-3xl font-extrabold ${attackerColor}`}>{attackerName}</p>
         </div>
       </div>
 

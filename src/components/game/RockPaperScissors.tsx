@@ -31,8 +31,7 @@ export default function RockPaperScissors() {
       >
         <Zap className="w-8 h-8 text-yellow-400" />
         <h2
-          className="text-5xl font-black text-white"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-5xl font-black text-white" data-display-font
         >
           가위바위보!
         </h2>
@@ -67,14 +66,13 @@ export default function RockPaperScissors() {
             <TeamEmoji team="team_a" size={110} />
           </motion.div>
           <span
-            className="text-3xl font-black text-blue-400"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-3xl font-extrabold text-blue-400" data-display-font
           >
             {teamA.name}
           </span>
           <div className="flex items-center gap-2 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity">
             <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 0 4px rgba(250,204,21,0.5))' }} />
-            <span className="font-bold">승리!</span>
+            <span className="font-semibold">승리!</span>
           </div>
         </motion.button>
 
@@ -86,8 +84,7 @@ export default function RockPaperScissors() {
           transition={{ delay: 0.4 }}
         >
           <motion.span
-            className="text-4xl font-black text-gradient-fire"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-4xl font-extrabold text-gradient-fire" data-display-font
             animate={{ scale: [1, 1.1, 1] }}
             transition={{ repeat: Infinity, duration: 2 }}
           >
@@ -113,14 +110,13 @@ export default function RockPaperScissors() {
             <TeamEmoji team="team_b" size={110} />
           </motion.div>
           <span
-            className="text-3xl font-black text-amber-400"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-3xl font-extrabold text-amber-400" data-display-font
           >
             {teamB.name}
           </span>
           <div className="flex items-center gap-2 text-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity">
             <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 0 4px rgba(250,204,21,0.5))' }} />
-            <span className="font-bold">승리!</span>
+            <span className="font-semibold">승리!</span>
           </div>
         </motion.button>
       </div>

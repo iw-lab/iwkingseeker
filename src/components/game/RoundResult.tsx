@@ -89,8 +89,7 @@ export default function RoundResult() {
       </motion.div>
 
       <h2
-        className="text-3xl font-black text-gray-300"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-3xl font-extrabold text-gray-300" data-display-font
       >
         왕이 아닙니다!
       </h2>
@@ -102,7 +101,7 @@ export default function RoundResult() {
         transition={{ delay: 0.3 }}
       >
         <p className="text-lg text-gray-400">
-          <span className="text-white font-bold">{lastGuessedStudent}</span> 학생은 왕이 아닙니다.
+          <span className="text-white font-semibold">{lastGuessedStudent}</span> 학생은 왕이 아닙니다.
         </p>
       </motion.div>
 
@@ -116,13 +115,12 @@ export default function RoundResult() {
         <ArrowRightLeft className="w-6 h-6 text-purple-400" />
         <span className="text-gray-400">공격권이</span>
         <TeamEmoji team={currentAttacker} size={36} />
-        <span className={`text-2xl font-black ${nextAttackerColor}`}>{nextAttackerName}</span>
+        <span className={`text-2xl font-extrabold ${nextAttackerColor}`}>{nextAttackerName}</span>
         <span className="text-gray-400">에게!</span>
       </motion.div>
 
       <motion.button
-        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-2xl font-black text-lg transition-shadow hover:shadow-lg hover:shadow-purple-500/20"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-2xl font-semibold text-lg transition-shadow hover:shadow-lg hover:shadow-purple-500/20" data-display-font
         onClick={handleNext}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}

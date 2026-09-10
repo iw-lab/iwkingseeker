@@ -120,8 +120,7 @@ export default function TeamSplitter() {
       {/* Header row */}
       <div className="flex items-center justify-between">
         <motion.h2
-          className="text-4xl font-black text-white"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-4xl font-extrabold text-white" data-display-font
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
         >
@@ -137,7 +136,7 @@ export default function TeamSplitter() {
                 <div key={t.name} className="flex items-center">
                   <button
                     onClick={() => handleLoadTeam(t)}
-                    className="px-3 py-1.5 glass hover:bg-purple-500/20 text-purple-300 rounded-lg text-sm font-bold transition-colors"
+                    className="px-3 py-1.5 glass hover:bg-purple-500/20 text-purple-300 rounded-lg text-sm font-semibold transition-colors"
                   >
                     {t.name}
                   </button>
@@ -153,7 +152,7 @@ export default function TeamSplitter() {
           )}
 
           <motion.button
-            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl font-black text-lg"
+            className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-xl font-semibold text-lg"
             onClick={handleShuffle}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -177,7 +176,7 @@ export default function TeamSplitter() {
             <input
               value={teamAName}
               onChange={(e) => setTeamAName(e.target.value)}
-              className="bg-transparent text-2xl font-black text-blue-400 border-b-2 border-blue-600/50 outline-none w-full focus:border-blue-400 transition-colors"
+              className="bg-transparent text-2xl font-extrabold text-blue-400 border-b-2 border-blue-600/50 outline-none w-full focus:border-blue-400 transition-colors"
             />
             <span className="text-xl text-blue-500/70 font-bold shrink-0">{localTeamA.length}명</span>
           </div>
@@ -225,7 +224,7 @@ export default function TeamSplitter() {
             <input
               value={teamBName}
               onChange={(e) => setTeamBName(e.target.value)}
-              className="bg-transparent text-2xl font-black text-amber-400 border-b-2 border-amber-600/50 outline-none w-full focus:border-amber-400 transition-colors"
+              className="bg-transparent text-2xl font-extrabold text-amber-400 border-b-2 border-amber-600/50 outline-none w-full focus:border-amber-400 transition-colors"
             />
             <span className="text-xl text-amber-500/70 font-bold shrink-0">{localTeamB.length}명</span>
           </div>
@@ -271,7 +270,7 @@ export default function TeamSplitter() {
               <button
                 onClick={handleSaveTeam}
                 disabled={!saveName.trim()}
-                className="px-3 py-2 glass hover:bg-green-500/20 text-green-400 rounded-lg text-sm font-bold disabled:opacity-30"
+                className="px-3 py-2 glass hover:bg-green-500/20 text-green-400 rounded-lg text-sm font-semibold disabled:opacity-30"
               >
                 저장
               </button>
@@ -284,7 +283,7 @@ export default function TeamSplitter() {
             </div>
           ) : (
             <motion.button
-              className="flex items-center gap-2 px-4 py-2.5 glass hover:bg-green-500/10 text-green-400 rounded-xl font-bold text-sm transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 glass hover:bg-green-500/10 text-green-400 rounded-xl font-semibold text-sm transition-colors"
               onClick={() => setShowSave(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -295,8 +294,7 @@ export default function TeamSplitter() {
           )}
 
           <motion.button
-            className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-2xl font-black text-xl disabled:opacity-40 disabled:cursor-not-allowed"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white rounded-2xl font-semibold text-xl disabled:opacity-40 disabled:cursor-not-allowed" data-display-font
             onClick={handleConfirm}
             disabled={localTeamA.length < 2 || localTeamB.length < 2}
             whileHover={{ scale: 1.05 }}

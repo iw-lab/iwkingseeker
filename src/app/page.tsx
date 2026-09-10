@@ -145,7 +145,7 @@ export default function LandingPage() {
         >
           <Link href="/questions/create">
             <motion.button
-              className="px-4 py-2.5 glass rounded-xl font-bold text-sm text-purple-200 hover:bg-white/10 transition-colors"
+              className="px-4 py-2.5 glass rounded-xl font-semibold text-sm text-purple-200 hover:bg-white/10 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -154,7 +154,7 @@ export default function LandingPage() {
           </Link>
           <Link href="/game/setup">
             <motion.button
-              className="px-6 py-2.5 glass-strong rounded-xl font-bold text-white hover:bg-white/10 transition-colors"
+              className="px-6 py-2.5 glass-strong rounded-xl font-semibold text-white hover:bg-white/10 transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -190,8 +190,7 @@ export default function LandingPage() {
 
           <div className="space-y-2 md:space-y-3">
             <h1
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-gradient-gold tracking-tight"
-              style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-gradient-gold tracking-tight" data-display-font
             >
               킹시커
             </h1>
@@ -225,8 +224,7 @@ export default function LandingPage() {
           >
             <Link href="/game/setup">
               <motion.button
-                className="group relative mt-1 px-8 md:px-12 py-3 md:py-5 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 text-white rounded-2xl font-black text-xl md:text-2xl overflow-hidden"
-                style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+                className="group relative mt-1 px-8 md:px-12 py-3 md:py-5 bg-gradient-to-r from-purple-600 via-purple-500 to-pink-600 text-white rounded-2xl font-extrabold text-xl md:text-2xl overflow-hidden" data-display-font
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -268,7 +266,7 @@ export default function LandingPage() {
                 transition={{ delay: 1.0 + i * 0.1 }}
               >
                 <span className="text-purple-400">{stat.icon}</span>
-                <span className="text-white font-bold">{stat.value}</span>
+                <span className="text-white font-semibold">{stat.value}</span>
                 <span className="text-sm">{stat.label}</span>
               </motion.div>
             ))}
@@ -299,8 +297,7 @@ export default function LandingPage() {
                   </motion.div>
                 </div>
                 <h3
-                  className="text-xl font-black text-white mb-3"
-                  style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+                  className="text-xl font-semibold text-white mb-3" data-display-font
                 >
                   {feature.title}
                 </h3>
@@ -318,8 +315,7 @@ export default function LandingPage() {
           transition={{ delay: 1.2 }}
         >
           <h2
-            className="text-3xl font-black text-center text-white mb-12"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-3xl font-extrabold text-center text-white mb-12" data-display-font
           >
             이렇게 진행돼요
           </h2>
@@ -339,7 +335,7 @@ export default function LandingPage() {
                 transition={{ delay: 1.4 + i * 0.1 }}
               >
                 <span className="text-4xl mb-3 block">{item.emoji}</span>
-                <span className="text-xs font-bold text-purple-400 tracking-widest">STEP {item.step}</span>
+                <span className="text-xs font-semibold text-purple-400 tracking-widest">STEP {item.step}</span>
                 <h3 className="text-lg font-bold text-white mt-1">{item.title}</h3>
                 <p className="text-sm text-gray-400 mt-1">{item.desc}</p>
                 {i < 3 && (

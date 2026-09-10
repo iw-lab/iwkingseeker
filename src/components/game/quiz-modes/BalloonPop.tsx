@@ -124,7 +124,7 @@ export default function BalloonPop({
                     onClick={() => handlePop(option)}
                     disabled={showResult}
                     className={cn(
-                      'relative w-32 h-40 md:w-36 md:h-44 rounded-[50%] border-4 bg-gradient-to-b shadow-2xl flex items-center justify-center text-xl md:text-2xl font-black text-white px-3 text-center leading-tight cursor-pointer select-none',
+                      'relative w-32 h-40 md:w-36 md:h-44 rounded-[50%] border-4 bg-gradient-to-b shadow-2xl flex items-center justify-center text-xl md:text-2xl font-extrabold text-white px-3 text-center leading-tight cursor-pointer select-none',
                       revealColor,
                       showResult && 'pointer-events-none'
                     )}
@@ -159,7 +159,7 @@ export default function BalloonPop({
           );
         })}
       </div>
-      <div className="text-center text-base text-sky-300/90 font-bold mt-3">
+      <div className="text-center text-base text-sky-300/90 font-semibold mt-3">
         🎈 정답 풍선을 터뜨려라!
       </div>
     </div>

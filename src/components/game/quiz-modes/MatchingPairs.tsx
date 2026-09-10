@@ -104,7 +104,7 @@ export default function MatchingPairs({
                 {/* Front */}
                 <div
                   className={cn(
-                    'absolute inset-0 rounded-2xl border-4 flex items-center justify-center text-3xl md:text-4xl font-black text-white shadow-2xl px-4 text-center leading-tight bg-gradient-to-br',
+                    'absolute inset-0 rounded-2xl border-4 flex items-center justify-center text-3xl md:text-4xl font-extrabold text-white shadow-2xl px-4 text-center leading-tight bg-gradient-to-br',
                     showResult && isThisCorrect
                       ? 'from-green-400 to-green-700 border-green-200 ring-4 ring-green-300/40'
                       : showResult && isThisSelected && !isCorrect
@@ -119,7 +119,7 @@ export default function MatchingPairs({
                 <AnimatePresence>
                   {!showResult && isFlipped && (
                     <motion.div
-                      className="absolute -top-2 -right-2 z-10 w-8 h-8 rounded-full bg-yellow-300 border-2 border-yellow-500 flex items-center justify-center text-lg font-black text-yellow-900 shadow-lg"
+                      className="absolute -top-2 -right-2 z-10 w-8 h-8 rounded-full bg-yellow-300 border-2 border-yellow-500 flex items-center justify-center text-lg font-semibold text-yellow-900 shadow-lg"
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       exit={{ scale: 0 }}
@@ -133,7 +133,7 @@ export default function MatchingPairs({
           );
         })}
       </div>
-      <div className="text-center text-base text-purple-300/90 font-bold">
+      <div className="text-center text-base text-purple-300/90 font-semibold">
         🃏 카드가 뒤집힐 때 빠르게 눌러 정답을 골라라!
       </div>
     </div>

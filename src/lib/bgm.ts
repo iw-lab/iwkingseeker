@@ -189,15 +189,27 @@ function createKingBgm() {
 
 export type BgmType = 'quiz' | 'king' | 'none';
 
+/**
+ * 배경음은 실패해도 게임이 멈추면 안 된다 — sounds.ts 의 safeSound 와 같은 이유다.
+ * (AudioContext 는 자동재생 정책·기기에 따라 언제든 던질 수 있는 자원이다.)
+ */
 export function playBgm(type: BgmType) {
-  stopAll();
-  if (type === 'none') return;
-  if (type === 'quiz') createQuizBgm();
-  if (type === 'king') createKingBgm();
+  try {
+    stopAll();
+    if (type === 'none') return;
+    if (type === 'quiz') createQuizBgm();
+    if (type === 'king') createKingBgm();
+  } catch (err) {
+    if (process.env.NODE_ENV !== 'production') console.warn('[bgm] 재생 실패 — 게임은 계속됩니다', err);
+  }
 }
 
 export function stopBgm() {
-  stopAll();
+  try {
+    stopAll();
+  } catch {
+    /* 정지 실패는 무시 — 다음 재생에서 다시 정리된다 */
+  }
 }
 
 export function setBgmVolume(vol: number) {

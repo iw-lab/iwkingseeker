@@ -81,7 +81,7 @@ export default function TreasureBox({
                     exit={{ opacity: 0 }}
                   >
                     <span className="text-6xl md:text-7xl font-black text-white/80 drop-shadow-lg">?</span>
-                    <span className="mt-1 text-xs md:text-sm text-white/60 font-bold">상자 {i + 1}</span>
+                    <span className="mt-1 text-xs md:text-sm text-white/60 font-semibold">상자 {i + 1}</span>
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -99,7 +99,7 @@ export default function TreasureBox({
                     <span className="text-3xl md:text-4xl mb-1">
                       {showResult && isThisCorrect ? '🏆' : showResult && isThisSelected && !isCorrect ? '💥' : '✨'}
                     </span>
-                    <span className="text-xl md:text-2xl font-black text-white leading-tight px-1 drop-shadow-md">
+                    <span className="text-xl md:text-2xl font-extrabold text-white leading-tight px-1 drop-shadow-md">
                       {option}
                     </span>
                   </motion.div>
@@ -109,7 +109,7 @@ export default function TreasureBox({
           );
         })}
       </div>
-      <div className="text-center text-base text-amber-300/90 font-bold">
+      <div className="text-center text-base text-amber-300/90 font-semibold">
         🗝️ 보물 상자 하나를 열어라! 정답이 들어있는 상자는?
       </div>
     </div>

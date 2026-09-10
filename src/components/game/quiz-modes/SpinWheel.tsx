@@ -130,7 +130,7 @@ export default function SpinWheel({
           <circle cx={200} cy={200} r={12} fill="#1f1535" />
         </motion.svg>
       </div>
-      <div className="text-center text-base text-yellow-300/90 font-bold">
+      <div className="text-center text-base text-yellow-300/90 font-semibold">
         🎯 원하는 답을 돌려라!
       </div>
     </div>

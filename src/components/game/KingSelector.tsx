@@ -74,8 +74,7 @@ export default function KingSelector({ selectingTeam }: KingSelectorProps) {
           />
         </motion.div>
         <h2
-          className="text-3xl font-black text-gradient-gold"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="text-3xl font-extrabold text-gradient-gold" data-display-font
         >
           왕이 선택되었습니다!
         </h2>
@@ -116,8 +115,7 @@ export default function KingSelector({ selectingTeam }: KingSelectorProps) {
         >
           <User className="w-8 h-8 text-purple-400" />
           <h2
-            className="text-3xl font-black text-white text-center"
-            style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+            className="text-3xl font-extrabold text-white text-center" data-display-font
           >
             <span className={teamColorClass}>{selectingTeamData.name}</span>
             {' '}대표 학생!
@@ -148,8 +146,7 @@ export default function KingSelector({ selectingTeam }: KingSelectorProps) {
         </div>
 
         <motion.button
-          className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl font-black text-xl disabled:opacity-40 disabled:cursor-not-allowed transition-shadow hover:shadow-lg hover:shadow-purple-500/20"
-          style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+          className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-2xl font-semibold text-xl disabled:opacity-40 disabled:cursor-not-allowed transition-shadow hover:shadow-lg hover:shadow-purple-500/20" data-display-font
           onClick={handleIdentifyConfirm}
           disabled={!selectorName}
           whileHover={{ scale: 1.05 }}
@@ -186,8 +183,7 @@ export default function KingSelector({ selectingTeam }: KingSelectorProps) {
       </motion.div>
 
       <motion.h2
-        className="text-3xl font-black text-white text-center"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="text-3xl font-extrabold text-white text-center" data-display-font
         initial={{ y: -10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
@@ -220,8 +216,7 @@ export default function KingSelector({ selectingTeam }: KingSelectorProps) {
       </div>
 
       <motion.button
-        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-white rounded-2xl font-black text-xl disabled:opacity-40 disabled:cursor-not-allowed transition-shadow hover:shadow-lg hover:shadow-yellow-500/20"
-        style={{ fontFamily: "var(--font-heading), 'Black Han Sans', sans-serif" }}
+        className="flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-yellow-600 to-amber-600 hover:from-yellow-500 hover:to-amber-500 text-white rounded-2xl font-semibold text-xl disabled:opacity-40 disabled:cursor-not-allowed transition-shadow hover:shadow-lg hover:shadow-yellow-500/20" data-display-font
         onClick={handleConfirm}
         disabled={!selectedKing}
         whileHover={{ scale: 1.05 }}
