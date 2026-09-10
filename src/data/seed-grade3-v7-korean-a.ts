@@ -7,7 +7,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "그림을 보고 느낌을 말할 때 가장 먼저 살펴야 할 것은?",
-    options: ["그림의 색깔과 모양", "그림의 값", "화가의 나이", "그림의 무게"],
+    options: ["그림의 색깔과 모양", "그림에 매겨진 값", "그림을 그린 해", "그림 액자의 무게"],
     correct_answer: "그림의 색깔과 모양",
     explanation: "그림을 감상할 때는 색깔, 모양, 선 등 그림의 내용을 먼저 살펴봐야 느낌을 잘 말할 수 있습니다.",
     difficulty: 1
@@ -43,7 +43,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "동시에서 촉각(피부로 느끼는 감각)을 나타낸 표현은?",
-    options: ["바람이 살며시 볼을 스친다", "꽃이 빨갛게 피었다", "새가 지저귄다", "사탕이 달콤하다"],
+    options: ["바람이 살며시 볼을 스친다", "꽃이 새빨갛게 피어 있다", "새가 나뭇가지에서 운다", "사탕이 아주 달콤하다"],
     correct_answer: "바람이 살며시 볼을 스친다",
     explanation: "볼을 스치는 바람의 느낌은 피부로 느끼는 촉각을 나타낸 표현입니다.",
     difficulty: 2
@@ -52,7 +52,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "작품을 보고 느낌을 말할 때 자신의 경험을 떠올리면 좋은 이유는?",
-    options: ["느낌을 더 생생하고 구체적으로 말할 수 있기 때문에", "틀리지 않는 정답을 말할 수 있기 때문에", "친구와 똑같은 느낌을 가질 수 있기 때문에", "선생님께 칭찬받기 위해서"],
+    options: ["느낌을 더 생생하고 구체적으로 말할 수 있기 때문에", "틀리지 않는 하나의 정답을 말할 수 있기 때문에", "친구와 똑같은 느낌을 가질 수 있기 때문에", "선생님께 더 많은 칭찬을 받을 수 있기 때문에"],
     correct_answer: "느낌을 더 생생하고 구체적으로 말할 수 있기 때문에",
     explanation: "자신의 경험과 연결 지으면 느낌을 더 생생하고 구체적으로 표현할 수 있습니다.",
     difficulty: 2
@@ -61,7 +61,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "동시를 읽을 때 청각(귀로 듣는 감각)을 나타낸 표현은?",
-    options: ["빗소리가 똑똑 들린다", "하늘이 파랗다", "꽃이 탐스럽다", "공기가 차갑다"],
+    options: ["빗소리가 똑똑 들린다", "하늘이 새파랗게 맑다", "꽃이 탐스럽게 피었다", "공기가 아주 차갑다"],
     correct_answer: "빗소리가 똑똑 들린다",
     explanation: "빗소리처럼 귀로 듣는 감각을 청각이라고 합니다.",
     difficulty: 1
@@ -70,7 +70,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "느낌을 나눌 때 알맞은 말은?",
-    options: ["나는 이 그림을 보니 시원한 느낌이 들었어", "이 그림은 무조건 슬픈 거야", "그림은 항상 밝아야 해", "느낌은 말하면 안 돼"],
+    options: ["나는 이 그림을 보니 시원한 느낌이 들었어", "이 그림은 누가 봐도 슬픈 그림이야", "그림은 언제나 밝은 색이어야만 해", "그림을 보고 느낌을 말하면 안 돼"],
     correct_answer: "나는 이 그림을 보니 시원한 느낌이 들었어",
     explanation: "느낌을 나눌 때는 자신의 느낌을 솔직하게 표현합니다. 느낌에는 정답이 없습니다.",
     difficulty: 1
@@ -79,7 +79,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "동시에서 후각(코로 맡는 감각)을 나타낸 표현은?",
-    options: ["장미꽃 향기가 달콤하게 퍼진다", "구름이 하얗게 떠 있다", "개구리가 개굴개굴 운다", "손에 물이 차갑다"],
+    options: ["장미꽃 향기가 달콤하게 퍼진다", "구름이 하얗게 떠서 흘러간다", "개구리가 개굴개굴 울고 있다", "손끝에 닿은 물이 차갑다"],
     correct_answer: "장미꽃 향기가 달콤하게 퍼진다",
     explanation: "꽃 향기를 코로 맡는 것은 후각을 나타낸 표현입니다.",
     difficulty: 2
@@ -97,7 +97,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "작품을 감상하고 느낌을 글로 쓸 때 가장 중요한 것은?",
-    options: ["자신이 실제로 느낀 것을 솔직하게 쓴다", "친구의 글과 똑같이 쓴다", "가장 긴 문장을 쓴다", "선생님이 좋아할 내용을 쓴다"],
+    options: ["자신이 실제로 느낀 것을 솔직하게 쓴다", "친구가 쓴 글과 똑같이 옮겨 쓴다", "되도록 가장 긴 문장으로 길게 쓴다", "선생님이 좋아할 만한 내용만 쓴다"],
     correct_answer: "자신이 실제로 느낀 것을 솔직하게 쓴다",
     explanation: "느낌을 쓸 때는 자신이 실제로 느낀 것을 솔직하게 쓰는 것이 가장 중요합니다.",
     difficulty: 2
@@ -106,7 +106,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "1. 작품을 보고 느낌을 나누어요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "그림 속 인물의 표정을 보고 느낌을 말할 때 알맞은 것은?",
-    options: ["표정에서 어떤 감정이 느껴지는지 이야기한다", "인물이 쓴 모자 값을 이야기한다", "그림 속 날씨가 맞는지 확인한다", "그림의 크기를 재어 본다"],
+    options: ["표정에서 어떤 감정이 느껴지는지 이야기한다", "인물이 쓴 모자가 얼마인지 이야기한다", "그림 속 날씨가 실제와 맞는지 확인한다", "그림의 가로와 세로 길이를 재어 본다"],
     correct_answer: "표정에서 어떤 감정이 느껴지는지 이야기한다",
     explanation: "인물의 표정을 살펴보면 그 감정을 느낄 수 있고, 이것을 이야기하는 것이 느낌 나누기입니다.",
     difficulty: 1
@@ -127,7 +127,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "다음 중 문단의 뒷받침 문장이 하는 역할은?",
-    options: ["중심 문장의 내용을 구체적으로 설명한다", "새로운 주제를 소개한다", "글을 더 길게 만든다", "중심 문장과 반대 내용을 담는다"],
+    options: ["중심 문장의 내용을 구체적으로 설명한다", "앞 문단과 전혀 다른 주제를 소개한다", "글의 길이를 늘리는 역할만 담당한다", "중심 문장과 반대되는 내용을 담는다"],
     correct_answer: "중심 문장의 내용을 구체적으로 설명한다",
     explanation: "뒷받침 문장은 중심 문장의 내용을 예를 들거나 자세히 설명하여 뒷받침하는 역할을 합니다.",
     difficulty: 2
@@ -154,7 +154,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "글을 읽고 중심 생각을 파악하면 어떤 점이 좋은가요?",
-    options: ["글의 핵심 내용을 빠르게 이해할 수 있다", "모르는 낱말을 모두 외울 수 있다", "글의 문장 수를 셀 수 있다", "그림을 그리기 쉬워진다"],
+    options: ["글의 핵심 내용을 빠르게 이해할 수 있다", "모르는 낱말을 모두 외울 수 있게 된다", "글에 쓰인 문장의 개수를 셀 수 있다", "글에 어울리는 그림을 그리기 쉬워진다"],
     correct_answer: "글의 핵심 내용을 빠르게 이해할 수 있다",
     explanation: "중심 생각을 파악하면 글에서 가장 중요한 내용을 빠르게 이해할 수 있습니다.",
     difficulty: 1
@@ -172,7 +172,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "중심 생각을 찾을 때 반복해서 나오는 낱말에 주목하는 이유는?",
-    options: ["반복되는 낱말이 글의 핵심 내용과 관련이 있기 때문에", "반복 낱말이 가장 어렵기 때문에", "반복되는 낱말이 사전에 없기 때문에", "낱말 수를 세기 쉽기 때문에"],
+    options: ["반복되는 낱말이 글의 핵심 내용과 관련이 있기 때문에", "반복되는 낱말이 가장 어려운 말이기 때문에", "반복되는 낱말은 사전에 실려 있지 않기 때문에", "반복되는 낱말을 세면 글자 수를 알 수 있기 때문에"],
     correct_answer: "반복되는 낱말이 글의 핵심 내용과 관련이 있기 때문에",
     explanation: "글에서 자주 반복되는 낱말은 글쓴이가 강조하고 싶은 핵심 내용과 관련이 깊습니다.",
     difficulty: 3
@@ -199,7 +199,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "이어 주는 말 「그런데」는 주로 어떤 관계를 나타내나요?",
-    options: ["앞 내용과 다른 내용으로 넘어갈 때", "앞 내용의 결과를 나타낼 때", "예를 들 때", "순서를 나타낼 때"],
+    options: ["앞 내용과 다른 내용으로 넘어갈 때", "앞 내용의 결과를 이어서 말할 때", "앞 내용의 예를 들어 설명할 때", "일이 일어난 차례를 나타낼 때"],
     correct_answer: "앞 내용과 다른 내용으로 넘어갈 때",
     explanation: "「그런데」는 앞의 내용과 다른 방향의 내용을 이어줄 때 쓰는 이어 주는 말입니다.",
     difficulty: 3
@@ -235,7 +235,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "2. 중심 생각을 찾아요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "한 문단에 중심 문장이 두 개 이상 있으면 어떤 문제가 생기나요?",
-    options: ["읽는 사람이 무엇이 핵심인지 알기 어렵다", "문단이 더 재미있어진다", "뒷받침 문장이 더 늘어난다", "글이 짧아진다"],
+    options: ["읽는 사람이 무엇이 핵심인지 알기 어렵다", "문단의 내용이 훨씬 더 재미있어진다", "뒷받침 문장을 더 많이 쓸 수 있게 된다", "글 전체의 길이가 저절로 짧아진다"],
     correct_answer: "읽는 사람이 무엇이 핵심인지 알기 어렵다",
     explanation: "중심 문장이 두 개 이상이면 읽는 사람이 어느 것이 핵심인지 파악하기 어렵습니다.",
     difficulty: 3
@@ -256,7 +256,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 글로 쓸 때 시간 순서에 맞게 써야 하는 이유는?",
-    options: ["읽는 사람이 내용을 쉽게 이해할 수 있기 때문에", "글자 수가 늘어나기 때문에", "더 화려해 보이기 때문에", "선생님이 좋아하기 때문에"],
+    options: ["읽는 사람이 내용을 쉽게 이해할 수 있기 때문에", "글에 쓰이는 글자 수가 늘어나기 때문에", "글이 더 화려하고 멋있어 보이기 때문에", "선생님이 그런 글을 좋아하시기 때문에"],
     correct_answer: "읽는 사람이 내용을 쉽게 이해할 수 있기 때문에",
     explanation: "시간 순서에 맞게 쓰면 읽는 사람이 사건의 흐름을 쉽게 이해할 수 있습니다.",
     difficulty: 1
@@ -265,7 +265,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 글로 쓸 때 일어난 장소를 써야 하는 이유는?",
-    options: ["읽는 사람이 상황을 더 잘 상상할 수 있기 때문에", "글이 더 길어지기 때문에", "점수를 더 받기 때문에", "모르는 낱말이 줄어들기 때문에"],
+    options: ["읽는 사람이 상황을 더 잘 상상할 수 있기 때문에", "글의 길이가 훨씬 더 길어지기 때문에", "글쓰기 점수를 더 받을 수 있기 때문에", "모르는 낱말의 수가 줄어들기 때문에"],
     correct_answer: "읽는 사람이 상황을 더 잘 상상할 수 있기 때문에",
     explanation: "언제, 어디서, 무슨 일이 있었는지 쓰면 읽는 사람이 상황을 더 잘 상상할 수 있습니다.",
     difficulty: 2
@@ -283,7 +283,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험 글쓰기에서 「처음」 부분에 어울리는 내용은?",
-    options: ["언제, 어디서, 누구와 있었는지 소개한다", "경험에서 느낀 점을 마무리한다", "가장 재미있었던 장면을 자세히 쓴다", "앞으로의 다짐을 쓴다"],
+    options: ["언제, 어디서, 누구와 있었는지 소개한다", "경험에서 느낀 점을 정리해 마무리한다", "가장 재미있었던 장면을 자세히 쓴다", "앞으로 어떻게 하겠다는 다짐을 쓴다"],
     correct_answer: "언제, 어디서, 누구와 있었는지 소개한다",
     explanation: "글의 처음 부분에는 언제, 어디서, 누구와 있었는지 상황을 소개하는 것이 자연스럽습니다.",
     difficulty: 2
@@ -301,7 +301,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 생생하게 전달하기 위해 감각적 표현을 쓰는 것이 좋다. 다음 중 감각적 표현이 들어간 문장은?",
-    options: ["떡볶이가 매콤하고 달콤한 냄새를 풍겼다", "나는 학교에 갔다", "친구를 만났다", "집에서 쉬었다"],
+    options: ["떡볶이가 매콤하고 달콤한 냄새를 풍겼다", "나는 아침 일찍 학교에 걸어서 갔다", "운동장에서 반가운 친구를 만나 놀았다", "집에 돌아와서 한참 동안 쉬었다"],
     correct_answer: "떡볶이가 매콤하고 달콤한 냄새를 풍겼다",
     explanation: "냄새를 감각적으로 표현한 문장이 경험을 더 생생하게 전달합니다.",
     difficulty: 2
@@ -310,7 +310,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 글로 쓸 때 쓸거리를 고를 때의 기준으로 알맞은 것은?",
-    options: ["자신이 직접 겪은 일 중 인상 깊었던 것", "남의 이야기를 들은 것", "상상 속에서 일어난 일", "텔레비전에서 본 남의 이야기"],
+    options: ["자신이 직접 겪은 일 중 인상 깊었던 것", "다른 사람에게서 전해 들은 이야기", "상상 속에서만 일어난 재미있는 일", "텔레비전에서 본 다른 사람의 이야기"],
     correct_answer: "자신이 직접 겪은 일 중 인상 깊었던 것",
     explanation: "경험 글쓰기는 자신이 직접 겪은 일을 쓰는 것이며, 인상 깊은 경험일수록 생생하게 쓸 수 있습니다.",
     difficulty: 1
@@ -364,7 +364,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험 글에서 이어 주는 말 「그리고」를 쓰는 경우는?",
-    options: ["비슷하거나 이어지는 내용을 덧붙일 때", "앞 내용과 반대 내용을 쓸 때", "결론을 내릴 때", "원인을 설명할 때"],
+    options: ["비슷하거나 이어지는 내용을 덧붙일 때", "앞의 내용과 반대되는 내용을 쓸 때", "이야기를 마무리하며 결론을 낼 때", "어떤 일이 일어난 원인을 설명할 때"],
     correct_answer: "비슷하거나 이어지는 내용을 덧붙일 때",
     explanation: "「그리고」는 앞 내용에 비슷하거나 이어지는 내용을 덧붙일 때 씁니다.",
     difficulty: 2
@@ -373,7 +373,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "3. 자신의 경험을 글로 써요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "경험을 글로 쓸 때 제목은 어떻게 정하는 것이 좋은가요?",
-    options: ["글의 내용을 잘 나타내는 제목으로 정한다", "가장 긴 문장으로 정한다", "어려운 낱말로만 정한다", "아무 제목이나 정한다"],
+    options: ["글의 내용을 잘 나타내는 제목으로 정한다", "글에서 가장 긴 문장을 그대로 제목으로 쓴다", "어려운 낱말만 골라서 제목으로 정한다", "생각나는 대로 아무 제목이나 붙인다"],
     correct_answer: "글의 내용을 잘 나타내는 제목으로 정한다",
     explanation: "제목은 글 전체의 내용을 잘 드러내도록 정해야 독자가 내용을 미리 짐작할 수 있습니다.",
     difficulty: 1
@@ -403,7 +403,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시에서 같은 말을 여러 번 반복하면 어떤 효과가 있나요?",
-    options: ["리듬감이 생기고 내용이 강조된다", "글자 수만 늘어난다", "뜻이 반대로 바뀐다", "읽기 어려워진다"],
+    options: ["리듬감이 생기고 내용이 강조된다", "쓰는 글자 수만 늘어나게 된다", "말하려는 뜻이 반대로 바뀐다", "읽기가 어려워지고 헷갈린다"],
     correct_answer: "리듬감이 생기고 내용이 강조된다",
     explanation: "같은 말을 반복하면 시에 리듬감이 생기고 그 내용이 더 강하게 강조됩니다.",
     difficulty: 2
@@ -412,7 +412,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "다음 중 의성어가 들어간 시의 구절은?",
-    options: ["귀뚜라미가 귀뚤귀뚤 운다", "달이 둥글게 떠 있다", "바람이 세차게 분다", "나뭇잎이 노랗다"],
+    options: ["귀뚜라미가 귀뚤귀뚤 운다", "달이 하늘에 둥글게 떠 있다", "바람이 아주 세차게 분다", "나뭇잎이 노랗게 물들었다"],
     correct_answer: "귀뚜라미가 귀뚤귀뚤 운다",
     explanation: "「귀뚤귀뚤」은 귀뚜라미 우는 소리를 흉내 낸 의성어입니다.",
     difficulty: 1
@@ -421,7 +421,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "다음 중 의태어가 들어간 시의 구절은?",
-    options: ["강아지가 꼬리를 살랑살랑 흔든다", "개구리가 개굴개굴 운다", "문이 삐걱삐걱 열린다", "아기가 응애응애 운다"],
+    options: ["강아지가 꼬리를 살랑살랑 흔든다", "개구리가 연못에서 개굴개굴 운다", "낡은 대문이 삐걱삐걱 열린다", "아기가 방에서 응애응애 운다"],
     correct_answer: "강아지가 꼬리를 살랑살랑 흔든다",
     explanation: "「살랑살랑」은 모양을 흉내 낸 의태어이고, 나머지는 소리를 흉내 낸 의성어입니다.",
     difficulty: 2
@@ -439,7 +439,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시를 쓸 때 반복 표현을 쓰는 목적으로 알맞은 것은?",
-    options: ["읽는 재미와 리듬감을 더하기 위해", "글자 수를 채우기 위해", "어려운 낱말을 피하기 위해", "설명을 자세히 하기 위해"],
+    options: ["읽는 재미와 리듬감을 더하기 위해", "정해진 글자 수를 채우기 위해서", "어려운 낱말을 피해 가기 위해서", "내용을 자세히 설명하기 위해서"],
     correct_answer: "읽는 재미와 리듬감을 더하기 위해",
     explanation: "반복 표현은 시에 리듬감을 주고 읽는 재미를 더하기 위해 사용합니다.",
     difficulty: 1
@@ -448,7 +448,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시를 읽고 감동받은 표현을 친구에게 소개할 때 해야 할 일은?",
-    options: ["그 표현이 왜 마음에 들었는지 이유도 함께 말한다", "표현만 읽고 끝낸다", "친구의 소개를 무시한다", "가장 어려운 표현을 고른다"],
+    options: ["그 표현이 왜 마음에 들었는지 이유도 함께 말한다", "고른 표현만 소리 내어 읽고 그대로 끝낸다", "친구가 소개하는 표현은 듣지 않고 넘긴다", "뜻이 가장 어려운 표현을 골라서 소개한다"],
     correct_answer: "그 표현이 왜 마음에 들었는지 이유도 함께 말한다",
     explanation: "표현을 소개할 때 왜 마음에 들었는지 이유를 함께 말하면 친구와 감동을 더 잘 나눌 수 있습니다.",
     difficulty: 2
@@ -457,7 +457,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "흉내 내는 말을 넣어 쓴 문장이 그렇지 않은 문장보다 더 좋은 점은?",
-    options: ["장면이나 느낌이 훨씬 생생하게 전달된다", "더 어렵게 느껴진다", "문장이 짧아진다", "읽기 불편하다"],
+    options: ["장면이나 느낌이 훨씬 생생하게 전달된다", "글의 뜻이 훨씬 더 어렵게 느껴진다", "문장의 길이가 짧아져 쓰기 편하다", "소리 내어 읽기가 몹시 불편해진다"],
     correct_answer: "장면이나 느낌이 훨씬 생생하게 전달된다",
     explanation: "흉내 내는 말을 쓰면 독자가 장면이나 느낌을 더 생생하게 상상할 수 있습니다.",
     difficulty: 1
@@ -466,7 +466,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "다음 중 흉내 내는 말을 사용해 가장 생생하게 표현한 문장은?",
-    options: ["개울물이 졸졸졸 흘러내려간다", "개울물이 흘러내려간다", "개울물이 아래에 있다", "개울물이 길게 이어진다"],
+    options: ["개울물이 졸졸졸 흘러내려간다", "개울물이 아래쪽으로 흘러내려간다", "개울물이 바위 아래에 고여 있다", "개울물이 길게 이어져 흐른다"],
     correct_answer: "개울물이 졸졸졸 흘러내려간다",
     explanation: "「졸졸졸」이라는 흉내 내는 말이 있는 문장이 물 흐르는 소리와 장면을 더 생생하게 전달합니다.",
     difficulty: 1
@@ -475,7 +475,7 @@ export const seedGrade3V7KoreanA: QuestionSeed[] = [
     grade: 3, subject: "국어", unit: "4. 감동을 나타내요", unit_code: null,
     question_type: "multiple_choice",
     question_text: "시에서 감각적 표현이 독자에게 미치는 영향으로 알맞은 것은?",
-    options: ["장면을 눈앞에 보이듯 상상하게 한다", "글자 읽기를 어렵게 한다", "줄거리를 복잡하게 한다", "뜻을 알기 어렵게 한다"],
+    options: ["장면을 눈앞에 보이듯 상상하게 한다", "글자를 읽는 것을 어렵게 만든다", "이야기의 줄거리를 복잡하게 한다", "낱말의 뜻을 알기 어렵게 만든다"],
     correct_answer: "장면을 눈앞에 보이듯 상상하게 한다",
     explanation: "감각적 표현은 독자가 장면을 생생하게 상상하도록 도와줍니다.",
     difficulty: 2

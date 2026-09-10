@@ -295,7 +295,9 @@ for (const w of byEn.values()) {
     unit,
     unit_code: null,
     question_type: 'ox',
-    question_text: `"${w.en}"은(는) "${shownKo}"을(를) 뜻한다.`,
+    // 영어 낱말 뒤 조사는 한글 표기를 알아야 정할 수 있어(apple→애플/potato→포테이토)
+    // 기계로 해소되지 않는다. 조사가 필요 없는 "~의 뜻은" 꼴로 쓴다.
+    question_text: `"${w.en}"의 뜻은 "${shownKo}"이다.`,
     options: ['O', 'X'],
     correct_answer: shownKo === w.ko ? 'O' : 'X',
     explanation: `${w.en}의 뜻은 "${w.ko}"입니다.`,
@@ -303,6 +305,75 @@ for (const w of byEn.values()) {
   });
   cnt++;
 }
+
+/* ────────────────────────────────────────────────────────────────
+ * 문형 생성 보조표
+ *
+ * 이 파일은 어휘 목록 × 문형 템플릿으로 문항을 대량 생성한다.
+ * 예전에는 낱말을 사전형 그대로 문형에 끼워 넣어서 영어도 한국어도 비문이 나왔다:
+ *   "Can you run?" → 보기 4개가 전부 "너는 달리다 수 있니?" 꼴
+ *   "I like apple." (가산명사 단수 무관사) · "This is a eraser." (모음 앞 a)
+ * 활용형·복수형·관사는 규칙만으로 안전하게 만들 수 없으므로 표로 못박는다.
+ * ──────────────────────────────────────────────────────────────── */
+
+/** 모음 소리로 시작해 관사가 an 인 낱말 */
+const AN_WORDS = new Set(['eraser', 'umbrella', 'airplane', 'artist', 'engineer', 'orange', 'onion', 'apple', 'egg', 'elephant', 'ice cream']);
+const article = (en: string) => (AN_WORDS.has(en) ? 'an' : 'a');
+
+/** 셀 수 없는 음식 — "I like ~"에서 복수로 만들지 않는다 */
+const UNCOUNTABLE = new Set(['bread', 'rice', 'milk', 'water', 'juice', 'cheese', 'chicken', 'pizza', 'ice cream', 'soup', 'chocolate', 'candy', 'salad', 'cake', 'noodles']);
+
+/** 불규칙 복수 — 나머지는 아래 규칙으로 만든다 */
+const IRREGULAR_PLURAL: Record<string, string> = {
+  fish: 'fish', sheep: 'sheep', mouse: 'mice', wolf: 'wolves',
+  potato: 'potatoes', tomato: 'tomatoes', peach: 'peaches', fox: 'foxes',
+  strawberry: 'strawberries',
+};
+function plural(en: string): string {
+  if (UNCOUNTABLE.has(en)) return en;
+  const irr = IRREGULAR_PLURAL[en];
+  if (irr) return irr;
+  if (/[^aeiou]y$/.test(en)) return en.slice(0, -1) + 'ies';
+  if (/(s|sh|ch|x|z)$/.test(en)) return en + 'es';
+  return en + 's';
+}
+
+/**
+ * 동사의 한국어 활용형.
+ *   can  = "~ㄹ 수 있니?"  (걷다→걸을, 돕다→도울 처럼 불규칙이 있어 규칙으로 못 만든다)
+ *   ing  = "~고 있니?"
+ *   noun = "~는 것을 좋아하니?"  (놀다→노는 처럼 ㄹ 탈락이 있다)
+ *   gi   = "~기 싫어하니?"
+ * Can you ~? 로 물을 수 없는 동사(like·love·want·need)는 애초에 넣지 않는다.
+ */
+const VERB_FORMS: Record<string, { can: string; ing: string; noun: string; gi: string }> = {
+  '달리다': { can: '달릴', ing: '달리고', noun: '달리는', gi: '달리기' },
+  '걷다': { can: '걸을', ing: '걷고', noun: '걷는', gi: '걷기' },
+  '뛰다': { can: '뛸', ing: '뛰고', noun: '뛰는', gi: '뛰기' },
+  '노래하다': { can: '노래할', ing: '노래하고', noun: '노래하는', gi: '노래하기' },
+  '춤추다': { can: '춤출', ing: '춤추고', noun: '춤추는', gi: '춤추기' },
+  '읽다': { can: '읽을', ing: '읽고', noun: '읽는', gi: '읽기' },
+  '쓰다': { can: '쓸', ing: '쓰고', noun: '쓰는', gi: '쓰기' },
+  '먹다': { can: '먹을', ing: '먹고', noun: '먹는', gi: '먹기' },
+  '마시다': { can: '마실', ing: '마시고', noun: '마시는', gi: '마시기' },
+  '자다': { can: '잘', ing: '자고', noun: '자는', gi: '자기' },
+  '놀다': { can: '놀', ing: '놀고', noun: '노는', gi: '놀기' },
+  '공부하다': { can: '공부할', ing: '공부하고', noun: '공부하는', gi: '공부하기' },
+  '수영하다': { can: '수영할', ing: '수영하고', noun: '수영하는', gi: '수영하기' },
+  '날다': { can: '날', ing: '날고', noun: '나는', gi: '날기' },
+  '요리하다': { can: '요리할', ing: '요리하고', noun: '요리하는', gi: '요리하기' },
+  '청소하다': { can: '청소할', ing: '청소하고', noun: '청소하는', gi: '청소하기' },
+  '씻다': { can: '씻을', ing: '씻고', noun: '씻는', gi: '씻기' },
+  '열다': { can: '열', ing: '열고', noun: '여는', gi: '열기' },
+  '닫다': { can: '닫을', ing: '닫고', noun: '닫는', gi: '닫기' },
+  '보다': { can: '볼', ing: '보고', noun: '보는', gi: '보기' },
+  '듣다': { can: '들을', ing: '듣고', noun: '듣는', gi: '듣기' },
+  '돕다': { can: '도울', ing: '돕고', noun: '돕는', gi: '돕기' },
+  '만들다': { can: '만들', ing: '만들고', noun: '만드는', gi: '만들기' },
+  '가다': { can: '갈', ing: '가고', noun: '가는', gi: '가기' },
+  '오다': { can: '올', ing: '오고', noun: '오는', gi: '오기' },
+  '멈추다': { can: '멈출', ing: '멈추고', noun: '멈추는', gi: '멈추기' },
+};
 
 // Template 4: I like ___ sentence
 {
@@ -315,8 +386,10 @@ for (const w of byEn.values()) {
         question_type: 'short_answer',
         question_text: `"나는 ${w.ko}을(를) 좋아해."를 영어로 쓰면? (I like ~)`,
         options: null,
-        correct_answer: `I like ${w.en}.`,
-        explanation: `"I like + 명사."로 좋아하는 것을 표현합니다.`,
+        correct_answer: `I like ${plural(w.en)}.`,
+        explanation: UNCOUNTABLE.has(w.en)
+          ? `셀 수 없는 것은 그대로 씁니다 — "I like ${w.en}."`
+          : `좋아하는 것을 두루 말할 때는 복수로 씁니다 — "I like ${plural(w.en)}."`,
         difficulty: 2,
       });
     }
@@ -324,19 +397,21 @@ for (const w of byEn.values()) {
   // Can you ~? / Yes, I can.
   const verbs = Array.from(byEn.values()).filter((w) => w.cat === 'verb');
   for (const v of verbs) {
+    const f = VERB_FORMS[v.ko];
+    if (!f) continue; // like·love·want·need 는 "Can you ~?"로 물을 수 없다
     push({
       unit: sentenceUnit,
       unit_code: null,
       question_type: 'multiple_choice',
       question_text: `"Can you ${v.en}?"의 뜻은?`,
       options: [
-        `너는 ${v.ko} 수 있니?`,
-        `너는 ${v.ko} 것을 좋아하니?`,
-        `너는 ${v.ko}고 있니?`,
-        `너는 ${v.ko} 싫어하니?`,
+        `너는 ${f.can} 수 있니?`,
+        `너는 ${f.noun} 것을 좋아하니?`,
+        `너는 ${f.ing} 있니?`,
+        `너는 ${f.gi} 싫어하니?`,
       ],
-      correct_answer: `너는 ${v.ko} 수 있니?`,
-      explanation: `"Can you ~?"는 능력을 묻는 표현입니다.`,
+      correct_answer: `너는 ${f.can} 수 있니?`,
+      explanation: `"Can you ~?"는 "~할 수 있니?"처럼 능력을 묻는 표현입니다.`,
       difficulty: 2,
     });
   }
@@ -363,8 +438,8 @@ for (const w of byEn.values()) {
       question_type: 'short_answer',
       question_text: `"이것은 ${o.ko}(이)야."를 영어로 쓰면? (This is ~)`,
       options: null,
-      correct_answer: `This is a ${o.en}.`,
-      explanation: `"This is a/an + 명사."로 사물을 소개합니다.`,
+      correct_answer: `This is ${article(o.en)} ${o.en}.`,
+      explanation: `모음 소리로 시작하면 an, 아니면 a 를 씁니다 — "This is ${article(o.en)} ${o.en}."`,
       difficulty: 2,
     });
   }
@@ -375,10 +450,10 @@ for (const w of byEn.values()) {
       unit: sentenceUnit,
       unit_code: null,
       question_type: 'short_answer',
-      question_text: `"그는 ${j.ko}이야."를 영어로 쓰면? (He is ~)`,
+      question_text: `"그는 ${j.ko}(이)야."를 영어로 쓰면? (He is ~)`,
       options: null,
-      correct_answer: `He is a ${j.en}.`,
-      explanation: `"He/She is a + 직업."으로 직업을 소개합니다.`,
+      correct_answer: `He is ${article(j.en)} ${j.en}.`,
+      explanation: `모음 소리로 시작하면 an 을 씁니다 — "He is ${article(j.en)} ${j.en}."`,
       difficulty: 2,
     });
   }

@@ -108,6 +108,27 @@ for (const q of questionsSeed) {
   }
 }
 
+// 찍기 취약도 — "제일 긴 보기"만 골라도 맞는 비율.
+// 정답만 길고 오답은 짧게 쓰면 내용을 몰라도 정답이 보인다. 기준선은 25%.
+// 게임의 보기 섞기는 순서만 바꾸므로 이 취약점은 섞어도 그대로 남는다.
+function longestOnly(opts) {
+  const lens = opts.map((o) => normText(o).length);
+  const mx = Math.max(...lens);
+  if (lens.filter((l) => l === mx).length !== 1) return null; // 최장이 여럿이면 찍을 수 없다
+  return normText(opts[lens.indexOf(mx)]);
+}
+const guessStats = { total: 0, hit: 0, byUnit: new Map() };
+for (const q of questionsSeed) {
+  if (q.question_type !== 'multiple_choice' || !Array.isArray(q.options) || q.options.length !== 4) continue;
+  const pick = longestOnly(q.options);
+  if (pick === null) continue;
+  const key = `${q.grade}|${q.subject}|${q.unit}`;
+  const e = guessStats.byUnit.get(key) ?? { n: 0, hit: 0 };
+  e.n++; guessStats.total++;
+  if (pick === normText(q.correct_answer)) { e.hit++; guessStats.hit++; }
+  guessStats.byUnit.set(key, e);
+}
+
 // 교사가 실제로 고르는 단원 단위 커버리지 (setup 화면 로직과 동일하게 계산)
 const coverage = [];
 for (const band of GRADE_BANDS) {
@@ -151,6 +172,16 @@ const thin = coverage.filter((c) => c.playable < MIN_PLAYABLE_PER_UNIT).sort((a,
 console.log(`\n단원 커버리지: ${coverage.length}단원 중 ${thin.length}단원이 출제 가능 문항 ${MIN_PLAYABLE_PER_UNIT}개 미만`);
 thin.slice(0, Number(process.env.THIN_LIMIT ?? 40)).forEach((c) => console.log(`  ${String(c.playable).padStart(3)} / ${String(c.total).padStart(3)}  ${c.grades}학년 ${c.subject} | ${c.unit}`));
 if (thin.length > Number(process.env.THIN_LIMIT ?? 40)) console.log(`  … 외 ${thin.length - Number(process.env.THIN_LIMIT ?? 40)}단원`);
+
+const gRate = guessStats.total ? (100 * guessStats.hit / guessStats.total) : 0;
+const skewUnits = [...guessStats.byUnit.entries()]
+  .filter(([, e]) => e.n >= 15 && 100 * e.hit / e.n >= 70)
+  .sort((a, b) => b[1].hit / b[1].n - a[1].hit / a[1].n);
+console.log(`\n찍기 취약도 — "제일 긴 보기" 적중률 ${gRate.toFixed(1)}% (기준선 25%, 대상 ${guessStats.total.toLocaleString()}문항)`);
+console.log(`  ${gRate < 35 ? '✅ 정상' : gRate < 50 ? '⚠ 주의' : '❌ 내용을 몰라도 절반 이상 맞힌다'}`);
+console.log(`  70% 이상인 단원: ${skewUnits.length}개`);
+skewUnits.slice(0, Number(process.env.GUESS_LIMIT ?? 10)).forEach(([k, e]) =>
+  console.log(`    ${(100 * e.hit / e.n).toFixed(0).padStart(3)}%  (${e.hit}/${e.n})  ${k.replace(/\|/g, ' ')}`));
 
 console.log(`\n발견: ${findings.length}건 ${JSON.stringify(bySeverity)}`);
 Object.entries(byCode)

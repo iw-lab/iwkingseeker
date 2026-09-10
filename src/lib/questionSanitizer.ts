@@ -1,3 +1,5 @@
+import { resolveParticles } from './koreanParticles';
+
 /**
  * 문제 정합성 계층 — "정답이 두 개인 문제"를 구조적으로 차단한다.
  *
@@ -251,8 +253,10 @@ export function sanitizeQuestion<T extends SanitizableQuestion>(input: T): Sanit
   const push = (code: string, severity: SanitizeSeverity, detail = '') =>
     issues.push({ code, severity, detail });
 
-  const question_text = normText(input.question_text);
-  const correct_answer = normText(input.correct_answer);
+  // 조사 자동 선택이 안 된 채 남은 "사과을(를)"을 "사과를"로 해소한다.
+  // 템플릿으로 찍어 낸 문항 1,717건이 이 상태였다 — 전자칠판에 그대로 뜬다.
+  const question_text = resolveParticles(normText(input.question_text));
+  const correct_answer = resolveParticles(normText(input.correct_answer));
 
   if (!question_text) {
     push('EMPTY_TEXT', 'CRIT');
@@ -270,7 +274,10 @@ export function sanitizeQuestion<T extends SanitizableQuestion>(input: T): Sanit
       : 2;
   if (difficulty !== input.difficulty) push('BAD_DIFFICULTY', 'MED', String(input.difficulty));
 
-  const base = { ...input, question_text, correct_answer, difficulty } as T;
+  const explanation =
+    typeof input.explanation === 'string' ? resolveParticles(input.explanation) : input.explanation;
+
+  const base = { ...input, question_text, correct_answer, difficulty, explanation } as T;
 
   if (input.question_type === 'ox') {
     const up = correct_answer.toUpperCase();
@@ -301,7 +308,7 @@ export function sanitizeQuestion<T extends SanitizableQuestion>(input: T): Sanit
   let dupRemoved = 0;
 
   for (const rawOpt of input.options) {
-    const opt = normText(rawOpt);
+    const opt = resolveParticles(normText(rawOpt));
     if (!opt) {
       dupRemoved++;
       continue;
