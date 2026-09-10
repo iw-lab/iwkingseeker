@@ -10,6 +10,9 @@ import { seed2022Grade5MathS1 } from './seed-2022-grade5-math-s1';
 import { seed2022Grade5MathS2 } from './seed-2022-grade5-math-s2';
 import { seed2022Grade5Science } from './seed-2022-grade5-science';
 import { seed2022Grade5Social } from './seed-2022-grade5-social';
+// 2022 개정에서 5학년 2학기 사회는 한국사다([6사04]~[6사06]).
+// 단원을 새로 세우고 보니 두 단원이 23·24문항뿐이라 증량했다.
+import { seed2022Grade5History } from './seed-2022-grade5-history';
 import { seed2022Grade5EnglishS1a } from './seed-2022-grade5-english-s1a';
 import { seed2022Grade5EnglishS1b } from './seed-2022-grade5-english-s1b';
 import { seed2022Grade5EnglishS2a } from './seed-2022-grade5-english-s2a';
@@ -461,6 +464,7 @@ const legacyMerged: QuestionSeed[] = [
 // 중복 제거 후 통합 (v7/v8 3·4·6학년 6과목을 앞에 두어 우선 채택)
 const seen = new Set<string>();
 const mergedSeed: QuestionSeed[] = [
+  ...seed2022Grade5History,
   ...seedV9Math, ...seedV9Korean, ...seedV9Science, ...seedV9English, ...seedV9Grade5, ...seedV9Fill,
   ...seedV10Supplement,
   ...seedGrade3V8Korean, ...seedGrade3V8Math, ...seedGrade3V8Social,
@@ -489,7 +493,7 @@ const mergedSeed: QuestionSeed[] = [
 const normalizedSeen = new Set<string>();
 const normalizedSeed: QuestionSeed[] = mergedSeed
   .map((q) => {
-    const n = normalizeUnit(q.grade, q.subject, q.unit);
+    const n = normalizeUnit(q.grade, q.subject, q.unit, q.question_text);
     return n.grade === q.grade && n.unit === q.unit ? q : { ...q, grade: n.grade, unit: n.unit };
   })
   .filter((q) => {
