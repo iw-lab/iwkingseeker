@@ -13,6 +13,8 @@ import { seed2022Grade5Social } from './seed-2022-grade5-social';
 // 2022 개정에서 5학년 2학기 사회는 한국사다([6사04]~[6사06]).
 // 단원을 새로 세우고 보니 두 단원이 23·24문항뿐이라 증량했다.
 import { seed2022Grade5History } from './seed-2022-grade5-history';
+// 6학년 사회도 2022 개정 단원으로 갈리면서 세계지리·지구촌 단원이 12·17·31문항만 남았다.
+import { seed2022Grade6World } from './seed-2022-grade6-world';
 import { seed2022Grade5EnglishS1a } from './seed-2022-grade5-english-s1a';
 import { seed2022Grade5EnglishS1b } from './seed-2022-grade5-english-s1b';
 import { seed2022Grade5EnglishS2a } from './seed-2022-grade5-english-s2a';
@@ -464,7 +466,7 @@ const legacyMerged: QuestionSeed[] = [
 // 중복 제거 후 통합 (v7/v8 3·4·6학년 6과목을 앞에 두어 우선 채택)
 const seen = new Set<string>();
 const mergedSeed: QuestionSeed[] = [
-  ...seed2022Grade5History,
+  ...seed2022Grade5History, ...seed2022Grade6World,
   ...seedV9Math, ...seedV9Korean, ...seedV9Science, ...seedV9English, ...seedV9Grade5, ...seedV9Fill,
   ...seedV10Supplement,
   ...seedGrade3V8Korean, ...seedGrade3V8Math, ...seedGrade3V8Social,
