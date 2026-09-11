@@ -1,6 +1,10 @@
+# Cloudflare Pages 배포 설정.
+# 배포: npx wrangler pages deploy   (npm run build 로 out/ 을 먼저 만든다)
+#
+# 이전에는 Workers 용 [assets] 설정이 들어 있었으나 그 이름의 Worker 는 계정에
+# 존재한 적이 없다(`wrangler deployments list` → 10007). 실제로 서비스되는 것은
+# Pages 프로젝트이므로 설정을 실물에 맞춘다.
 name = "iwkingseeker"
 compatibility_date = "2026-04-09"
 compatibility_flags = ["nodejs_compat"]
-
-[assets]
-directory = "out"
+pages_build_output_dir = "out"
