@@ -12,7 +12,7 @@ import { convertToMultipleChoice } from '@/lib/questionConverter';
 import { getCustomQuestionsForPlay, toRuntimeQuestion } from '@/lib/customQuestions';
 import { getSupplementaryUnits } from '@/lib/curriculumAliases';
 import { getQuestionSets, toRuntimeQuestions, type QuestionSet } from '@/lib/questionSets';
-import { Crown, ChevronRight, Users, BookOpen, Settings, Play, Save, FolderOpen, Trash2, Check, Gamepad2, Layers } from 'lucide-react';
+import { Crown, ChevronRight, Users, BookOpen, Settings, Play, Save, FolderOpen, Trash2, Check, Gamepad2, Layers, Upload } from 'lucide-react';
 
 interface SavedClass {
   name: string;
@@ -42,6 +42,8 @@ export default function GameSetupPage() {
   const { initGame, setQuestionPool } = useGameStore();
   const [step, setStep] = useState<Step>(1);
   const [studentInput, setStudentInput] = useState('');
+  const [rosterNotice, setRosterNotice] = useState<{ kind: 'ok' | 'error'; text: string } | null>(null);
+  const [rosterBusy, setRosterBusy] = useState(false);
   const [gradeBand, setGradeBand] = useState<GradeBandKey>('5-6');
   const [subGrade, setSubGrade] = useState<number>(5);
   const [subject, setSubject] = useState<string>('수학');
@@ -124,6 +126,40 @@ export default function GameSetupPage() {
     .split('\n')
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
+
+  /**
+   * 명부 파일(엑셀·한글·CSV)에서 이름을 읽어 온다.
+   *
+   * 이미 입력된 이름은 지우지 않고 없는 것만 덧붙인다 — 잘못 고른 파일 하나로
+   * 교사가 손으로 친 명단이 날아가면 안 된다.
+   * 파서는 ZIP·CFB 해석까지 들고 있어 무거우므로 누를 때 받아 온다.
+   */
+  const handleRosterFile = async (file: File) => {
+    setRosterBusy(true);
+    setRosterNotice(null);
+    try {
+      const { parseRosterFile } = await import('@/lib/rosterImport');
+      const { names, detail } = await parseRosterFile(file);
+      if (names.length === 0) {
+        setRosterNotice({ kind: 'error', text: '이름을 찾지 못했습니다. 파일을 확인하거나 직접 입력해 주세요.' });
+        return;
+      }
+      const existing = new Set(students);
+      const added = names.filter((n) => !existing.has(n));
+      setStudentInput([...students, ...added].join('\n'));
+      setRosterNotice({
+        kind: 'ok',
+        text: added.length
+          ? `${detail}에서 ${added.length}명 불러왔습니다.${names.length - added.length ? ` (이미 있던 ${names.length - added.length}명 제외)` : ''}`
+          : '이미 모두 입력돼 있습니다.',
+      });
+      playButtonClick();
+    } catch (e) {
+      setRosterNotice({ kind: 'error', text: e instanceof Error ? e.message : '파일을 읽지 못했습니다.' });
+    } finally {
+      setRosterBusy(false);
+    }
+  };
 
   // 교사가 고를 수 있는 단원 = 교과서 단원 + 보충·심화 묶음
   // (보충은 교과서 단원이 아니지만 문항이 실제로 있는 어휘·속담·문장패턴 등이다.
@@ -334,7 +370,32 @@ export default function GameSetupPage() {
                   </div>
                 )}
 
-                <p className="text-gray-400 text-xl">한 줄에 한 명씩 입력하세요 (최소 4명)</p>
+                <div className="flex flex-wrap items-center gap-3">
+                  <p className="text-gray-400 text-xl flex-1">한 줄에 한 명씩 입력하세요 (최소 4명)</p>
+                  <label className={`flex items-center gap-2 px-5 py-2.5 glass rounded-xl text-lg font-bold transition-colors ${rosterBusy ? 'text-gray-500 cursor-wait' : 'text-sky-300 hover:bg-sky-500/20 cursor-pointer'}`}>
+                    <Upload className="w-5 h-5" />
+                    {rosterBusy ? '읽는 중…' : '명부 불러오기'}
+                    <input
+                      type="file"
+                      accept=".xlsx,.xlsm,.csv,.tsv,.txt,.hwp,.hwpx"
+                      className="hidden"
+                      disabled={rosterBusy}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        // 같은 파일을 다시 골라도 onChange 가 나도록 값을 비운다
+                        e.target.value = '';
+                        if (file) void handleRosterFile(file);
+                      }}
+                    />
+                  </label>
+                </div>
+
+                {rosterNotice && (
+                  <p className={`text-lg ${rosterNotice.kind === 'ok' ? 'text-sky-300' : 'text-red-400'}`}>
+                    {rosterNotice.text}
+                  </p>
+                )}
+
                 <textarea
                   value={studentInput}
                   onChange={(e) => setStudentInput(e.target.value)}
