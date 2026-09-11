@@ -41,10 +41,8 @@ export default function MatchingPairs({
   );
 
   useEffect(() => {
-    if (showResult) {
-      setFlipped(options.map(() => true));
-      return;
-    }
+    // 결과 화면에서는 아래 렌더가 showResult 로 모두 앞면 처리하므로 state 를 건드리지 않는다.
+    if (showResult) return;
     const timers: ReturnType<typeof setTimeout>[] = [];
     const scheduleToggle = (i: number, delay: number) => {
       timers.push(

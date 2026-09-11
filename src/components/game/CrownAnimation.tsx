@@ -2,6 +2,7 @@
 
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { seededRandom } from '@/lib/seededRandom';
 
 interface CrownAnimationProps {
   studentName: string;
@@ -14,21 +15,21 @@ export default function CrownAnimation({ studentName, onComplete }: CrownAnimati
     return Array.from({ length: 40 }, (_, i) => ({
       id: i,
       angle: (i / 40) * Math.PI * 2,
-      distance: 150 + Math.random() * 250,
+      distance: 150 + seededRandom(i * 7 + 1) * 250,
       color: colors[i % colors.length]!,
-      size: 4 + Math.random() * 10,
-      delay: Math.random() * 0.6,
-      duration: 1 + Math.random() * 0.5,
+      size: 4 + seededRandom(i * 7 + 2) * 10,
+      delay: seededRandom(i * 7 + 3) * 0.6,
+      duration: 1 + seededRandom(i * 7 + 4) * 0.5,
     }));
   }, []);
 
   const sparkles = useMemo(() =>
     Array.from({ length: 15 }, (_, i) => ({
       id: i,
-      x: (Math.random() - 0.5) * 500,
-      y: (Math.random() - 0.5) * 400,
-      delay: 0.5 + Math.random() * 1,
-      size: 2 + Math.random() * 4,
+      x: (seededRandom(i * 7 + 5) - 0.5) * 500,
+      y: (seededRandom(i * 7 + 6) - 0.5) * 400,
+      delay: 0.5 + seededRandom(i * 7 + 7) * 1,
+      size: 2 + seededRandom(i * 7 + 8) * 4,
     })),
     []
   );

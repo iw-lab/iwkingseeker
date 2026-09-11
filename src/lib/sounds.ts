@@ -27,20 +27,6 @@ function createReverb(ctx: AudioContext, duration = 1.5, decay = 2): ConvolverNo
   return convolver;
 }
 
-function createDistortion(ctx: AudioContext, amount = 50): WaveShaperNode {
-  const shaper = ctx.createWaveShaper();
-  const samples = 44100;
-  const curve = new Float32Array(samples);
-  const deg = Math.PI / 180;
-  for (let i = 0; i < samples; i++) {
-    const x = (i * 2) / samples - 1;
-    curve[i] = ((3 + amount) * x * 20 * deg) / (Math.PI + amount * Math.abs(x));
-  }
-  shaper.curve = curve;
-  shaper.oversample = '4x';
-  return shaper;
-}
-
 interface ToneOptions {
   frequency: number;
   duration: number;
@@ -83,7 +69,6 @@ function playRichTone(options: ToneOptions) {
 
   panner.pan.setValueAtTime(pan, startTime);
 
-  let lastNode: AudioNode = gainNode;
   gainNode.connect(panner);
 
   if (filterFreq) {
@@ -92,7 +77,6 @@ function playRichTone(options: ToneOptions) {
     filter.frequency.setValueAtTime(filterFreq, startTime);
     filter.Q.setValueAtTime(1, startTime);
     panner.connect(filter);
-    lastNode = filter;
     if (reverb) {
       const rev = createReverb(ctx, reverbDuration);
       const dryGain = ctx.createGain();

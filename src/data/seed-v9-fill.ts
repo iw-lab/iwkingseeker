@@ -1,3 +1,4 @@
+import { orderDistractors } from './_distractorPick';
 import type { QuestionSeed } from './questions-seed';
 
 /**
@@ -41,21 +42,17 @@ function wordPack(
   pairs: Array<[string, string]>,
   label: string
 ) {
-  const rot = (arr: string[], by: number): [string, string, string] => {
-    const n = ((by % arr.length) + arr.length) % arr.length;
-    return [...arr.slice(n), ...arr.slice(0, n)].slice(0, 3) as [string, string, string];
-  };
   pairs.forEach(([word, meaning], i) => {
     const meanings = pairs.filter((_, j) => j !== i).map(([, m]) => m);
     const words = pairs.filter((_, j) => j !== i).map(([w]) => w);
     if (meanings.length >= 3) {
       pack(grade, subject, unit, code, [
-        [`${label} '${word}'의 뜻으로 알맞은 것은?`, meaning, rot(meanings, i), `'${word}'은(는) ${meaning}(이)라는 뜻입니다.`, 2],
+        [`${label} '${word}'의 뜻으로 알맞은 것은?`, meaning, orderDistractors(meanings, meaning, i).slice(0, 3) as [string, string, string], `'${word}'은(는) ${meaning}(이)라는 뜻입니다.`, 2],
       ]);
     }
     if (words.length >= 3) {
       pack(grade, subject, unit, code, [
-        [`'${meaning}'을(를) 뜻하는 ${label}은?`, word, rot(words, i + 1), `${meaning}을(를) 뜻하는 말은 '${word}'입니다.`, 2],
+        [`'${meaning}'을(를) 뜻하는 ${label}은?`, word, orderDistractors(words, word, i + 1).slice(0, 3) as [string, string, string], `${meaning}을(를) 뜻하는 말은 '${word}'입니다.`, 2],
       ]);
     }
   });
@@ -193,9 +190,9 @@ pack(5, '국어', '높임 표현', '[6국04-03]', [
   ['"말하다"의 높임말은?', '말씀하시다', ['이야기하다', '전하다', '알리다'], '"말씀하시다"를 씁니다.', 1],
   ['"만나다"의 객체 높임 표현은?', '뵙다', ['만나시다', '보시다', '찾다'], '웃어른을 만날 때는 "뵙다"입니다.', 2],
   ['"주다"를 웃어른께 할 때 알맞은 표현은?', '드리다', ['주시다', '건네다', '보내다'], '내가 드리는 것이므로 "드리다"입니다.', 2],
-  ['"할머니께서 진지를 드신다"에서 객체 높임에 해당하는 것은?', '없다 — 모두 주체 높임이다', ['드신다', '진지', '께서'], '주어인 할머니를 높인 주체 높임입니다.', 3],
+  ['"할머니께서 진지를 드신다"에서 객체 높임에 해당하는 것은?', '없다 — 모두 주체 높임이다', ["서술어 '드신다'", "높임말 '진지'라는 낱말", "주격 조사 '께서'와 어미 '-시-'"], '주어인 할머니를 높인 주체 높임입니다.', 3],
   ['"선생님께 여쭈어보았다"에서 높인 대상은?', '선생님(객체)', ['말하고 있는 나', '여쭈어본 질문', '말을 듣는 사람'], '"여쭈다"로 객체를 높였습니다.', 3],
-  ['상대 높임법에서 가장 높은 등급의 문장 끝맺음은?', '~합니다 / ~습니다', ['~해요', '~한다', '~해'], '하십시오체가 가장 격식 있는 표현입니다.', 3],
+  ['상대 높임법에서 가장 높은 등급의 문장 끝맺음은?', '~합니다 / ~습니다', ['~해 / ~했어 / ~하니', '~해요 / ~하지요', '~한다 / ~하는구나 / ~하자'], '하십시오체가 가장 격식 있는 표현입니다.', 3],
   ['친구에게 쓰는 알맞은 문장 끝맺음은?', '~해', ['~합니다', '~하십시오', '~하시옵소서'], '친구 사이에는 해체를 씁니다.', 1],
   ['"할아버지 진지 잡수세요"에서 높임 표현이 아닌 것은?', '할아버지', ['진지', '잡수세요', '-세요'], '"할아버지"는 대상이고 나머지가 높임 표현입니다.', 3],
 ]);

@@ -1,6 +1,5 @@
 'use client';
 
-let currentUtterance: SpeechSynthesisUtterance | null = null;
 let preferredKoVoice: SpeechSynthesisVoice | null = null;
 
 function pickKoreanVoice(): SpeechSynthesisVoice | null {
@@ -33,7 +32,6 @@ export function speak(text: string, opts?: { rate?: number; pitch?: number; volu
   const voice = pickKoreanVoice();
   if (voice) u.voice = voice;
 
-  currentUtterance = u;
   try {
     window.speechSynthesis.speak(u);
   } catch (err) {
@@ -49,7 +47,6 @@ export function stopSpeaking() {
   } catch {
     /* noop */
   }
-  currentUtterance = null;
 }
 
 export function isTTSAvailable(): boolean {

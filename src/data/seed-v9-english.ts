@@ -1,3 +1,4 @@
+import { orderDistractors } from './_distractorPick';
 import type { QuestionSeed } from './questions-seed';
 
 /**
@@ -53,16 +54,16 @@ function build(spec: UnitSpec) {
   expressions.forEach(([en, ko], i) => {
     const otherKo = expressions.filter((_, j) => j !== i).map(([, k]) => k);
     const otherEn = expressions.filter((_, j) => j !== i).map(([e]) => e);
-    push(`"${en}"의 우리말 뜻으로 알맞은 것은?`, ko, rotate(otherKo, i), `"${en}"은(는) "${ko}"라는 뜻입니다.`, 2);
-    push(`"${ko}"를 영어로 바르게 나타낸 것은?`, en, rotate(otherEn, i + 1), `"${ko}"는 "${en}"입니다.`, 2);
+    push(`"${en}"의 우리말 뜻으로 알맞은 것은?`, ko, orderDistractors(otherKo, ko, i), `"${en}"은(는) "${ko}"라는 뜻입니다.`, 2);
+    push(`"${ko}"를 영어로 바르게 나타낸 것은?`, en, orderDistractors(otherEn, en, i + 1), `"${ko}"는 "${en}"입니다.`, 2);
   });
 
   // 낱말 → 뜻 / 뜻 → 낱말
   words.forEach(([en, ko], i) => {
     const otherKo = words.filter((_, j) => j !== i).map(([, k]) => k);
     const otherEn = words.filter((_, j) => j !== i).map(([e]) => e);
-    push(`낱말 "${en}"의 뜻은?`, ko, rotate(otherKo, i), `"${en}"은(는) "${ko}"입니다.`, 1);
-    push(`"${ko}"에 해당하는 영어 낱말은?`, en, rotate(otherEn, i + 2), `"${ko}"는 영어로 "${en}"입니다.`, 1);
+    push(`낱말 "${en}"의 뜻은?`, ko, orderDistractors(otherKo, ko, i), `"${en}"은(는) "${ko}"입니다.`, 1);
+    push(`"${ko}"에 해당하는 영어 낱말은?`, en, orderDistractors(otherEn, en, i + 2), `"${ko}"는 영어로 "${en}"입니다.`, 1);
   });
 
   // 대화 완성
@@ -71,12 +72,6 @@ function build(spec: UnitSpec) {
   });
 }
 
-/** 오답 후보를 문항마다 다르게 돌려 같은 조합이 반복되지 않게 한다 */
-function rotate(arr: string[], by: number): string[] {
-  if (arr.length === 0) return arr;
-  const n = ((by % arr.length) + arr.length) % arr.length;
-  return [...arr.slice(n), ...arr.slice(0, n)];
-}
 
 // ──────────── 3학년 ────────────
 
@@ -90,7 +85,7 @@ build({
   words: [['hello', '안녕'], ['name', '이름'], ['friend', '친구'], ['teacher', '선생님'], ['morning', '아침'], ['school', '학교']],
   dialogs: [
     ['Hello, my name is Tom.', "Hi, I'm Mina.", ['It is a cat.', 'I like apples.', "It's Monday."]],
-    ['Nice to meet you.', 'Nice to meet you, too.', ['I am seven.', 'It is red.', 'I can swim.']],
+    ['Nice to meet you.', 'Nice to meet you, too.', ['I am seven years old today.', 'It is a red apple.', 'I can swim very well.']],
   ],
 });
 
@@ -228,7 +223,7 @@ build({
     ['Where are you from?', '너는 어디에서 왔니?'], ["I'm from Korea.", '나는 한국에서 왔어.'],
   ],
   words: [['grade', '학년'], ['class', '반'], ['student', '학생'], ['classmate', '반 친구'], ['country', '나라'], ['school', '학교']],
-  dialogs: [['What grade are you in?', "I'm in the sixth grade.", ['I like math.', 'It is rainy.', 'I have a pen.']]],
+  dialogs: [['What grade are you in?', "I'm in the sixth grade.", ['I like math the best of all.', 'It is rainy today.', 'I have a new pen.']]],
 });
 
 build({
@@ -250,7 +245,7 @@ build({
     ["I'm listening to music.", '나는 음악을 듣고 있어.'],
   ],
   words: [['read', '읽다'], ['watch', '보다'], ['listen', '듣다'], ['write', '쓰다'], ['cook', '요리하다'], ['clean', '청소하다'], ['study', '공부하다'], ['play', '놀다']],
-  dialogs: [['What are you doing?', "I'm cooking dinner.", ['It is Monday.', 'I am twelve.', 'It is mine.']]],
+  dialogs: [['What are you doing?', "I'm cooking dinner.", ['I am twelve years old.', 'It is not mine.', 'It is Monday today.']]],
 });
 
 build({

@@ -7,6 +7,7 @@ import { playVictoryFanfare } from '@/lib/sounds';
 import { Trophy, RotateCcw, Home, Crown } from 'lucide-react';
 import Link from 'next/link';
 import TeamEmoji from './TeamEmoji';
+import { seededRandom } from '@/lib/seededRandom';
 
 export default function GameOver() {
   const {
@@ -21,7 +22,6 @@ export default function GameOver() {
 
   const winner: 'team_a' | 'team_b' = teamA.score >= targetScore ? 'team_a' : 'team_b';
   const winnerData = winner === 'team_a' ? teamA : teamB;
-  const loserData = winner === 'team_a' ? teamB : teamA;
   const winnerGradient = winner === 'team_a' ? 'from-blue-400 to-cyan-400' : 'from-amber-400 to-yellow-400';
   const winnerGlow = winner === 'team_a' ? 'glow-blue' : 'glow-amber';
 
@@ -37,13 +37,13 @@ export default function GameOver() {
     const colors = ['#fbbf24', '#ef4444', '#8b5cf6', '#3b82f6', '#10b981', '#f97316', '#ec4899', '#06b6d4'];
     return Array.from({ length: 60 }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      delay: Math.random() * 3,
-      duration: 2 + Math.random() * 3,
+      x: seededRandom(i * 7 + 1) * 100,
+      delay: seededRandom(i * 7 + 2) * 3,
+      duration: 2 + seededRandom(i * 7 + 3) * 3,
       color: colors[i % colors.length]!,
-      size: 4 + Math.random() * 8,
-      rotation: Math.random() * 720 - 360,
-      drift: (Math.random() - 0.5) * 150,
+      size: 4 + seededRandom(i * 7 + 4) * 8,
+      rotation: seededRandom(i * 7 + 5) * 720 - 360,
+      drift: (seededRandom(i * 7 + 6) - 0.5) * 150,
       shape: i % 3 === 0 ? 'circle' : 'rect',
     }));
   }, []);

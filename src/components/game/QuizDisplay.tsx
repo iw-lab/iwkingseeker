@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import Timer from './Timer';
@@ -15,6 +15,7 @@ import TreasureBox from './quiz-modes/TreasureBox';
 import LadderClimb from './quiz-modes/LadderClimb';
 import SmartText from './SmartText';
 import TeamEmoji from './TeamEmoji';
+import { seededRandom } from '@/lib/seededRandom';
 
 /**
  * 문제 표시 스타일:
@@ -62,10 +63,10 @@ function ResultOverlay({ isCorrect }: { isCorrect: boolean }) {
     isCorrect
       ? Array.from({ length: 24 }, (_, i) => ({
           id: i,
-          x: (Math.random() - 0.5) * 500,
-          y: (Math.random() - 0.5) * 500,
-          delay: Math.random() * 0.3,
-          size: 4 + Math.random() * 10,
+          x: (seededRandom(i * 7 + 1) - 0.5) * 500,
+          y: (seededRandom(i * 7 + 2) - 0.5) * 500,
+          delay: seededRandom(i * 7 + 3) * 0.3,
+          size: 4 + seededRandom(i * 7 + 4) * 10,
           color: ['#fbbf24', '#22c55e', '#3b82f6', '#a855f7', '#ec4899'][i % 5],
         }))
       : [],
@@ -142,16 +143,6 @@ export default function QuizDisplay() {
     return getChosung(currentQuestion.correct_answer);
   }, [currentQuestion]);
 
-  // 학생 화면(display)에서 터치한 답을 수신
-  useEffect(() => {
-    const handler = (e: Event) => {
-      const answer = (e as CustomEvent).detail;
-      if (answer && typeof answer === 'string') handleAnswer(answer);
-    };
-    window.addEventListener('display-answer', handler);
-    return () => window.removeEventListener('display-answer', handler);
-  });
-
   // TTS: 새 문제가 뜨면 자동으로 읽어줌
   useEffect(() => {
     warmUpVoices();
@@ -202,6 +193,17 @@ export default function QuizDisplay() {
     },
     [showResult, currentQuestion, submitAnswer, setQuizResult]
   );
+
+  // 학생 화면(display)에서 터치한 답을 수신
+  // handleAnswer 선언 뒤에 두어야 한다 — 위에 두면 선언 전 참조가 된다.
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const answer = (e as CustomEvent).detail;
+      if (answer && typeof answer === 'string') handleAnswer(answer);
+    };
+    window.addEventListener('display-answer', handler);
+    return () => window.removeEventListener('display-answer', handler);
+  }, [handleAnswer]);
 
   const handleTimeUp = useCallback(() => {
     if (!showResult) handleAnswer('__timeout__');

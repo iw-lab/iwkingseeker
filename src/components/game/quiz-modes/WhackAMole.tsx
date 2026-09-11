@@ -31,10 +31,8 @@ export default function WhackAMole({
   const [ups, setUps] = useState<boolean[]>(() => options.map((_, i) => i % 2 === 0));
 
   useEffect(() => {
-    if (showResult) {
-      setUps(options.map(() => true));
-      return;
-    }
+    // 결과 화면에서는 아래 isUp 이 showResult 로 모두 올라온 것으로 처리한다.
+    if (showResult) return;
     const intervals: ReturnType<typeof setTimeout>[] = [];
     const scheduleToggle = (i: number, delay: number) => {
       intervals.push(
@@ -56,7 +54,7 @@ export default function WhackAMole({
     <div className="flex-1 w-full flex flex-col gap-4 justify-end pb-4">
       <div className="grid grid-cols-2 gap-6 w-full px-4">
         {options.map((option, i) => {
-          const isUp = ups[i] ?? false;
+          const isUp = showResult || (ups[i] ?? false);
           const isThisCorrect = option === correctAnswer;
           const isThisSelected = option === selectedAnswer;
           const colorClass =

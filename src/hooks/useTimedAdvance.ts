@@ -24,7 +24,11 @@ export function useTimedAdvance(active: boolean, delayMs: number, fire: () => vo
   const firedRef = useRef(false);
   const startRef = useRef(0);
   const fireRef = useRef(fire);
-  fireRef.current = fire;
+  // 렌더 중 ref를 쓰면 react-hooks/refs 에 걸린다. fireOnce 는 타이머·이벤트에서만
+  // 불리므로(= 이펙트가 돈 뒤) 이펙트에서 최신 fire 를 넣어 주면 충분하다.
+  useEffect(() => {
+    fireRef.current = fire;
+  });
 
   const fireOnce = useCallback(() => {
     if (firedRef.current) return;

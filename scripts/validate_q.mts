@@ -1,18 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
-interface Q {
-  grade: number;
-  subject: string;
-  unit: string;
-  question_type: string;
-  question_text: string;
-  options: string[] | null;
-  correct_answer: string;
-  explanation: string | null;
-  difficulty: number;
-}
-
 const dataDir = path.resolve('src/data');
 const files = fs.readdirSync(dataDir).filter((f) => f.endsWith('.ts'));
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { playCountdownTick, playTimerWarning } from '@/lib/sounds';
 
@@ -13,41 +13,39 @@ interface TimerProps {
 
 export default function Timer({ seconds, isActive, onTimeUp, size = 80 }: TimerProps) {
   const [timeLeft, setTimeLeft] = useState(seconds);
-  const prevActiveRef = useRef(isActive);
   const firedRef = useRef(false);
   const radius = (size - 10) / 2;
   const circumference = 2 * Math.PI * radius;
   const progress = timeLeft / seconds;
   const strokeDashoffset = circumference * (1 - progress);
 
-  // isActive가 false→true로 바뀌면 타이머 풀 리셋
-  useEffect(() => {
-    if (isActive && !prevActiveRef.current) {
-      setTimeLeft(seconds);
-      firedRef.current = false;
-    }
-    prevActiveRef.current = isActive;
-  }, [isActive, seconds]);
-
-  // 컴포넌트 마운트 시에도 리셋
-  useEffect(() => {
-    setTimeLeft(seconds);
-    firedRef.current = false;
-  }, [seconds]);
+  // 「prop이 바뀌면 state를 맞춘다」는 렌더 중에 조정한다.
+  // 이펙트에서 setState 하면 리셋이 한 프레임 늦어 이전 시간이 한 번 그려지고,
+  // react-hooks/set-state-in-effect 에도 걸린다.
+  const [prev, setPrev] = useState({ seconds, isActive });
+  if (prev.seconds !== seconds || prev.isActive !== isActive) {
+    const restarted = prev.seconds !== seconds || (isActive && !prev.isActive);
+    setPrev({ seconds, isActive });
+    if (restarted) setTimeLeft(seconds);
+  }
 
   // 카운트다운
   useEffect(() => {
-    if (!isActive || timeLeft <= 0) {
-      if (timeLeft <= 0 && isActive && !firedRef.current) {
+    if (!isActive) return;
+
+    if (timeLeft <= 0) {
+      // 한 번 활성화에 onTimeUp 은 한 번만. (ref 쓰기는 이펙트 안이라 허용된다)
+      if (!firedRef.current) {
         firedRef.current = true;
         onTimeUp();
       }
       return;
     }
 
+    firedRef.current = false;
     const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        const next = prev - 1;
+      setTimeLeft((p) => {
+        const next = p - 1;
         if (next <= 5 && next > 0) playCountdownTick();
         if (next === 3) playTimerWarning();
         return next;

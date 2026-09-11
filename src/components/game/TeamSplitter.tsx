@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useSyncExternalStore } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useGameStore } from '@/stores/gameStore';
 import StudentCard from './StudentCard';
@@ -19,18 +19,48 @@ interface SavedTeam {
 
 const TEAM_STORAGE_KEY = 'kingseeker_teams';
 
+// localStorage 를 외부 스토어로 다루고 useSyncExternalStore 로 읽는다.
+// 마운트 이펙트에서 setState 로 읽어 오면 첫 프레임이 빈 목록으로 한 번 그려지고
+// react-hooks/set-state-in-effect 에도 걸린다.
+const EMPTY_TEAMS: SavedTeam[] = [];
+const teamListeners = new Set<() => void>();
+let teamCache: SavedTeam[] = EMPTY_TEAMS;
+let teamCacheRaw: string | null = null;
+
+/** 내용이 그대로면 **같은 배열**을 돌려준다 — 매번 새 배열이면 무한 렌더가 난다. */
 function getSavedTeams(): SavedTeam[] {
-  if (typeof window === 'undefined') return [];
+  if (typeof window === 'undefined') return EMPTY_TEAMS;
+  let raw: string | null = null;
   try {
-    const data = localStorage.getItem(TEAM_STORAGE_KEY);
-    return data ? JSON.parse(data) : [];
+    raw = localStorage.getItem(TEAM_STORAGE_KEY);
   } catch {
-    return [];
+    raw = null;
   }
+  if (raw !== teamCacheRaw) {
+    teamCacheRaw = raw;
+    try {
+      teamCache = raw ? (JSON.parse(raw) as SavedTeam[]) : EMPTY_TEAMS;
+    } catch {
+      teamCache = EMPTY_TEAMS;
+    }
+  }
+  return teamCache;
+}
+
+function subscribeSavedTeams(onChange: () => void) {
+  teamListeners.add(onChange);
+  return () => {
+    teamListeners.delete(onChange);
+  };
 }
 
 function saveTeamsToStorage(teams: SavedTeam[]) {
-  localStorage.setItem(TEAM_STORAGE_KEY, JSON.stringify(teams));
+  try {
+    localStorage.setItem(TEAM_STORAGE_KEY, JSON.stringify(teams));
+  } catch {
+    // 저장이 막혀 있어도(시크릿 모드 등) 화면은 계속 돌아가야 한다
+  }
+  teamListeners.forEach((notify) => notify());
 }
 
 export default function TeamSplitter() {
@@ -39,13 +69,9 @@ export default function TeamSplitter() {
   const [localTeamB, setLocalTeamB] = useState<string[]>(teamB.students);
   const [teamAName, setTeamAName] = useState(teamA.name);
   const [teamBName, setTeamBName] = useState(teamB.name);
-  const [savedTeams, setSavedTeams] = useState<SavedTeam[]>([]);
+  const savedTeams = useSyncExternalStore(subscribeSavedTeams, getSavedTeams, () => EMPTY_TEAMS);
   const [saveName, setSaveName] = useState('');
   const [showSave, setShowSave] = useState(false);
-
-  useEffect(() => {
-    setSavedTeams(getSavedTeams());
-  }, []);
 
   const handleShuffle = () => {
     playShuffleSound();
@@ -79,7 +105,6 @@ export default function TeamSplitter() {
       teamB: localTeamB,
     });
     saveTeamsToStorage(updated);
-    setSavedTeams(updated);
     setSaveName('');
     setShowSave(false);
     playButtonClick();
@@ -96,7 +121,6 @@ export default function TeamSplitter() {
   const handleDeleteTeam = (name: string) => {
     const updated = savedTeams.filter((t) => t.name !== name);
     saveTeamsToStorage(updated);
-    setSavedTeams(updated);
   };
 
   const handleConfirm = () => {

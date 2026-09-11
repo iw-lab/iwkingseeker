@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 일회용 작업 스크립트(문항 일괄 수정 등) — 저장소에 남기지 않는다
+scripts/_tmp-*

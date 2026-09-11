@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useMotionValue, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Crown, Swords, BookOpen, Users, Sparkles, Shield, ArrowRight, Zap } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo } from 'react';

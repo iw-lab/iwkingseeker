@@ -1,3 +1,4 @@
+import { orderDistractors } from './_distractorPick';
 import type { QuestionSeed } from './questions-seed';
 
 /**
@@ -37,18 +38,14 @@ function wordPack(subject: string, unit: string, code: string | null, pairs: Arr
   pairs.forEach(([word, meaning], i) => {
     const otherMeanings = pairs.filter((_, j) => j !== i).map(([, m]) => m);
     const otherWords = pairs.filter((_, j) => j !== i).map(([w]) => w);
-    const rot = (arr: string[], by: number) => {
-      const n = ((by % arr.length) + arr.length) % arr.length;
-      return [...arr.slice(n), ...arr.slice(0, n)].slice(0, 3);
-    };
     if (otherMeanings.length >= 3) {
       pack(subject, unit, code, [
-        [`${label} '${word}'의 뜻으로 알맞은 것은?`, meaning, rot(otherMeanings, i) as [string, string, string], `'${word}'은(는) ${meaning}(이)라는 뜻입니다.`, 2],
+        [`${label} '${word}'의 뜻으로 알맞은 것은?`, meaning, orderDistractors(otherMeanings, meaning, i).slice(0, 3) as [string, string, string], `'${word}'은(는) ${meaning}(이)라는 뜻입니다.`, 2],
       ]);
     }
     if (otherWords.length >= 3) {
       pack(subject, unit, code, [
-        [`'${meaning}'을(를) 뜻하는 ${label}은?`, word, rot(otherWords, i + 1) as [string, string, string], `${meaning}을(를) 뜻하는 말은 '${word}'입니다.`, 2],
+        [`'${meaning}'을(를) 뜻하는 ${label}은?`, word, orderDistractors(otherWords, word, i + 1).slice(0, 3) as [string, string, string], `${meaning}을(를) 뜻하는 말은 '${word}'입니다.`, 2],
       ]);
     }
   });
@@ -61,7 +58,7 @@ pack('국어', '문장의 호응', '[6국04-05]', [
   ['문장의 호응이란 무엇인가요?', '앞말과 뒷말이 서로 짝이 맞게 어울리는 것', ['긴 문장을 짧게 줄여서 간단히 쓰는 것', '웃어른께 말할 때 높임말을 골라 쓰는 것', '긴 글을 내용에 따라 여러 개의 문단으로 나누는 것'], '주어와 서술어, 부사어와 서술어가 짝을 이루어야 합니다.', 2],
   ['"결코 그것은 쉬운 일이다."에서 잘못된 점은?', '"결코"는 부정하는 말과 어울려야 한다', ['"쉬운"이라는 꾸밈말이 잘못 쓰였다', '"일이다"라는 서술어가 잘못 쓰여 틀렸다', '이 문장에는 틀린 곳이 하나도 없다'], '"결코 ~ 아니다/않다"로 써야 합니다.', 3],
   ['"별로 재미있다."를 바르게 고친 것은?', '별로 재미없다.', ['별로 재미있었다.', '아주 재미없다.', '별로 재미있구나.'], '"별로"는 부정 표현과 호응합니다.', 2],
-  ['"비록 힘들다."를 바르게 고친 것은?', '비록 힘들지라도 끝까지 하겠다.', ['비록 힘들다.', '비록 쉽다.', '비록 힘들까?'], '"비록 ~일지라도"로 호응합니다.', 3],
+  ['"비록 힘들다."를 바르게 고친 것은?', '비록 힘들지라도 끝까지 하겠다.', ['비록 힘들다고 생각한다.', '비록 쉽지만 하기 싫다.', '비록 힘들까 하고 걱정이 되었습니다.'], '"비록 ~일지라도"로 호응합니다.', 3],
   ['"만약 비가 오면"과 호응하는 뒷말은?', '소풍을 가지 않을 것이다', ['소풍을 갔다', '소풍을 갔었다', '소풍을 간다고 했었다'], '"만약 ~면 ~것이다"로 호응합니다.', 2],
   ['"왜냐하면"과 호응하는 말은?', '~ 때문이다', ['~ 그러나', '~ 하지만', '~ 그리고'], '"왜냐하면 ~ 때문이다"로 씁니다.', 2],
   ['"전혀"와 어울리는 표현은?', '전혀 모르겠다', ['전혀 안다', '전혀 좋다', '전혀 많다'], '"전혀"는 부정 표현과 호응합니다.', 2],

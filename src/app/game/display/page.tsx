@@ -12,6 +12,7 @@ import MatchingPairs from '@/components/game/quiz-modes/MatchingPairs';
 import StudentCard from '@/components/game/StudentCard';
 import TeamEmoji from '@/components/game/TeamEmoji';
 import SmartText from '@/components/game/SmartText';
+import { seededRandom } from '@/lib/seededRandom';
 
 /* ──────────────────────────────────────
    Scoreboard (props-driven, no Zustand)
@@ -1001,13 +1002,13 @@ function DisplayGameOver({ state }: { state: DisplayState }) {
     const colors = ['#fbbf24', '#ef4444', '#8b5cf6', '#3b82f6', '#10b981', '#f97316', '#ec4899', '#06b6d4'];
     return Array.from({ length: 60 }, (_, i) => ({
       id: i,
-      x: Math.random() * 100,
-      delay: Math.random() * 3,
-      duration: 2 + Math.random() * 3,
+      x: seededRandom(i * 7 + 1) * 100,
+      delay: seededRandom(i * 7 + 2) * 3,
+      duration: 2 + seededRandom(i * 7 + 3) * 3,
       color: colors[i % colors.length]!,
-      size: 4 + Math.random() * 8,
-      rotation: Math.random() * 720 - 360,
-      drift: (Math.random() - 0.5) * 150,
+      size: 4 + seededRandom(i * 7 + 4) * 8,
+      rotation: seededRandom(i * 7 + 5) * 720 - 360,
+      drift: (seededRandom(i * 7 + 6) - 0.5) * 150,
       shape: i % 3 === 0 ? 'circle' as const : 'rect' as const,
     }));
   }, []);

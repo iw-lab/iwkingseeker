@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // 일회용 작업 스크립트(_tmp-*)는 저장소에 남기지 않는 임시 도구다.
+    "scripts/_tmp-*",
   ]),
 ]);
 
