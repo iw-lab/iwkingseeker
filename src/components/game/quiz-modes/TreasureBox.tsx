@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import SmartText from '@/components/game/SmartText';
 
 interface Props {
   options: string[];
@@ -100,7 +101,7 @@ export default function TreasureBox({
                       {showResult && isThisCorrect ? '🏆' : showResult && isThisSelected && !isCorrect ? '💥' : '✨'}
                     </span>
                     <span className="text-xl md:text-2xl font-extrabold text-white leading-tight px-1 drop-shadow-md">
-                      {option}
+                      <SmartText text={option} />
                     </span>
                   </motion.div>
                 )}

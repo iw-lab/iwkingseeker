@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import SmartText from '@/components/game/SmartText';
 
 interface Props {
   options: string[];
@@ -137,7 +138,7 @@ export default function BalloonPop({
                   >
                     {/* 풍선 하이라이트 */}
                     <span className="absolute top-3 left-5 w-4 h-6 rounded-full bg-white/40 blur-sm" />
-                    <span className="relative z-10 drop-shadow-md">{option}</span>
+                    <span className="relative z-10 drop-shadow-md"><SmartText text={option} /></span>
                     {/* 풍선 꼬리 */}
                     <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-1 h-5 bg-white/60" />
                     <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 w-3 h-3 border-2 border-white/60 rounded-sm rotate-45" />

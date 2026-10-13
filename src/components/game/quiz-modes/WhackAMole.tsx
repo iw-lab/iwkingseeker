@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import SmartText from '@/components/game/SmartText';
 
 interface Props {
   options: string[];
@@ -96,7 +97,7 @@ export default function WhackAMole({
                       <span className="w-2 h-2 rounded-full bg-black/80" />
                       <span className="w-2 h-2 rounded-full bg-black/80" />
                     </div>
-                    <span className="px-1">{option}</span>
+                    <span className="px-1"><SmartText text={option} /></span>
                   </motion.button>
                 )}
               </AnimatePresence>

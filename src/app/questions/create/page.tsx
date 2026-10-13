@@ -27,6 +27,7 @@ import {
   type StoredCustomQuestion,
 } from '@/lib/customQuestions';
 import { cn } from '@/lib/utils';
+import SmartText from '@/components/game/SmartText';
 
 type QuestionType = StoredCustomQuestion['question_type'];
 
@@ -423,15 +424,15 @@ export default function CustomQuestionCreatorPage() {
                           </span>
                         </div>
                         <p className="text-white font-medium text-sm md:text-base leading-snug break-words">
-                          {q.question_text}
+                          <SmartText text={q.question_text} />
                         </p>
                         {q.options && q.question_type === 'multiple_choice' && (
                           <p className="text-xs text-gray-500 mt-1 truncate">
-                            {q.options.map((o) => (o === q.correct_answer ? `✓ ${o}` : o)).join(' · ')}
+                            <SmartText text={q.options.map((o) => (o === q.correct_answer ? `✓ ${o}` : o)).join(' · ')} />
                           </p>
                         )}
                         {q.question_type !== 'multiple_choice' && (
-                          <p className="text-xs text-green-400 mt-1">정답: {q.correct_answer}</p>
+                          <p className="text-xs text-green-400 mt-1">정답: <SmartText text={q.correct_answer} /></p>
                         )}
                       </div>
                       <div className="flex items-center gap-1 shrink-0">

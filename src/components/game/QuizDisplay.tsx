@@ -340,7 +340,7 @@ export default function QuizDisplay() {
             initial={{ opacity: 0, y: -5 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            힌트: [ {chosungHint} ]
+            힌트: [ <SmartText text={chosungHint} /> ]
           </motion.p>
         )}
       </motion.div>
@@ -576,7 +576,7 @@ export default function QuizDisplay() {
         <details className="cursor-pointer select-none">
           <summary className="text-[10px] text-gray-700/50 hover:text-gray-500">hint</summary>
           <p className="text-[11px] text-gray-500 bg-gray-900/95 px-2.5 py-1.5 rounded-lg mt-0.5 backdrop-blur-sm">
-            {q.correct_answer}
+            <SmartText text={q.correct_answer} />
           </p>
         </details>
       </div>

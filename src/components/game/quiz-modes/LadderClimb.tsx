@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import SmartText from '@/components/game/SmartText';
 
 interface Props {
   options: string[];
@@ -108,7 +109,7 @@ export default function LadderClimb({
               {/* 하단 — 보기 답 */}
               <div className="relative w-full px-2 text-center">
                 <div className="text-xl md:text-2xl font-extrabold text-white leading-tight drop-shadow-md px-1">
-                  {option}
+                  <SmartText text={option} />
                 </div>
               </div>
             </motion.button>

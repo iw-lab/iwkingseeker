@@ -8,6 +8,7 @@ import type { QuestionType } from '@/lib/constants';
 import { getSupplementaryUnits } from '@/lib/curriculumAliases';
 import { saveQuestionSet, type SetQuestion } from '@/lib/questionSets';
 import { addCustomQuestions } from '@/lib/customQuestions';
+import SmartText from '@/components/game/SmartText';
 
 interface SeedQuestion {
   grade: number;
@@ -401,7 +402,7 @@ export default function QuestionsPage() {
                             {QUESTION_TYPE_LABELS[q.question_type as QuestionType]}
                           </span>
                         </div>
-                        <p className="text-white font-medium">{q.question_text}</p>
+                        <p className="text-white font-medium"><SmartText text={q.question_text} /></p>
                         {q.options && (
                           <div className="flex flex-wrap gap-2 mt-2">
                             {q.options.map((opt, j) => (
@@ -413,14 +414,14 @@ export default function QuestionsPage() {
                                     : 'bg-gray-700/50 text-gray-400'
                                 }`}
                               >
-                                {opt}
+                                <SmartText text={opt} />
                               </span>
                             ))}
                           </div>
                         )}
-                        {q.explanation && <p className="text-xs text-gray-500 mt-2">💡 {q.explanation}</p>}
+                        {q.explanation && <p className="text-xs text-gray-500 mt-2">💡 <SmartText text={q.explanation} /></p>}
                       </div>
-                      <span className="text-xs text-green-400 font-semibold whitespace-nowrap">정답: {q.correct_answer}</span>
+                      <span className="text-xs text-green-400 font-semibold whitespace-nowrap">정답: <SmartText text={q.correct_answer} /></span>
                     </label>
                   </li>
                 );

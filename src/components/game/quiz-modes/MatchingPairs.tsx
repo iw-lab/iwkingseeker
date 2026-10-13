@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import SmartText from '@/components/game/SmartText';
 
 interface Props {
   options: string[];
@@ -111,7 +112,7 @@ export default function MatchingPairs({
                   )}
                   style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
                 >
-                  {option}
+                  <SmartText text={option} />
                 </div>
                 {/* 카드 앞면일 때 반짝이는 힌트 */}
                 <AnimatePresence>
